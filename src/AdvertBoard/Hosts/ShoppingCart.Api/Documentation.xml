@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ShoppingCart.Api</name>
+    </assembly>
+    <members>
+        <member name="T:ShoppingCart.Api.Controllers.CartController">
+            <summary>
+            Работа с корзиной товаров.
+            </summary>
+        </member>
+        <member name="M:ShoppingCart.Api.Controllers.CartController.#ctor(ShoppingCart.AppServices.ShoppingCart.Services.IShoppingCartService)">
+            <summary>
+            
+            </summary>
+            <param name="shoppingCartService"></param>
+        </member>
+        <member name="M:ShoppingCart.Api.Controllers.CartController.GetAsync">
+            <summary>
+            Возвращает позиции товаров в корзине.
+            </summary>
+            <returns>Коллекция элементов <see cref="T:ShoppingCart.Contracts.ShoppingCartDto"/>.</returns>
+        </member>
+        <member name="M:ShoppingCart.Api.Controllers.CartController.UpdateQuantityAsync(System.Guid,System.Int32)">
+            <summary>
+            Обновляет количество товара в корзине.
+            </summary>
+        </member>
+        <member name="M:ShoppingCart.Api.Controllers.CartController.DeleteAsync(System.Guid)">
+            <summary>
+            Удаляет товар из корзины.
+            </summary>
+            <param name="id">Идентификатор товара в корзине.</param>
+        </member>
+        <member name="T:ShoppingCart.Api.Controllers.ProductController">
+            <summary>
+            Работа с корзиной товаров.
+            </summary>
+        </member>
+        <member name="M:ShoppingCart.Api.Controllers.ProductController.GetAll(System.Int32,System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="take"></param>
+            <param name="skip"></param>
+            <param name="cancellation"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
