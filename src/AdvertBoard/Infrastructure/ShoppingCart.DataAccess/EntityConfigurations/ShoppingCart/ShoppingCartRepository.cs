@@ -20,7 +20,7 @@ public class ShoppingCartRepository : IShoppingCartRepository
     }
 
     /// <inheritdoc />
-    public async Task<IReadOnlyCollection<ShoppingCartDto>> GetAllAsync()
+    public async Task<IReadOnlyCollection<ShoppingCartDto>> GetAllAsync(CancellationToken cancellationToken)
     {
         return await _repository.GetAll()
             .Include(s => s.Product)
@@ -35,7 +35,7 @@ public class ShoppingCartRepository : IShoppingCartRepository
     }
 
     /// <inheritdoc />
-    public async Task UpdateQuantityAsync(Guid id, int quantity)
+    public async Task UpdateQuantityAsync(Guid id, int quantity, CancellationToken cancellationToken)
     {
         var existingCart = await _repository.GetByIdAsync(id);
 
@@ -49,7 +49,7 @@ public class ShoppingCartRepository : IShoppingCartRepository
     }
 
     /// <inheritdoc />
-    public async Task DeleteAsync(Guid id)
+    public async Task DeleteAsync(Guid id, CancellationToken cancellationToken)
     {
         var existingCart = await _repository.GetByIdAsync(id);
 
@@ -60,4 +60,13 @@ public class ShoppingCartRepository : IShoppingCartRepository
         
         await _repository.DeleteAsync(existingCart);
     }
+
+    public async Task<Guid> CreateAsync(CancellationToken cancellationToken)
+    {
+        var shoppingCart = new Domain.ShoppingCart();
+
+        await _repository.AddAsync(shoppingCart);
+        return shoppingCart.Id;
+    }
+
 }

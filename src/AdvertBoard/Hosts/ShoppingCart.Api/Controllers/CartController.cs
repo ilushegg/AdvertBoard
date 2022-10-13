@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using AdvertBoard.AppServices.ShoppingCart.Services;
 using AdvertBoard.Contracts;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AdvertBoard.Api.Controllers;
 
@@ -12,6 +13,7 @@ namespace AdvertBoard.Api.Controllers;
 /// Работа с корзиной товаров.
 /// </summary>
 [ApiController]
+[Authorize]
 [Route("v1/[controller]")]
 public class CartController : ControllerBase
 {
@@ -32,9 +34,9 @@ public class CartController : ControllerBase
     /// <returns>Коллекция элементов <see cref="ShoppingCartDto"/>.</returns>
     [HttpGet]
     [ProducesResponseType(typeof(IReadOnlyCollection<ShoppingCartDto>), (int)HttpStatusCode.OK)]
-    public async Task<IActionResult> GetAsync()
+    public async Task<IActionResult> GetAsync(CancellationToken cancellationToken)
     {
-        var result = await _shoppingCartService.GetAsync();
+        var result = await _shoppingCartService.GetAsync(cancellationToken);
         return Ok(result);
     }
     
@@ -44,11 +46,20 @@ public class CartController : ControllerBase
     [HttpPut("{id}")]
     [ProducesResponseType((int)HttpStatusCode.NoContent)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
-    public async Task<IActionResult> UpdateQuantityAsync(Guid id, int quantity)
+    public async Task<IActionResult> UpdateQuantityAsync(Guid id, int quantity, CancellationToken cancellationToken)
     {
-        await _shoppingCartService.UpdateQuantityAsync(id, quantity);
+        await _shoppingCartService.UpdateQuantityAsync(id, quantity, cancellationToken);
         return NoContent();
     }
+
+    [HttpPost]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
+    public async Task<IActionResult> CreateAsync(CancellationToken cancellationToken)
+    {
+        var result = await _shoppingCartService.CreateAsync(cancellationToken);
+        return Ok(result);
+    }
+
 
     /// <summary>
     /// Удаляет товар из корзины.
@@ -57,9 +68,9 @@ public class CartController : ControllerBase
     [HttpDelete]
     [ProducesResponseType((int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
-    public async Task<IActionResult> DeleteAsync(Guid id)
+    public async Task<IActionResult> DeleteAsync(Guid id, CancellationToken cancellationToken)
     {
-        await _shoppingCartService.DeleteAsync(id);
+        await _shoppingCartService.DeleteAsync(id, cancellationToken);
         return NoContent();
     }
 }

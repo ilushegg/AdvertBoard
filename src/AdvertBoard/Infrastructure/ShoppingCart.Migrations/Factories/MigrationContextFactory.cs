@@ -18,9 +18,10 @@ namespace AdvertBoard.Migrations.Factories
             IConfigurationRoot config = builder.Build();
  
             // получаем строку подключения из файла appsettings.json
-            string connectionString = config.GetConnectionString("PostgresShoppingCartDb");
-            optionsBuilder.UseNpgsql(connectionString, opts => opts.CommandTimeout((int)TimeSpan.FromMinutes(10).TotalSeconds));
+            string connectionString = config.GetConnectionString("PostgresAdvertBoardDb");
+            optionsBuilder.UseNpgsql(connectionString, options => options.CommandTimeout((int)TimeSpan.FromMinutes(10).TotalSeconds));
             return new MigrationsDbContext(optionsBuilder.Options);
         }
     }
 }
+/*typeof(MigrationContextFactory).Assembly.FullName)*/

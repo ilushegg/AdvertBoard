@@ -7,8 +7,13 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\Contracts\AdvertBoard.Contracts\AdvertBoard.Contracts.csproj" />
+      <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.10.0" />
+    </ItemGroup>
+
+    <ItemGroup>
       <ProjectReference Include="..\..\Contracts\ShoppingCart.Contracts\AdvertBoard.Contracts.csproj" />
+      <ProjectReference Include="..\..\Domain\ShoppingCart.Domain\AdvertBoard.Domain.csproj" />
+  
     </ItemGroup>
 
 </Project>

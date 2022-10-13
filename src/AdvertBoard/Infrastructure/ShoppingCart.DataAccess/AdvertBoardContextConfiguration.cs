@@ -11,8 +11,8 @@ namespace AdvertBoard.DataAccess;
 /// </summary>
 public class AdvertBoardContextConfiguration : IDbContextOptionsConfigurator<AdvertBoardContext>
 {
-    private const string PostgesConnectionStringName = "PostgresShoppingCartDb";
-    private const string MsSqlShoppingCartDb = "MsSqlShoppingCartDb";
+    private const string PostgesConnectionStringName = "PostgresAdvertBoardDb";
+    private const string MsSqlConnectionStringName = "MsSqlAdvertBoardDb";
     private readonly IConfiguration _configuration;
     private readonly ILoggerFactory _loggerFactory;
 
@@ -46,11 +46,11 @@ public class AdvertBoardContextConfiguration : IDbContextOptionsConfigurator<Adv
         }
         else
         {
-            connectionString = _configuration.GetConnectionString(MsSqlShoppingCartDb);
+            connectionString = _configuration.GetConnectionString(MsSqlConnectionStringName);
             if (string.IsNullOrEmpty(connectionString))
             {
                 throw new InvalidOperationException(
-                    $"Не найдена строка подключения с именем '{MsSqlShoppingCartDb}'");
+                    $"Не найдена строка подключения с именем '{MsSqlConnectionStringName}'");
             }
             options.UseSqlServer(connectionString);
         }

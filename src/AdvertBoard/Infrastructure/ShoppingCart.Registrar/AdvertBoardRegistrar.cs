@@ -7,6 +7,10 @@ using AdvertBoard.DataAccess;
 using AdvertBoard.DataAccess.EntityConfigurations.Product;
 using AdvertBoard.DataAccess.Interfaces;
 using AdvertBoard.Infrastructure.Repository;
+using AdvertBoard.AppServices.ShoppingCart.Repositories;
+using AdvertBoard.AppServices.ShoppingCart.Services;
+using AdvertBoard.DataAccess.EntityConfigurations.ShoppingCart;
+
 namespace AdvertBoard.Registrar;
 
 public static class AdvertBoardRegistrar
@@ -23,7 +27,13 @@ public static class AdvertBoardRegistrar
         services.AddScoped((Func<IServiceProvider, DbContext>) (sp => sp.GetRequiredService<AdvertBoardContext>()));
         
         services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-        
+
+        services.AddTransient<IShoppingCartService, ShoppingCartService>();
+        services.AddTransient<IShoppingCartRepository, ShoppingCartRepository>();
+
+        services.AddTransient<IUserService, UserService>();
+        services.AddTransient<IUserRepository, UserRepository>();
+
         services.AddTransient<IProductService, ProductService>();
         services.AddTransient<IProductRepository, ProductRepository>();
 

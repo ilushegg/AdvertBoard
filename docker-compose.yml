@@ -1,0 +1,17 @@
+version: "3.7"
+
+services:	
+  postgres:
+    image: "postgres" # use latest official postgres version
+    restart: always
+    environment: # configure postgres
+        - POSTGRES_USER=postgres
+        - POSTGRES_DB=AdvertBoard
+        - POSTGRES_PASSWORD=2012
+    ports:
+        - "5432:5432"
+    volumes: #persist data even if container shuts down
+        - postgres_data:/var/lib/postgresql/data/
+
+volumes: #named volumes can be managed easier using docker-compose
+  postgres_data:	

@@ -2,6 +2,7 @@ using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using AdvertBoard.AppServices.Product.Services;
 using AdvertBoard.Contracts;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AdvertBoard.Api.Controllers;
 
@@ -27,7 +28,7 @@ public class ProductController : ControllerBase
     /// <param name="cancellation"></param>
     /// <returns></returns>
     [HttpGet]
-    [ProducesResponseType(typeof(IReadOnlyCollection<ProductDto>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(IReadOnlyCollection<ProductDto>), StatusCodes.Status201Created)]
     public async Task<IActionResult> GetAll(int take, int skip, CancellationToken cancellation)
     {
         var result = await _productService.GetAll(take, skip, cancellation);

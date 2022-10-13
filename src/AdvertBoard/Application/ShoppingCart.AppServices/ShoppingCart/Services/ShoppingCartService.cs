@@ -14,20 +14,25 @@ public class ShoppingCartService : IShoppingCartService
     }
 
     /// <inheritdoc />
-    public Task<IReadOnlyCollection<ShoppingCartDto>> GetAsync()
+    public Task<IReadOnlyCollection<ShoppingCartDto>> GetAsync(CancellationToken cancellationToken)
     {
-        return _shoppingCartRepository.GetAllAsync();
+        return _shoppingCartRepository.GetAllAsync(cancellationToken);
+    }
+
+    public Task<Guid> CreateAsync(CancellationToken cancellationToken)
+    {
+        return _shoppingCartRepository.CreateAsync(cancellationToken);
     }
 
     /// <inheritdoc />
-    public Task UpdateQuantityAsync(Guid id, int quantity)
+    public Task UpdateQuantityAsync(Guid id, int quantity,CancellationToken cancellationToken)
     {
-        return _shoppingCartRepository.UpdateQuantityAsync(id, quantity);
+        return _shoppingCartRepository.UpdateQuantityAsync(id, quantity, cancellationToken);
     }
 
     /// <inheritdoc />
-    public Task DeleteAsync(Guid id)
+    public Task DeleteAsync(Guid id, CancellationToken cancellationToken)
     {
-        return _shoppingCartRepository.DeleteAsync(id);
+        return _shoppingCartRepository.DeleteAsync(id, cancellationToken);
     }
 }

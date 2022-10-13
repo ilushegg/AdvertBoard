@@ -11,7 +11,9 @@ public interface IShoppingCartService
     /// 
     /// </summary>
     /// <returns></returns>
-    Task<IReadOnlyCollection<ShoppingCartDto>> GetAsync();
+    Task<IReadOnlyCollection<ShoppingCartDto>> GetAsync(CancellationToken cancellationToken);
+
+    Task<Guid> CreateAsync(CancellationToken cancellationToken);
 
     /// <summary>
     /// 
@@ -19,12 +21,12 @@ public interface IShoppingCartService
     /// <param name="id"></param>
     /// <param name="quantity"></param>
     /// <returns></returns>
-    Task UpdateQuantityAsync(Guid id, int quantity);
+    Task UpdateQuantityAsync(Guid id, int quantity, CancellationToken cancellationToken);
 
     /// <summary>
     /// 
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    Task DeleteAsync(Guid id);
+    Task DeleteAsync(Guid id, CancellationToken cancellationToken);
 }
