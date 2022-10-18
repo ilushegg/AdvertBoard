@@ -28,4 +28,16 @@ public class ProductService : IProductService
     {
         return _productRepository.GetAllFiltered(request, cancellation);
     }
+
+    public Task<bool> AddAsync(string name, string description, decimal price, Guid categoryId, CancellationToken cancellation)
+    {
+        var product = new Domain.Product()
+        {
+            Name = name,
+            Description = description,
+            Price = price, 
+            CategoryId = categoryId
+        };
+        return _productRepository.AddAsync(product, cancellation);
+    }
 }

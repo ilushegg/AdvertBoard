@@ -31,7 +31,7 @@ public class ShoppingCart
     public decimal Amount { get; set; }
     
     /// <summary>
-    /// Торар.
+    /// Товар.
     /// </summary>
     public Product Product { get; set; }
 }

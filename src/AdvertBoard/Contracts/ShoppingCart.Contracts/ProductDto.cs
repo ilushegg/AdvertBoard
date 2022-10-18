@@ -24,4 +24,9 @@ public class ProductDto
     /// Цена.
     /// </summary>
     public decimal Price { get; set; }
+    
+    /// <summary>
+    /// Категория.
+    /// </summary>
+    public Guid CategoryId { get; set; }
 }

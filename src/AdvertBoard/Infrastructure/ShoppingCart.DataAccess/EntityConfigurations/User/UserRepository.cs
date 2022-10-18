@@ -33,4 +33,9 @@ public class UserRepository : IUserRepository
     {
         return _repository.AddAsync(user);
     }
+
+    public async Task<User> FindById(Guid id, CancellationToken cancellationToken)
+    {
+        return await _repository.GetByIdAsync(id);
+    }
 }

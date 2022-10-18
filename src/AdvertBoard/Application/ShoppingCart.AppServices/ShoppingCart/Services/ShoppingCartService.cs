@@ -19,6 +19,7 @@ public class ShoppingCartService : IShoppingCartService
         return _shoppingCartRepository.GetAllAsync(cancellationToken);
     }
 
+    /// <inheritdoc />
     public Task<Guid> CreateAsync(CancellationToken cancellationToken)
     {
         return _shoppingCartRepository.CreateAsync(cancellationToken);

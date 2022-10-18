@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using AdvertBoard.AppServices.ShoppingCart.Services;
 using AdvertBoard.Contracts;
 using Microsoft.AspNetCore.Authorization;
+using AdvertBoard.AppServices.Product.Services;
 
 namespace AdvertBoard.Api.Controllers;
 
@@ -18,14 +19,16 @@ namespace AdvertBoard.Api.Controllers;
 public class CartController : ControllerBase
 {
     private readonly IShoppingCartService _shoppingCartService;
+    private readonly IUserService _userService;
     
     /// <summary>
     /// 
     /// </summary>
     /// <param name="shoppingCartService"></param>
-    public CartController(IShoppingCartService shoppingCartService)
+    public CartController(IShoppingCartService shoppingCartService, IUserService userService)
     {
         _shoppingCartService = shoppingCartService;
+        _userService = userService;
     }
 
     /// <summary>
@@ -52,11 +55,18 @@ public class CartController : ControllerBase
         return NoContent();
     }
 
+    /// <summary>
+    /// Создает корзину.
+    /// </summary>
+    /// <param name="cancellationToken"></param>
     [HttpPost]
     [ProducesResponseType((int)HttpStatusCode.OK)]
     public async Task<IActionResult> CreateAsync(CancellationToken cancellationToken)
     {
-        var result = await _shoppingCartService.CreateAsync(cancellationToken);
+        var user = await _userService.GetCurrent(cancellationToken);
+
+        var result = await _shoppingCartService.GetAsync(cancellationToken);
+
         return Ok(result);
     }
 

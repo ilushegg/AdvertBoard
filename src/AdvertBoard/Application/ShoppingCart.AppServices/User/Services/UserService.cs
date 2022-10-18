@@ -1,6 +1,7 @@
 using AdvertBoard.AppServices.Product.Repositories;
 using AdvertBoard.Contracts;
 using AdvertBoard.Domain;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -13,29 +14,38 @@ public class UserService : IUserService
 {
     private readonly IUserRepository _userRepository;
     private readonly IClaimsAccessor _claimsAccessor;
+    private readonly IConfiguration _configuration;
 
     /// <summary>
     /// Инициализирует экземпляр <see cref="UserService"/>.
     /// </summary>
     /// <param name="productRepository"></param>
-    public UserService(IUserRepository userRepository, IClaimsAccessor claimsAccessor)
+    public UserService(IUserRepository userRepository, IClaimsAccessor claimsAccessor, IConfiguration configuration)
     {
         _userRepository = userRepository;
         _claimsAccessor = claimsAccessor;
+        _configuration = configuration;
     }
 
     public async Task<User> GetCurrent(CancellationToken cancellationToken)
     {
         var claims = await _claimsAccessor.GetClaims(cancellationToken);
-        var id = claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+        var claimId = claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
 
-        if (string.IsNullOrWhiteSpace(id))
+        if (string.IsNullOrWhiteSpace(claimId))
         {
             return null;
         }
-        var user = await _userRepository.
 
-        return null;
+        var id = Guid.Parse(claimId);
+        var user = await _userRepository.FindById(id, cancellationToken);
+
+        if (user == null)
+        {
+            throw new Exception($"Пользователь с идентификатором '{id}' не найден.");
+        }
+
+        return user;
     }
 
     public async Task<string> Login(string login, string password, CancellationToken cancellationToken)
@@ -56,7 +66,7 @@ public class UserService : IUserService
             new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
             new Claim(ClaimTypes.Name, user.Login)
         };
-        var secretKey = "secretKey";
+        var secretKey = _configuration["Token:SecretKey"];
         var token = new JwtSecurityToken(
             claims: claims,
             expires: DateTime.UtcNow.AddDays(1),

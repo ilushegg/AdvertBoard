@@ -23,4 +23,13 @@ public interface IProductRepository
     /// <param name="cancellation">Отмена операции.</param>
     /// <returns>Коллекция элементов <see cref="ProductDto"/>.</returns>
     Task<IReadOnlyCollection<ProductDto>> GetAllFiltered(ProductFilterRequest request, CancellationToken cancellation);
+
+    /// <summary>
+    /// Добавляет товар.
+    /// </summary>
+    /// <param name="product"></param>
+    /// <param name="cancellation"></param>
+    /// <returns></returns>
+    Task<bool> AddAsync(Domain.Product product, CancellationToken cancellation);
+
 }

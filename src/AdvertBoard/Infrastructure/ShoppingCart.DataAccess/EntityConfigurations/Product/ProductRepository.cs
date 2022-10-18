@@ -14,7 +14,7 @@ public class ProductRepository : IProductRepository
     /// Инициализирует экземпляр <see cref="ProductRepository"/>.
     /// </summary>
     /// <param name="repository">Базовый репозиторий.</param>
-    public ProductRepository(IRepository<Domain.Product> repository)
+    public ProductRepository(IRepository<Domain.Product> repository, IRepository<ProductDto> repositoryDto)
     {
         _repository = repository;
     }
@@ -56,5 +56,11 @@ public class ProductRepository : IProductRepository
                 Description = p.Description,
                 Price = p.Price
             }).ToListAsync(cancellation);
+    }
+
+    public async Task<bool> AddAsync(Domain.Product product, CancellationToken cancellation)
+    {
+        var result = _repository.AddAsync(product);
+        return true;
     }
 }

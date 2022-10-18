@@ -10,6 +10,8 @@ using AdvertBoard.Infrastructure.Repository;
 using AdvertBoard.AppServices.ShoppingCart.Repositories;
 using AdvertBoard.AppServices.ShoppingCart.Services;
 using AdvertBoard.DataAccess.EntityConfigurations.ShoppingCart;
+using AdvertBoard.AppServices;
+using AdvertBoard.Infrastructure.Identity;
 
 namespace AdvertBoard.Registrar;
 
@@ -36,6 +38,8 @@ public static class AdvertBoardRegistrar
 
         services.AddTransient<IProductService, ProductService>();
         services.AddTransient<IProductRepository, ProductRepository>();
+
+        services.AddScoped<IClaimsAccessor, HttpContextClaimsAccessor>();
 
         return services;
     }

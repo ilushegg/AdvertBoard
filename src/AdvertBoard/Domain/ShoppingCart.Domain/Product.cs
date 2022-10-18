@@ -24,6 +24,16 @@ public class Product
     /// Цена.
     /// </summary>
     public decimal Price { get; set; }
+
+    /// <summary>
+    /// Идентификатор категории.
+    /// </summary>
+    public Guid CategoryId { get; set; }
+
+    /// <summary>
+    /// Категория.
+    /// </summary>
+    public Category Category { get; set; }
     
     /// <summary>
     /// Коллекция элементов корзины.

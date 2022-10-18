@@ -22,4 +22,12 @@ public interface IProductService
     /// <param name="cancellation"></param>
     /// <returns></returns>
     Task<IReadOnlyCollection<ProductDto>> GetAllFiltered(ProductFilterRequest request, CancellationToken cancellation);
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="product"></param>
+    /// <param name="cancellation"></param>
+    /// <returns></returns>
+    Task<bool> AddAsync(string name, string description, decimal price, Guid category, CancellationToken cancellation);
 }
