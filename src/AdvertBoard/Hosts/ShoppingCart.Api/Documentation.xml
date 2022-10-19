@@ -45,7 +45,7 @@
         </member>
         <member name="M:AdvertBoard.Api.Controllers.ProductController.GetAll(System.Int32,System.Int32,System.Threading.CancellationToken)">
             <summary>
-            
+            Возвращает все товары.
             </summary>
             <param name="take"></param>
             <param name="skip"></param>
@@ -57,6 +57,12 @@
             Добавляет товар.
             </summary>
             <param name="cancellation"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AdvertBoard.Api.Controllers.ProductController.Edit(System.Guid,System.String,System.String,System.Decimal,System.Guid,System.Threading.CancellationToken)">
+            <summary>
+            Редактирует товар.
+            </summary>
             <returns></returns>
         </member>
         <member name="T:AdvertBoard.Api.Controllers.UserController">

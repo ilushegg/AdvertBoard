@@ -29,6 +29,7 @@ public class ProductService : IProductService
         return _productRepository.GetAllFiltered(request, cancellation);
     }
 
+    /// <inheritdoc />
     public Task<bool> AddAsync(string name, string description, decimal price, Guid categoryId, CancellationToken cancellation)
     {
         var product = new Domain.Product()
@@ -39,5 +40,28 @@ public class ProductService : IProductService
             CategoryId = categoryId
         };
         return _productRepository.AddAsync(product, cancellation);
+    }
+
+    public async Task<bool> EditAsync(Guid productId, string name, string description, decimal price, Guid categoryId, CancellationToken cancellation)
+    {
+        var product = await _productRepository.FindById(productId, cancellation);
+        if (product == null)
+        {
+            throw new Exception($"Товар с идентификатором '{productId}' не найден");
+        }
+        else
+        {
+            product.Name = name;
+            product.Price = price;
+            product.Description = description;
+            product.CategoryId = categoryId;
+
+            return await _productRepository.EditAsync(product, cancellation);
+        }
+    }
+
+    public Task<bool> DeleteAsync(Guid productId, CancellationToken cancellation)
+    {
+        throw new NotImplementedException();
     }
 }

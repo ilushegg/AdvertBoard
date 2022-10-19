@@ -21,7 +21,7 @@ public class ProductController : ControllerBase
     }
 
     /// <summary>
-    /// 
+    /// Возвращает все товары.
     /// </summary>
     /// <param name="take"></param>
     /// <param name="skip"></param>
@@ -47,5 +47,17 @@ public class ProductController : ControllerBase
     {
         var result = await _productService.AddAsync(name, description, price, categoryId, cancellation);
         return Created("", new { });
+    }
+
+    /// <summary>
+    /// Редактирует товар.
+    /// </summary>
+    /// <returns></returns>
+    [HttpPut]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> Edit(Guid productId, string name, string description, decimal price, Guid categoryId, CancellationToken cancellation)
+    {
+        var result = await _productService.EditAsync(productId, name, description, price, categoryId, cancellation);
+        return Ok(result);
     }
 }

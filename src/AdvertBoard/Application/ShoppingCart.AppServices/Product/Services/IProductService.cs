@@ -29,5 +29,11 @@ public interface IProductService
     /// <param name="product"></param>
     /// <param name="cancellation"></param>
     /// <returns></returns>
-    Task<bool> AddAsync(string name, string description, decimal price, Guid category, CancellationToken cancellation);
+    Task<bool> AddAsync(string name, string description, decimal price, Guid categoryId, CancellationToken cancellation);
+
+
+    Task<bool> EditAsync(Guid productId, string name, string description, decimal price, Guid categoryId, CancellationToken cancellation);
+
+
+    Task<bool> DeleteAsync(Guid productId, CancellationToken cancellation);
 }

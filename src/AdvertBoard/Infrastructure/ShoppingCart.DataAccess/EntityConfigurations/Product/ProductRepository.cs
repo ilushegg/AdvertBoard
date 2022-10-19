@@ -63,4 +63,22 @@ public class ProductRepository : IProductRepository
         var result = _repository.AddAsync(product);
         return true;
     }
+
+    public async Task<bool> DeleteAsync(Domain.Product product, CancellationToken cancellation)
+    {
+        var result = _repository.DeleteAsync(product);
+        return true;
+    }
+
+    public async Task<bool> EditAsync(Domain.Product product, CancellationToken cancellation)
+    {
+        var result = _repository.UpdateAsync(product);
+        return true;
+    }
+
+    public async Task<Domain.Product> FindById(Guid productId, CancellationToken cancellation)
+    {
+        var result = await _repository.GetByIdAsync(productId);
+        return result;
+    }
 }
