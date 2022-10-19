@@ -20,6 +20,10 @@ public class ProductConfiguration : IEntityTypeConfiguration<Domain.Product>
         
         builder.Property(b => b.Description).HasMaxLength(2000);
 
+        builder.Property(b => b.Picture);
+
+        builder.Property(b => b.DateTimeCreated);
+
         builder.HasMany(p => p.ShoppingCarts)
             .WithOne(s => s.Product)
             .HasForeignKey(s => s.ProductId);

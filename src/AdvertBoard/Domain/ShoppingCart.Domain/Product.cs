@@ -34,6 +34,16 @@ public class Product
     /// Категория.
     /// </summary>
     public Category Category { get; set; }
+
+    /// <summary>
+    /// Изображения.
+    /// </summary>
+    public string? Picture { get; set; }
+
+    /// <summary>
+    /// Дата создания.
+    /// </summary>
+    public DateTime DateTimeCreated { get; set; }
     
     /// <summary>
     /// Коллекция элементов корзины.
