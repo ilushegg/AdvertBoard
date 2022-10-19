@@ -65,6 +65,14 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:AdvertBoard.Api.Controllers.ProductController.Delete(System.Guid,System.Threading.CancellationToken)">
+            <summary>
+            Удаляет товар.
+            </summary>
+            <param name="productId"></param>
+            <param name="cancellation"></param>
+            <returns></returns>
+        </member>
         <member name="T:AdvertBoard.Api.Controllers.UserController">
             <summary>
             Работа с корзиной товаров.

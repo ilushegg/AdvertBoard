@@ -60,8 +60,17 @@ public class ProductService : IProductService
         }
     }
 
-    public Task<bool> DeleteAsync(Guid productId, CancellationToken cancellation)
+    public async Task<bool> DeleteAsync(Guid productId, CancellationToken cancellation)
     {
-        throw new NotImplementedException();
+        var product = await _productRepository.FindById(productId, cancellation);
+        if(product == null)
+        {
+            throw new Exception($"Товар с идентификатором '{productId}' не найден");
+        }
+        else
+        {
+            return await _productRepository.DeleteAsync(product, cancellation);
+        }
+         
     }
 }

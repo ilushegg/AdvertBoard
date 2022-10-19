@@ -60,4 +60,18 @@ public class ProductController : ControllerBase
         var result = await _productService.EditAsync(productId, name, description, price, categoryId, cancellation);
         return Ok(result);
     }
+
+    /// <summary>
+    /// Удаляет товар.
+    /// </summary>
+    /// <param name="productId"></param>
+    /// <param name="cancellation"></param>
+    /// <returns></returns>
+    [HttpDelete]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> Delete(Guid productId, CancellationToken cancellation)
+    {
+        var result = await _productService.DeleteAsync(productId, cancellation);
+        return Ok(result);
+    }
 }
