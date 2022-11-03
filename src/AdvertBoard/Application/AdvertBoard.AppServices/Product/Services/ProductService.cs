@@ -37,7 +37,7 @@ public class ProductService : IProductService
             Name = name,
             Description = description,
             Price = price, 
-            CategoryId = categoryId
+            DateTimeCreated = DateTime.UtcNow
         };
         return _productRepository.AddAsync(product, cancellation);
     }
@@ -54,7 +54,6 @@ public class ProductService : IProductService
             product.Name = name;
             product.Price = price;
             product.Description = description;
-            product.CategoryId = categoryId;
 
             return await _productRepository.EditAsync(product, cancellation);
         }

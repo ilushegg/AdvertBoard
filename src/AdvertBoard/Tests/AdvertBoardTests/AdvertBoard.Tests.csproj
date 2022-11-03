@@ -25,7 +25,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Infrastructure\ShoppingCart.DataAccess\AdvertBoard.DataAccess.csproj" />
+    <ProjectReference Include="..\..\Domain\AdvertBoard.Domain\AdvertBoard.Domain.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\AdvertBoard.DataAccess\AdvertBoard.DataAccess.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\AdvertBoard.Infrastructure\AdvertBoard.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

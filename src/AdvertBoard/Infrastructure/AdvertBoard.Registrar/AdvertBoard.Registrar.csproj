@@ -14,8 +14,9 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\ShoppingCart.DataAccess\AdvertBoard.DataAccess.csproj" />
-      <ProjectReference Include="..\ShoppingCart.Infrastructure\AdvertBoard.Infrastructure.csproj" />
+      <ProjectReference Include="..\..\Application\AdvertBoard.AppServices\AdvertBoard.AppServices.csproj" />
+      <ProjectReference Include="..\AdvertBoard.DataAccess\AdvertBoard.DataAccess.csproj" />
+      <ProjectReference Include="..\AdvertBoard.Infrastructure\AdvertBoard.Infrastructure.csproj" />
     </ItemGroup>
 
 </Project>

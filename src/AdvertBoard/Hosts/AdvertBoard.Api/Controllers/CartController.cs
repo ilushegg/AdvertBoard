@@ -65,7 +65,7 @@ public class CartController : ControllerBase
     {
         var user = await _userService.GetCurrent(cancellationToken);
 
-        var result = await _shoppingCartService.GetAsync(cancellationToken);
+        var result = await _shoppingCartService.CreateAsync(cancellationToken);
 
         return Ok(result);
     }

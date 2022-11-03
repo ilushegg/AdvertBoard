@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
@@ -27,8 +27,10 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\Contracts\ShoppingCart.Contracts\AdvertBoard.Contracts.csproj" />
-      <ProjectReference Include="..\..\Infrastructure\ShoppingCart.Registrar\AdvertBoard.Registrar.csproj" />
+      <ProjectReference Include="..\..\Application\AdvertBoard.AppServices\AdvertBoard.AppServices.csproj" />
+      <ProjectReference Include="..\..\Contracts\AdvertBoard.Contracts\AdvertBoard.Contracts.csproj" />
+      <ProjectReference Include="..\..\Domain\AdvertBoard.Domain\AdvertBoard.Domain.csproj" />
+      <ProjectReference Include="..\..\Infrastructure\AdvertBoard.Registrar\AdvertBoard.Registrar.csproj" />
     </ItemGroup>
 
     <ItemGroup>

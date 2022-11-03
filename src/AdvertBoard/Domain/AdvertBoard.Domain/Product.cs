@@ -26,24 +26,31 @@ public class Product
     public decimal Price { get; set; }
 
     /// <summary>
-    /// Идентификатор категории.
+    /// Идентификатор категорий.
     /// </summary>
-    public Guid CategoryId { get; set; }
+    public ICollection<Category> Categories { get; set; }
 
-    /// <summary>
-    /// Категория.
-    /// </summary>
-    public Category Category { get; set; }
+
 
     /// <summary>
     /// Изображения.
     /// </summary>
-    public string? Picture { get; set; }
+    public ICollection<ProductImage>? ProductImages { get; set; }
 
     /// <summary>
     /// Дата создания.
     /// </summary>
     public DateTime DateTimeCreated { get; set; }
+
+    /// <summary>
+    /// Дата публикации.
+    /// </summary>
+    public DateTime DateTimePublish { get; set; }
+
+    /// <summary>
+    /// Дата редактирования.
+    /// </summary>
+    public DateTime DateTimeUpdated { get; set; }
     
     /// <summary>
     /// Коллекция элементов корзины.

@@ -9,33 +9,41 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AdvertBoard", "AdvertBoard"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Hosts", "Hosts", "{7D3FBB79-1AD8-4ECE-BEDB-771A3E734586}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdvertBoard.Api", "src\AdvertBoard\Hosts\ShoppingCart.Api\AdvertBoard.Api.csproj", "{DE63C0E6-B081-4F09-A5FF-5E769BEF2EBA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdvertBoard.Api", "src\AdvertBoard\Hosts\AdvertBoard.Api\AdvertBoard.Api.csproj", "{DE63C0E6-B081-4F09-A5FF-5E769BEF2EBA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Contracts", "Contracts", "{709BCDE8-B738-4B38-AA6D-B674F5836552}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdvertBoard.Contracts", "src\AdvertBoard\Contracts\ShoppingCart.Contracts\AdvertBoard.Contracts.csproj", "{2E183177-1EFC-4C8A-991D-ED777B98C75F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdvertBoard.Contracts", "src\AdvertBoard\Contracts\AdvertBoard.Contracts\AdvertBoard.Contracts.csproj", "{2E183177-1EFC-4C8A-991D-ED777B98C75F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{92B7C53B-BC20-4183-8FB6-D292315A6DA6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdvertBoard.Domain", "src\AdvertBoard\Domain\ShoppingCart.Domain\AdvertBoard.Domain.csproj", "{C3B3CC12-3580-47E7-8DFD-18262381CACF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdvertBoard.Domain", "src\AdvertBoard\Domain\AdvertBoard.Domain\AdvertBoard.Domain.csproj", "{C3B3CC12-3580-47E7-8DFD-18262381CACF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{51A1C00C-FB75-492E-9B8F-B67654B9730F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdvertBoard.DataAccess", "src\AdvertBoard\Infrastructure\ShoppingCart.DataAccess\AdvertBoard.DataAccess.csproj", "{837787B4-5BF9-402A-BD93-D9336678846D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdvertBoard.DataAccess", "src\AdvertBoard\Infrastructure\AdvertBoard.DataAccess\AdvertBoard.DataAccess.csproj", "{837787B4-5BF9-402A-BD93-D9336678846D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdvertBoard.Registrar", "src\AdvertBoard\Infrastructure\ShoppingCart.Registrar\AdvertBoard.Registrar.csproj", "{C6B2CDC7-C3F3-42FC-A8AD-CD7324C48202}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdvertBoard.Registrar", "src\AdvertBoard\Infrastructure\AdvertBoard.Registrar\AdvertBoard.Registrar.csproj", "{C6B2CDC7-C3F3-42FC-A8AD-CD7324C48202}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdvertBoard.Migrations", "src\AdvertBoard\Infrastructure\ShoppingCart.Migrations\AdvertBoard.Migrations.csproj", "{87FE8E6F-DE9E-43FF-A1B7-E92F54F3F57C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdvertBoard.Migrations", "src\AdvertBoard\Infrastructure\AdvertBoard.Migrations\AdvertBoard.Migrations.csproj", "{87FE8E6F-DE9E-43FF-A1B7-E92F54F3F57C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdvertBoard.Infrastructure", "src\AdvertBoard\Infrastructure\ShoppingCart.Infrastructure\AdvertBoard.Infrastructure.csproj", "{77337A63-1BC8-4069-A67D-4892CD7144AB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdvertBoard.Infrastructure", "src\AdvertBoard\Infrastructure\AdvertBoard.Infrastructure\AdvertBoard.Infrastructure.csproj", "{77337A63-1BC8-4069-A67D-4892CD7144AB}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{A5C9A28C-4748-4428-A5CD-A72517C4059F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdvertBoard.AppServices", "src\AdvertBoard\Application\ShoppingCart.AppServices\AdvertBoard.AppServices.csproj", "{526426D9-BF0E-4FF1-A3B5-7E09574B32B8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdvertBoard.AppServices", "src\AdvertBoard\Application\AdvertBoard.AppServices\AdvertBoard.AppServices.csproj", "{526426D9-BF0E-4FF1-A3B5-7E09574B32B8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{94571733-122F-4E84-8FA4-0993CCEE0CC7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdvertBoard.Tests", "src\AdvertBoard\Tests\AdvertBoardTests\AdvertBoard.Tests.csproj", "{DA9BC3EB-4D1E-44E1-8F75-908EE8C2E010}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdvertBoard.Tests", "src\AdvertBoard\Tests\AdvertBoardTests\AdvertBoard.Tests.csproj", "{DA9BC3EB-4D1E-44E1-8F75-908EE8C2E010}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "misc", "misc", "{454CC0C6-1028-4D40-82F9-E38D3556D026}"
+	ProjectSection(SolutionItems) = preProject
+		add-migration.bat = add-migration.bat
+		docker-compose.yml = docker-compose.yml
+		README.md = README.md
+		update-database.bat = update-database.bat
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

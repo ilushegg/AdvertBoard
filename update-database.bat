@@ -1,3 +1,3 @@
-dotnet ef database update --project src\AdvertBoard\Infrastructure\ShoppingCart.Migrations\AdvertBoard.Migrations.csproj
+dotnet ef database update --project src\AdvertBoard\Infrastructure\AdvertBoard.Migrations\AdvertBoard.Migrations.csproj
 
 pause

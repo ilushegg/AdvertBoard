@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
@@ -12,8 +12,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\Contracts\ShoppingCart.Contracts\AdvertBoard.Contracts.csproj" />
-      <ProjectReference Include="..\..\Domain\ShoppingCart.Domain\AdvertBoard.Domain.csproj" />
+      <ProjectReference Include="..\..\Contracts\AdvertBoard.Contracts\AdvertBoard.Contracts.csproj" />
+      <ProjectReference Include="..\..\Domain\AdvertBoard.Domain\AdvertBoard.Domain.csproj" />
   
     </ItemGroup>
 

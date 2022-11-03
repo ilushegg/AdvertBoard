@@ -21,5 +21,9 @@ namespace AdvertBoard.Domain
         /// </summary>
         public string Name { get; set; }
 
+        public Guid ProductId { get; set; }
+
+        public Product Product { get; set; }
+
     }
 }
