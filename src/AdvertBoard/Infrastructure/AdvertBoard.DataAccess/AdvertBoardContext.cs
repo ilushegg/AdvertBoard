@@ -3,6 +3,7 @@ using AdvertBoard.DataAccess.EntityConfigurations.Product;
 using AdvertBoard.DataAccess.EntityConfigurations.ShoppingCart;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using AdvertBoard.Domain;
+using AdvertBoard.DataAccess.EntityConfigurations.Category;
 
 namespace AdvertBoard.DataAccess;
 
@@ -25,7 +26,8 @@ public class AdvertBoardContext : IdentityDbContext<ApplicationUser>
         modelBuilder.ApplyConfiguration(new UserConfiguration());
         modelBuilder.ApplyConfiguration(new ProductConfiguration());
         modelBuilder.ApplyConfiguration(new ShoppingCartConfiguration());
-
+        modelBuilder.ApplyConfiguration(new CategoryConfiguration());
+        
         base.OnModelCreating(modelBuilder);
     }
 }

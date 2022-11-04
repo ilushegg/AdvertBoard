@@ -1,4 +1,5 @@
 using AdvertBoard.Contracts;
+using AdvertBoard.Domain;
 
 namespace AdvertBoard.AppServices.Product.Services;
 
@@ -29,11 +30,12 @@ public interface IProductService
     /// <param name="product"></param>
     /// <param name="cancellation"></param>
     /// <returns></returns>
-    Task<bool> AddAsync(string name, string description, decimal price, Guid categoryId, CancellationToken cancellation);
+
 
 
     Task<bool> EditAsync(Guid productId, string name, string description, decimal price, Guid categoryId, CancellationToken cancellation);
 
 
     Task<bool> DeleteAsync(Guid productId, CancellationToken cancellation);
+    Task<bool> AddAsync(string name, string description, decimal price, string categoryName, CancellationToken cancellation = default);
 }

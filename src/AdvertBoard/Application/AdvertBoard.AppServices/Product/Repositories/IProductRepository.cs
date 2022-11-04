@@ -56,4 +56,6 @@ public interface IProductRepository
     /// <returns></returns>
     Task<Domain.Product> FindById(Guid productId, CancellationToken cancellation);
 
+    void Add(Domain.Product product, CancellationToken cancellation);
+
 }

@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AdvertBoard.Migrations.Migrations
 {
     [DbContext(typeof(MigrationsDbContext))]
-    [Migration("20221014093443_AddIdentityEnties")]
-    partial class AddIdentityEnties
+    [Migration("20221104142859_Edit1")]
+    partial class Edit1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -88,11 +88,39 @@ namespace AdvertBoard.Migrations.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("AdvertBoard.Domain.Category", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Categories", (string)null);
+                });
+
             modelBuilder.Entity("AdvertBoard.Domain.Product", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
+
+                    b.Property<Guid>("CategoryId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("DateTimeCreated")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("DateTimePublish")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("DateTimeUpdated")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -101,15 +129,42 @@ namespace AdvertBoard.Migrations.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(800)
-                        .HasColumnType("character varying(800)");
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("numeric");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CategoryId")
+                        .IsUnique();
+
                     b.ToTable("Products", (string)null);
+                });
+
+            modelBuilder.Entity("AdvertBoard.Domain.ProductImage", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("FileName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("FilePath")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("ProductImage");
                 });
 
             modelBuilder.Entity("AdvertBoard.Domain.ShoppingCart", b =>
@@ -298,6 +353,28 @@ namespace AdvertBoard.Migrations.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("AdvertBoard.Domain.Product", b =>
+                {
+                    b.HasOne("AdvertBoard.Domain.Category", "Category")
+                        .WithOne("Product")
+                        .HasForeignKey("AdvertBoard.Domain.Product", "CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("AdvertBoard.Domain.ProductImage", b =>
+                {
+                    b.HasOne("AdvertBoard.Domain.Product", "Product")
+                        .WithMany("ProductImages")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("AdvertBoard.Domain.ShoppingCart", b =>
                 {
                     b.HasOne("AdvertBoard.Domain.Product", "Product")
@@ -360,8 +437,15 @@ namespace AdvertBoard.Migrations.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("AdvertBoard.Domain.Category", b =>
+                {
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("AdvertBoard.Domain.Product", b =>
                 {
+                    b.Navigation("ProductImages");
+
                     b.Navigation("ShoppingCarts");
                 });
 #pragma warning restore 612, 618

@@ -28,9 +28,9 @@ public class Product
     /// <summary>
     /// Идентификатор категорий.
     /// </summary>
-    public ICollection<Category> Categories { get; set; }
+    public Guid CategoryId { get; set; }
 
-
+    public Category Category { get; set; }
 
     /// <summary>
     /// Изображения.
@@ -56,4 +56,6 @@ public class Product
     /// Коллекция элементов корзины.
     /// </summary>
     public ICollection<ShoppingCart> ShoppingCarts { get; set; }
+
+
 }

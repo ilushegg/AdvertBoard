@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using AdvertBoard.AppServices.Product.Repositories;
 using AdvertBoard.AppServices.Product.Services;
 using AdvertBoard.AppServices.Services;
+
 using AdvertBoard.DataAccess;
 using AdvertBoard.DataAccess.EntityConfigurations.Product;
 using AdvertBoard.DataAccess.Interfaces;
@@ -12,6 +13,7 @@ using AdvertBoard.AppServices.ShoppingCart.Services;
 using AdvertBoard.DataAccess.EntityConfigurations.ShoppingCart;
 using AdvertBoard.AppServices;
 using AdvertBoard.Infrastructure.Identity;
+using AdvertBoard.DataAccess.EntityConfigurations.Category;
 
 namespace AdvertBoard.Registrar;
 
@@ -38,6 +40,9 @@ public static class AdvertBoardRegistrar
 
         services.AddTransient<IProductService, ProductService>();
         services.AddTransient<IProductRepository, ProductRepository>();
+
+
+        services.AddTransient<ICategoryRepository, CategoryRepository>();
 
         services.AddScoped<IClaimsAccessor, HttpContextClaimsAccessor>();
 

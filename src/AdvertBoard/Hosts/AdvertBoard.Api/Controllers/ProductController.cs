@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using AdvertBoard.AppServices.Product.Services;
 using AdvertBoard.Contracts;
 using Microsoft.AspNetCore.Authorization;
+using AdvertBoard.Domain;
 
 namespace AdvertBoard.Api.Controllers;
 
@@ -43,9 +44,10 @@ public class ProductController : ControllerBase
     /// <returns></returns>
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
-    public async Task<IActionResult> Add(string name, string description, decimal price, Guid categoryId, CancellationToken cancellation)
+    public async Task<IActionResult> Add(string name, string description, decimal price, string category, CancellationToken cancellation)
     {
-        var result = await _productService.AddAsync(name, description, price, categoryId, cancellation);
+       
+        var result = await _productService.AddAsync(name, description, price, category, cancellation);
         return Created("", new { });
     }
 

@@ -45,4 +45,6 @@ public interface IRepository<TEntity> where TEntity: class
     /// </summary>
     /// <param name="model">Существующая сущность <see cref="TEntity"/>.</param>
     Task DeleteAsync(TEntity model);
+
+    void Add(TEntity model);
 }

@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AdvertBoard.Migrations.Migrations
 {
     [DbContext(typeof(MigrationsDbContext))]
-    [Migration("20221103090631_AddAndEditFieldsToProduct")]
-    partial class AddAndEditFieldsToProduct
+    [Migration("20221104144149_Edit3")]
+    partial class Edit3
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -96,22 +96,21 @@ namespace AdvertBoard.Migrations.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<Guid>("ProductId")
-                        .HasColumnType("uuid");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("Category");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("AdvertBoard.Domain.Product", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("CategoryId")
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("DateTimeCreated")
@@ -137,6 +136,8 @@ namespace AdvertBoard.Migrations.Migrations
                         .HasColumnType("numeric");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
 
                     b.ToTable("Products", (string)null);
                 });
@@ -351,15 +352,15 @@ namespace AdvertBoard.Migrations.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("AdvertBoard.Domain.Category", b =>
+            modelBuilder.Entity("AdvertBoard.Domain.Product", b =>
                 {
-                    b.HasOne("AdvertBoard.Domain.Product", "Product")
-                        .WithMany("Categories")
-                        .HasForeignKey("ProductId")
+                    b.HasOne("AdvertBoard.Domain.Category", "Category")
+                        .WithMany("Products")
+                        .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Product");
+                    b.Navigation("Category");
                 });
 
             modelBuilder.Entity("AdvertBoard.Domain.ProductImage", b =>
@@ -435,10 +436,13 @@ namespace AdvertBoard.Migrations.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("AdvertBoard.Domain.Category", b =>
+                {
+                    b.Navigation("Products");
+                });
+
             modelBuilder.Entity("AdvertBoard.Domain.Product", b =>
                 {
-                    b.Navigation("Categories");
-
                     b.Navigation("ProductImages");
 
                     b.Navigation("ShoppingCarts");

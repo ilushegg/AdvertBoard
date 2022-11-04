@@ -16,9 +16,14 @@ public class ProductConfiguration : IEntityTypeConfiguration<Domain.Product>
         builder.HasKey(b => b.Id);
         builder.Property(b => b.Id).ValueGeneratedOnAdd();
 
-        builder.Property(b => b.Name).HasMaxLength(200);
+        builder.Property(b => b.Name).HasMaxLength(200).IsRequired();
         
-        builder.Property(b => b.Description).HasMaxLength(2000);
+        builder.Property(b => b.Description).HasMaxLength(2000).IsRequired();
+
+        builder.HasOne(s => s.Category)
+            .WithMany(p => p.Products)
+            .HasForeignKey(s => s.CategoryId);
+            ;
 
         builder.Property(b => b.DateTimeCreated);
 
@@ -30,9 +35,6 @@ public class ProductConfiguration : IEntityTypeConfiguration<Domain.Product>
             .WithOne(s => s.Product)
             .HasForeignKey(s => s.ProductId);
 
-        builder.HasMany(p => p.Categories)
-            .WithOne(s => s.Product)
-            .HasForeignKey(s => s.ProductId);
 
         builder.HasMany(p => p.ShoppingCarts)
             .WithOne(s => s.Product)

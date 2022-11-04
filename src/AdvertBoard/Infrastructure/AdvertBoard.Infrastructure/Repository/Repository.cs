@@ -53,6 +53,17 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity: class
         await DbContext.SaveChangesAsync();
     }
 
+    public void Add(TEntity model)
+    {
+        if (model == null)
+        {
+            throw new ArgumentNullException(nameof(model));
+        }
+        DbSet.Add(model);
+        DbContext.SaveChanges();
+        
+    }
+
     /// <inheritdoc />
     public async Task UpdateAsync(TEntity model)
     {

@@ -17,7 +17,8 @@ namespace AdvertBoard.DataAccess.EntityConfigurations.Category
             builder.HasKey(b => b.Id);
             builder.Property(b => b.Id).ValueGeneratedOnAdd();
 
-            builder.Property(b => b.Name).HasMaxLength(100);
+            builder.Property(b => b.Name).HasMaxLength(100).IsRequired();
+
         }
     }
 }

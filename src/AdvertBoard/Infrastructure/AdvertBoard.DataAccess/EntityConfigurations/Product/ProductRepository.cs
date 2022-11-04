@@ -64,6 +64,11 @@ public class ProductRepository : IProductRepository
         return true;
     }
 
+    public void Add(Domain.Product product, CancellationToken cancellation)
+    {
+        _repository.Add(product);
+    }
+
     public async Task<bool> DeleteAsync(Domain.Product product, CancellationToken cancellation)
     {
         var result = _repository.DeleteAsync(product);

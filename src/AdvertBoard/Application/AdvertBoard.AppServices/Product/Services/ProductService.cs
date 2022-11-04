@@ -1,5 +1,7 @@
 using AdvertBoard.AppServices.Product.Repositories;
 using AdvertBoard.Contracts;
+using AdvertBoard.DataAccess.EntityConfigurations.Category;
+using AdvertBoard.Domain;
 
 namespace AdvertBoard.AppServices.Product.Services;
 
@@ -7,14 +9,16 @@ namespace AdvertBoard.AppServices.Product.Services;
 public class ProductService : IProductService
 {
     private readonly IProductRepository _productRepository;
+    private readonly ICategoryRepository _categoryRepository;
 
     /// <summary>
     /// Инициализирует экземпляр <see cref="ProductService"/>.
     /// </summary>
     /// <param name="productRepository"></param>
-    public ProductService(IProductRepository productRepository)
+    public ProductService(IProductRepository productRepository, ICategoryRepository categoryRepository)
     {
         _productRepository = productRepository;
+        _categoryRepository = categoryRepository;
     }
 
     /// <inheritdoc />
@@ -30,16 +34,45 @@ public class ProductService : IProductService
     }
 
     /// <inheritdoc />
-    public Task<bool> AddAsync(string name, string description, decimal price, Guid categoryId, CancellationToken cancellation)
+    public async Task<bool> AddAsync(string name, string description, decimal price, string categoryName, CancellationToken cancellation = default) 
     {
-        var product = new Domain.Product()
+        var product = new Domain.Product
         {
             Name = name,
             Description = description,
             Price = price, 
-            DateTimeCreated = DateTime.UtcNow
+            DateTimeCreated = DateTime.UtcNow,
+            DateTimeUpdated = DateTime.UtcNow,
+            DateTimePublish = DateTime.UtcNow
         };
-        return _productRepository.AddAsync(product, cancellation);
+        
+        
+
+
+
+        
+            
+            var category = await _categoryRepository.FindByName(categoryName, cancellation);
+
+
+            if (category == null)
+                {
+                    category = new Category
+                    {
+                        Name = categoryName
+                        
+                    };
+                  _categoryRepository.Add(category, cancellation);
+                }
+
+
+
+
+
+        product.Category = category;
+
+        _productRepository.Add(product, cancellation);
+        return true;
     }
 
     public async Task<bool> EditAsync(Guid productId, string name, string description, decimal price, Guid categoryId, CancellationToken cancellation)
