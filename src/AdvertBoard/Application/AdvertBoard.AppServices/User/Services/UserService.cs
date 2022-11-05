@@ -71,7 +71,7 @@ public class UserService : IUserService
             claims: claims,
             expires: DateTime.UtcNow.AddDays(1),
             notBefore: DateTime.UtcNow,
-            signingCredentials: new Microsoft.IdentityModel.Tokens.SigningCredentials(
+            signingCredentials: new SigningCredentials(
                 new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey)),
                 SecurityAlgorithms.HmacSha256)
             );

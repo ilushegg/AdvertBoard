@@ -30,12 +30,25 @@ public class Product
     /// </summary>
     public Guid CategoryId { get; set; }
 
+    /// <summary>
+    /// Категория.
+    /// </summary>
     public Category Category { get; set; }
 
     /// <summary>
     /// Изображения.
     /// </summary>
     public ICollection<ProductImage>? ProductImages { get; set; }
+
+    /// <summary>
+    /// Идентификатор пользователя (автора) продукта.
+    /// </summary>
+    public Guid UserId { get; set; }
+
+    /// <summary>
+    /// Пользователь.
+    /// </summary>
+    public User User { get; set; }
 
     /// <summary>
     /// Дата создания.

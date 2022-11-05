@@ -15,10 +15,12 @@ namespace AdvertBoard.Api.Controllers;
 public class ProductController : ControllerBase
 {
     private readonly IProductService _productService;
+    private readonly IUserService _userService;
 
-    public ProductController(IProductService productService)
+    public ProductController(IProductService productService, IUserService userService)
     {
         _productService = productService;
+        _userService = userService;
     }
 
     /// <summary>
@@ -43,11 +45,14 @@ public class ProductController : ControllerBase
     /// <param name="cancellation"></param>
     /// <returns></returns>
     [HttpPost]
+    [Authorize]
     [ProducesResponseType(StatusCodes.Status201Created)]
     public async Task<IActionResult> Add(string name, string description, decimal price, string category, CancellationToken cancellation)
     {
+        var user = await _userService.GetCurrent(cancellation);
+        Console.WriteLine("USER : " + user.Name);
        
-        var result = await _productService.AddAsync(name, description, price, category, cancellation);
+        var result = await _productService.AddAsync(name, description, price, category, user, cancellation);
         return Created("", new { });
     }
 
@@ -56,6 +61,7 @@ public class ProductController : ControllerBase
     /// </summary>
     /// <returns></returns>
     [HttpPut]
+    [Authorize]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> Edit(Guid productId, string name, string description, decimal price, Guid categoryId, CancellationToken cancellation)
     {
@@ -70,6 +76,7 @@ public class ProductController : ControllerBase
     /// <param name="cancellation"></param>
     /// <returns></returns>
     [HttpDelete]
+    [Authorize]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> Delete(Guid productId, CancellationToken cancellation)
     {

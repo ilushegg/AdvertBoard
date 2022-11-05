@@ -5,9 +5,9 @@ services:
   api:
     build:
       context: .
-      dockerfile: src/AdvertBoard/Hosts/ShoppingCart.Api/Dockerfile
+      dockerfile: src/AdvertBoard/Hosts/AdvertBoard.Api/Dockerfile
     ports:
-      - 5000:80
+      - 8080:5000
     environment:
       - ConnectionStrings_PostgresAdvertBoardDb=Host=localhost;Database=AdvertBoard;Username=postgres;Password=2012
     depends_on:

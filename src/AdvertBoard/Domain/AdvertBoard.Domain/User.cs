@@ -29,5 +29,7 @@ public class User
     /// Дата регистрации.
     /// </summary>
     public DateTime CreateDate { get; set; }
+
+    public Product Product { get; set; }
     
 }

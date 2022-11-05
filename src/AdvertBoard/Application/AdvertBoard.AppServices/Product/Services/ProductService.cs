@@ -34,40 +34,30 @@ public class ProductService : IProductService
     }
 
     /// <inheritdoc />
-    public async Task<bool> AddAsync(string name, string description, decimal price, string categoryName, CancellationToken cancellation = default) 
+    public async Task<bool> AddAsync(string name, string description, decimal price, string categoryName, User user, CancellationToken cancellation = default) 
     {
         var product = new Domain.Product
         {
             Name = name,
             Description = description,
             Price = price, 
+            User = user,
             DateTimeCreated = DateTime.UtcNow,
             DateTimeUpdated = DateTime.UtcNow,
             DateTimePublish = DateTime.UtcNow
         };
-        
-        
-
-
-
-        
             
-            var category = await _categoryRepository.FindByName(categoryName, cancellation);
+        var category = await _categoryRepository.FindByName(categoryName, cancellation);
 
-
-            if (category == null)
-                {
-                    category = new Category
-                    {
-                        Name = categoryName
+        if (category == null)
+        {
+            category = new Category
+            {
+                Name = categoryName
                         
-                    };
-                  _categoryRepository.Add(category, cancellation);
-                }
-
-
-
-
+            };
+            _categoryRepository.Add(category, cancellation);
+        }
 
         product.Category = category;
 
@@ -87,7 +77,7 @@ public class ProductService : IProductService
             product.Name = name;
             product.Price = price;
             product.Description = description;
-
+            product.DateTimeUpdated = DateTime.UtcNow;
             return await _productRepository.EditAsync(product, cancellation);
         }
     }

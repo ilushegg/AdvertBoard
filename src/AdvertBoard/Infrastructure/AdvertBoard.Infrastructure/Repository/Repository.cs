@@ -87,4 +87,14 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity: class
         DbSet.Remove(model);
         await DbContext.SaveChangesAsync();
     }
+
+    public void Delete(TEntity model)
+    {
+        if(model == null)
+        {
+            throw new ArgumentNullException(nameof(model));
+        }
+        DbSet.Remove(model);
+        DbContext.SaveChanges();
+    }
 }

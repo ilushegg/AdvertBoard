@@ -23,7 +23,6 @@ public class ProductConfiguration : IEntityTypeConfiguration<Domain.Product>
         builder.HasOne(s => s.Category)
             .WithMany(p => p.Products)
             .HasForeignKey(s => s.CategoryId);
-            ;
 
         builder.Property(b => b.DateTimeCreated);
 

@@ -23,10 +23,10 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddSwaggerServices();
 
 
-
+/*
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<AdvertBoardContext>()
-    .AddDefaultTokenProviders();
+    .AddDefaultTokenProviders();*/
 
 builder.Services.AddAuthenticationServices(builder.Configuration);
 
@@ -40,6 +40,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();

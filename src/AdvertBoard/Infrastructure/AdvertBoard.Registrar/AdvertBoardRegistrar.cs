@@ -30,7 +30,8 @@ public static class AdvertBoardRegistrar
 
         services.AddScoped((Func<IServiceProvider, DbContext>) (sp => sp.GetRequiredService<AdvertBoardContext>()));
         
-        services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+        services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
+        
 
         services.AddTransient<IShoppingCartService, ShoppingCartService>();
         services.AddTransient<IShoppingCartRepository, ShoppingCartRepository>();
