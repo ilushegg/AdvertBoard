@@ -30,6 +30,6 @@ public class User
     /// </summary>
     public DateTime CreateDate { get; set; }
 
-    public Product Product { get; set; }
+    public ICollection<Product> Products { get; set; }
     
 }
