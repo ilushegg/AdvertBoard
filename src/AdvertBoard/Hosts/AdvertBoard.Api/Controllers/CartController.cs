@@ -7,6 +7,7 @@ using AdvertBoard.AppServices.ShoppingCart.Services;
 using AdvertBoard.Contracts;
 using Microsoft.AspNetCore.Authorization;
 using AdvertBoard.AppServices.Product.Services;
+using AdvertBoard.Domain;
 
 namespace AdvertBoard.Api.Controllers;
 
@@ -19,16 +20,18 @@ namespace AdvertBoard.Api.Controllers;
 public class CartController : ControllerBase
 {
     private readonly IShoppingCartService _shoppingCartService;
+    private readonly IProductService _productService;
     private readonly IUserService _userService;
     
     /// <summary>
     /// 
     /// </summary>
     /// <param name="shoppingCartService"></param>
-    public CartController(IShoppingCartService shoppingCartService, IUserService userService)
+    public CartController(IShoppingCartService shoppingCartService, IUserService userService, IProductService productService)
     {
         _shoppingCartService = shoppingCartService;
         _userService = userService;
+        _productService = productService;
     }
 
     /// <summary>
@@ -61,11 +64,10 @@ public class CartController : ControllerBase
     /// <param name="cancellationToken"></param>
     [HttpPost]
     [ProducesResponseType((int)HttpStatusCode.OK)]
-    public async Task<IActionResult> CreateAsync(CancellationToken cancellationToken)
+    public async Task<IActionResult> CreateAsync(Guid productId, int quantity, CancellationToken cancellationToken)
     {
-        var user = await _userService.GetCurrent(cancellationToken);
-
-        var result = await _shoppingCartService.CreateAsync(cancellationToken);
+        var product = await _productService.Get(productId, cancellationToken);
+        var result = await _shoppingCartService.CreateAsync(product, quantity, cancellationToken);
 
         return Ok(result);
     }

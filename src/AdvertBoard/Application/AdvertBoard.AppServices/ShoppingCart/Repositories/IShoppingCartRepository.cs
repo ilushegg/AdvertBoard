@@ -17,7 +17,7 @@ public interface IShoppingCartRepository
     /// Создает корзину.
     /// </summary>
     /// <returns>Идентификатор корзины.<see cref="ShoppingCartDto"/>.</returns>
-    Task<Guid> CreateAsync(CancellationToken cancellationToken);
+    Task<Guid> CreateAsync(Domain.Product product, int quantity, CancellationToken cancellationToken);
 
     /// <summary>
     /// Обновляет количество товара в корзине.

@@ -3,6 +3,7 @@ using System;
 using AdvertBoard.Migrations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AdvertBoard.Migrations.Migrations
 {
     [DbContext(typeof(MigrationsDbContext))]
-    partial class MigrationsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221108160334_Attempt4")]
+    partial class Attempt4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -166,7 +168,7 @@ namespace AdvertBoard.Migrations.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ProductImage", (string)null);
+                    b.ToTable("ProductImage");
                 });
 
             modelBuilder.Entity("AdvertBoard.Domain.ShoppingCart", b =>

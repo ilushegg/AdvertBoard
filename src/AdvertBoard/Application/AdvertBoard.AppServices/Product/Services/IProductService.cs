@@ -11,6 +11,14 @@ public interface IProductService
     /// <summary>
     /// 
     /// </summary>
+    /// <param name="cancellation"></param>
+    /// <returns></returns>
+    Task<Domain.Product> Get(Guid productId, CancellationToken cancellation);
+
+
+    /// <summary>
+    /// 
+    /// </summary>
     /// <param name="take"></param>
     /// <param name="skip"></param>
     /// <returns></returns>

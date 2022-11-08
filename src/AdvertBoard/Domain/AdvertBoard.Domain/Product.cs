@@ -68,7 +68,7 @@ public class Product
     /// <summary>
     /// Коллекция элементов корзины.
     /// </summary>
-    public ICollection<ShoppingCart> ShoppingCarts { get; set; }
+/*    public ICollection<ShoppingCart> ShoppingCarts { get; set; }*/
 
 
 }

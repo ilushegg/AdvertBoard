@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using AdvertBoard.AppServices.ShoppingCart.Repositories;
 using AdvertBoard.Contracts;
 using AdvertBoard.Infrastructure.Repository;
+using AdvertBoard.Domain;
 
 namespace AdvertBoard.DataAccess.EntityConfigurations.ShoppingCart;
 
@@ -23,11 +24,11 @@ public class ShoppingCartRepository : IShoppingCartRepository
     public async Task<IReadOnlyCollection<ShoppingCartDto>> GetAllAsync(CancellationToken cancellationToken)
     {
         return await _repository.GetAll()
-            .Include(s => s.Product)
+/*            .Include(s => s.Products)*/
             .Select(s => new ShoppingCartDto
             {
                 Id = s.Id,
-                ProductName = s.Product.Name,
+    /*            ProductName = s.Product.Name,*/
                 Quantity = s.Quantity,
                 Price = s.Price,
                 Amount = s.Amount
@@ -61,9 +62,14 @@ public class ShoppingCartRepository : IShoppingCartRepository
         await _repository.DeleteAsync(existingCart);
     }
 
-    public async Task<Guid> CreateAsync(CancellationToken cancellationToken)
+    public async Task<Guid> CreateAsync(Domain.Product product, int quantity, CancellationToken cancellationToken)
     {
-        var shoppingCart = new Domain.ShoppingCart();
+        var shoppingCart = new Domain.ShoppingCart{
+            ProductId = product.Id,
+            Quantity = quantity,
+            Price = product.Price,
+            Amount = product.Price * quantity
+        };
 
         await _repository.AddAsync(shoppingCart);
         return shoppingCart.Id;

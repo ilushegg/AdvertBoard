@@ -31,5 +31,7 @@ public class User
     public DateTime CreateDate { get; set; }
 
     public ICollection<Product> Products { get; set; }
+
+    public ICollection<ShoppingCart> ShoppingCarts { get; set; }
     
 }

@@ -33,5 +33,9 @@ public class ShoppingCart
     /// <summary>
     /// Товар.
     /// </summary>
-    public Product Product { get; set; }
+/*    public ICollection<Product> Products { get; set; }*/
+
+    public Guid UserId { get; set; }
+
+    public User User { get; set; }
 }

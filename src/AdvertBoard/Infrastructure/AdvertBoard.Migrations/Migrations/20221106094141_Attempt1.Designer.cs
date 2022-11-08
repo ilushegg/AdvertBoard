@@ -3,6 +3,7 @@ using System;
 using AdvertBoard.Migrations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AdvertBoard.Migrations.Migrations
 {
     [DbContext(typeof(MigrationsDbContext))]
-    partial class MigrationsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221106094141_Attempt1")]
+    partial class Attempt1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -166,7 +168,7 @@ namespace AdvertBoard.Migrations.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ProductImage", (string)null);
+                    b.ToTable("ProductImage");
                 });
 
             modelBuilder.Entity("AdvertBoard.Domain.ShoppingCart", b =>
@@ -187,12 +189,7 @@ namespace AdvertBoard.Migrations.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("integer");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uuid");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("ShoppingCarts", (string)null);
                 });
@@ -358,6 +355,21 @@ namespace AdvertBoard.Migrations.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("ProductShoppingCart", b =>
+                {
+                    b.Property<Guid>("ProductsId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("ShoppingCartsId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("ProductsId", "ShoppingCartsId");
+
+                    b.HasIndex("ShoppingCartsId");
+
+                    b.ToTable("ProductShoppingCart");
+                });
+
             modelBuilder.Entity("AdvertBoard.Domain.Product", b =>
                 {
                     b.HasOne("AdvertBoard.Domain.Category", "Category")
@@ -386,17 +398,6 @@ namespace AdvertBoard.Migrations.Migrations
                         .IsRequired();
 
                     b.Navigation("Product");
-                });
-
-            modelBuilder.Entity("AdvertBoard.Domain.ShoppingCart", b =>
-                {
-                    b.HasOne("AdvertBoard.Domain.User", "User")
-                        .WithMany("ShoppingCarts")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -450,6 +451,21 @@ namespace AdvertBoard.Migrations.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("ProductShoppingCart", b =>
+                {
+                    b.HasOne("AdvertBoard.Domain.Product", null)
+                        .WithMany()
+                        .HasForeignKey("ProductsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AdvertBoard.Domain.ShoppingCart", null)
+                        .WithMany()
+                        .HasForeignKey("ShoppingCartsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("AdvertBoard.Domain.Category", b =>
                 {
                     b.Navigation("Products");
@@ -463,8 +479,6 @@ namespace AdvertBoard.Migrations.Migrations
             modelBuilder.Entity("AdvertBoard.Domain.User", b =>
                 {
                     b.Navigation("Products");
-
-                    b.Navigation("ShoppingCarts");
                 });
 #pragma warning restore 612, 618
         }

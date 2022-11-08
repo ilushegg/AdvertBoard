@@ -15,6 +15,9 @@ public class ShoppingCartConfiguration : IEntityTypeConfiguration<Domain.Shoppin
 
         builder.HasKey(b => b.Id);
         builder.Property(b => b.Id).ValueGeneratedOnAdd();
+
+        builder.HasOne(s => s.User)
+            .WithMany(p => p.ShoppingCarts);
         
     }
 }

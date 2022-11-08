@@ -9,7 +9,7 @@
             Работа с корзиной товаров.
             </summary>
         </member>
-        <member name="M:AdvertBoard.Api.Controllers.CartController.#ctor(AdvertBoard.AppServices.ShoppingCart.Services.IShoppingCartService,AdvertBoard.AppServices.Product.Services.IUserService)">
+        <member name="M:AdvertBoard.Api.Controllers.CartController.#ctor(AdvertBoard.AppServices.ShoppingCart.Services.IShoppingCartService,AdvertBoard.AppServices.Product.Services.IUserService,AdvertBoard.AppServices.Product.Services.IProductService)">
             <summary>
             
             </summary>
@@ -26,7 +26,7 @@
             Обновляет количество товара в корзине.
             </summary>
         </member>
-        <member name="M:AdvertBoard.Api.Controllers.CartController.CreateAsync(System.Threading.CancellationToken)">
+        <member name="M:AdvertBoard.Api.Controllers.CartController.CreateAsync(System.Guid,System.Int32,System.Threading.CancellationToken)">
             <summary>
             Создает корзину.
             </summary>

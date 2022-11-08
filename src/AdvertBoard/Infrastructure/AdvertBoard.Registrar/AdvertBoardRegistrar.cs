@@ -14,6 +14,8 @@ using AdvertBoard.DataAccess.EntityConfigurations.ShoppingCart;
 using AdvertBoard.AppServices;
 using AdvertBoard.Infrastructure.Identity;
 using AdvertBoard.DataAccess.EntityConfigurations.Category;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Session;
 
 namespace AdvertBoard.Registrar;
 
@@ -21,6 +23,13 @@ public static class AdvertBoardRegistrar
 {
     public static IServiceCollection AddServices(this IServiceCollection services)
     {
+        services.AddDistributedMemoryCache();
+        services.AddSession(options =>
+        {
+            options.IdleTimeout = TimeSpan.FromMinutes(30);
+            options.Cookie.IsEssential = true;
+        });
+
         services.AddSingleton<IDateTimeService, DateTimeService>();
         services.AddSingleton<IDbContextOptionsConfigurator<AdvertBoardContext>, AdvertBoardContextConfiguration>();
         
@@ -46,6 +55,8 @@ public static class AdvertBoardRegistrar
         services.AddTransient<ICategoryRepository, CategoryRepository>();
 
         services.AddScoped<IClaimsAccessor, HttpContextClaimsAccessor>();
+
+        services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
         return services;
     }

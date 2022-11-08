@@ -3,6 +3,7 @@ using System;
 using AdvertBoard.Migrations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AdvertBoard.Migrations.Migrations
 {
     [DbContext(typeof(MigrationsDbContext))]
-    partial class MigrationsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221108155207_Attempt3")]
+    partial class Attempt3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -166,7 +168,7 @@ namespace AdvertBoard.Migrations.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ProductImage", (string)null);
+                    b.ToTable("ProductImage");
                 });
 
             modelBuilder.Entity("AdvertBoard.Domain.ShoppingCart", b =>
@@ -358,6 +360,21 @@ namespace AdvertBoard.Migrations.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("ProductShoppingCart", b =>
+                {
+                    b.Property<Guid>("ProductsId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("ShoppingCartsId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("ProductsId", "ShoppingCartsId");
+
+                    b.HasIndex("ShoppingCartsId");
+
+                    b.ToTable("ProductShoppingCart");
+                });
+
             modelBuilder.Entity("AdvertBoard.Domain.Product", b =>
                 {
                     b.HasOne("AdvertBoard.Domain.Category", "Category")
@@ -446,6 +463,21 @@ namespace AdvertBoard.Migrations.Migrations
                     b.HasOne("AdvertBoard.Domain.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ProductShoppingCart", b =>
+                {
+                    b.HasOne("AdvertBoard.Domain.Product", null)
+                        .WithMany()
+                        .HasForeignKey("ProductsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AdvertBoard.Domain.ShoppingCart", null)
+                        .WithMany()
+                        .HasForeignKey("ShoppingCartsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

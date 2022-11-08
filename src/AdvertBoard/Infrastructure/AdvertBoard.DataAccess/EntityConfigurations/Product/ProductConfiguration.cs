@@ -37,9 +37,9 @@ public class ProductConfiguration : IEntityTypeConfiguration<Domain.Product>
         builder.HasOne(s => s.User)
             .WithMany(p => p.Products)
             .HasForeignKey(s => s.UserId);
-
+/*
         builder.HasMany(p => p.ShoppingCarts)
             .WithOne(s => s.Product)
-            .HasForeignKey(s => s.ProductId);
+            .HasForeignKey(s => s.ProductId);*/
     }
 }

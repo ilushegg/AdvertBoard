@@ -95,4 +95,9 @@ public class ProductService : IProductService
         }
          
     }
+
+    public Task<Domain.Product> Get(Guid productId, CancellationToken cancellation)
+    {
+        return _productRepository.FindById(productId, cancellation);
+    }
 }
