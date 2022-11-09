@@ -1,4 +1,5 @@
 using AdvertBoard.Contracts;
+using AdvertBoard.Domain;
 
 namespace AdvertBoard.AppServices.ShoppingCart.Services;
 
@@ -13,7 +14,7 @@ public interface IShoppingCartService
     /// <returns></returns>
     Task<IReadOnlyCollection<ShoppingCartDto>> GetAsync(CancellationToken cancellationToken);
 
-    Task<Guid> CreateAsync(Domain.Product product, int quantity, CancellationToken cancellationToken);
+    Task<Guid> CreateAsync(Domain.Product product, int quantity, User user, CancellationToken cancellationToken);
 
     /// <summary>
     /// 
@@ -29,4 +30,13 @@ public interface IShoppingCartService
     /// <param name="id"></param>
     /// <returns></returns>
     Task DeleteAsync(Guid id, CancellationToken cancellationToken);
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="productId"></param>
+    /// <param name="user"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    Task<Domain.ShoppingCart> GetByProductId(Guid productId, User user, CancellationToken cancellationToken);
 }

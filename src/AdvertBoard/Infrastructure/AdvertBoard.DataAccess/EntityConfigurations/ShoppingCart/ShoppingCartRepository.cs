@@ -62,17 +62,16 @@ public class ShoppingCartRepository : IShoppingCartRepository
         await _repository.DeleteAsync(existingCart);
     }
 
-    public async Task<Guid> CreateAsync(Domain.Product product, int quantity, CancellationToken cancellationToken)
+    public async Task<Guid> CreateAsync(Domain.ShoppingCart shoppingCart,  CancellationToken cancellationToken)
     {
-        var shoppingCart = new Domain.ShoppingCart{
-            ProductId = product.Id,
-            Quantity = quantity,
-            Price = product.Price,
-            Amount = product.Price * quantity
-        };
 
         await _repository.AddAsync(shoppingCart);
         return shoppingCart.Id;
+    }
+
+    public async Task<Domain.ShoppingCart> GetByProductId(Guid productId, Guid userId, CancellationToken cancellationToken)
+    {
+        return await _repository.GetAll().Where(s => s.ProductId == productId && s.UserId == userId).FirstOrDefaultAsync();
     }
 
 }

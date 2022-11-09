@@ -17,7 +17,7 @@ public interface IShoppingCartRepository
     /// Создает корзину.
     /// </summary>
     /// <returns>Идентификатор корзины.<see cref="ShoppingCartDto"/>.</returns>
-    Task<Guid> CreateAsync(Domain.Product product, int quantity, CancellationToken cancellationToken);
+    Task<Guid> CreateAsync(Domain.ShoppingCart shoppingCart, CancellationToken cancellationToken);
 
     /// <summary>
     /// Обновляет количество товара в корзине.
@@ -31,4 +31,12 @@ public interface IShoppingCartRepository
     /// </summary>
     /// <param name="id">Идентификатор позиции корзины.</param>
     Task DeleteAsync(Guid id, CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Находит корзину товаров по идентификатору продукта.
+    /// </summary>
+    /// <param name="productId"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    Task<Domain.ShoppingCart> GetByProductId(Guid productId, Guid userId, CancellationToken cancellationToken);
 }

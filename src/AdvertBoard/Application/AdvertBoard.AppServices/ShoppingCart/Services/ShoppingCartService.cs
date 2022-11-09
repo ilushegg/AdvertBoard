@@ -1,5 +1,6 @@
 using AdvertBoard.AppServices.ShoppingCart.Repositories;
 using AdvertBoard.Contracts;
+using AdvertBoard.Domain;
 using Microsoft.AspNetCore.Http;
 using System.Web;
 
@@ -34,9 +35,18 @@ public class ShoppingCartService : IShoppingCartService
     }
 
     /// <inheritdoc />
-    public Task<Guid> CreateAsync(Domain.Product product, int quantity, CancellationToken cancellationToken)
+    public Task<Guid> CreateAsync(Domain.Product product, int quantity, User user, CancellationToken cancellationToken)
     {
-        return _shoppingCartRepository.CreateAsync(product, quantity, cancellationToken);
+        var shoppingCart = new Domain.ShoppingCart
+        {
+            ProductId = product.Id,
+            Quantity = quantity,
+            Price = product.Price,
+            Amount = product.Price * quantity,
+            User = user
+        };
+
+        return _shoppingCartRepository.CreateAsync(shoppingCart, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -49,5 +59,10 @@ public class ShoppingCartService : IShoppingCartService
     public Task DeleteAsync(Guid id, CancellationToken cancellationToken)
     {
         return _shoppingCartRepository.DeleteAsync(id, cancellationToken);
+    }
+
+    public async Task<Domain.ShoppingCart> GetByProductId(Guid productId, User user, CancellationToken cancellationToken)
+    {
+        return await _shoppingCartRepository.GetByProductId(productId, user.Id, cancellationToken);
     }
 }

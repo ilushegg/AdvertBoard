@@ -67,7 +67,8 @@ public class CartController : ControllerBase
     public async Task<IActionResult> CreateAsync(Guid productId, int quantity, CancellationToken cancellationToken)
     {
         var product = await _productService.Get(productId, cancellationToken);
-        var result = await _shoppingCartService.CreateAsync(product, quantity, cancellationToken);
+        var user = await _userService.GetCurrent(cancellationToken);
+        var result = await _shoppingCartService.CreateAsync(product, quantity, user, cancellationToken);
 
         return Ok(result);
     }
@@ -82,7 +83,9 @@ public class CartController : ControllerBase
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     public async Task<IActionResult> DeleteAsync(Guid id, CancellationToken cancellationToken)
     {
-        await _shoppingCartService.DeleteAsync(id, cancellationToken);
+        var user = await _userService.GetCurrent(cancellationToken);
+        var shoppingCart = await _shoppingCartService.GetByProductId(id, user, cancellationToken);
+        await _shoppingCartService.DeleteAsync(shoppingCart.Id, cancellationToken);
         return NoContent();
     }
 }
