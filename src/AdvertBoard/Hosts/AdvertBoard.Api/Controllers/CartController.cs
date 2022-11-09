@@ -54,21 +54,23 @@ public class CartController : ControllerBase
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     public async Task<IActionResult> UpdateQuantityAsync(Guid id, int quantity, CancellationToken cancellationToken)
     {
-        await _shoppingCartService.UpdateQuantityAsync(id, quantity, cancellationToken);
+        var user = await _userService.GetCurrent(cancellationToken);
+        var shoppingCart = await _shoppingCartService.GetByProductId(id, user, cancellationToken);
+        await _shoppingCartService.UpdateQuantityAsync(shoppingCart.Id, id, quantity, cancellationToken);
         return NoContent();
     }
 
     /// <summary>
-    /// Создает корзину.
+    /// Добавляет товар в корзину.
     /// </summary>
     /// <param name="cancellationToken"></param>
     [HttpPost]
     [ProducesResponseType((int)HttpStatusCode.OK)]
-    public async Task<IActionResult> CreateAsync(Guid productId, int quantity, CancellationToken cancellationToken)
+    public async Task<IActionResult> AddAsync(Guid productId, int quantity, CancellationToken cancellationToken)
     {
         var product = await _productService.Get(productId, cancellationToken);
         var user = await _userService.GetCurrent(cancellationToken);
-        var result = await _shoppingCartService.CreateAsync(product, quantity, user, cancellationToken);
+        var result = await _shoppingCartService.AddAsync(product, quantity, user, cancellationToken);
 
         return Ok(result);
     }

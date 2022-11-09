@@ -24,7 +24,7 @@ public interface IShoppingCartRepository
     /// </summary>
     /// <param name="id">Идентификатор позиции корзины.</param>
     /// <param name="quantity">Новое количество товара.</param>
-    Task UpdateQuantityAsync(Guid id, int quantity, CancellationToken cancellationToken);
+    Task UpdateQuantityAsync(Guid shoppingCartId, Guid productId, int quantity, CancellationToken cancellationToken);
     
     /// <summary>
     /// Удаляет товар из корзины.

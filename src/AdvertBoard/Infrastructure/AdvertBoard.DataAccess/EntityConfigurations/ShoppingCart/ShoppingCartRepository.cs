@@ -36,13 +36,13 @@ public class ShoppingCartRepository : IShoppingCartRepository
     }
 
     /// <inheritdoc />
-    public async Task UpdateQuantityAsync(Guid id, int quantity, CancellationToken cancellationToken)
+    public async Task UpdateQuantityAsync(Guid shoppingCartId, Guid productId, int quantity, CancellationToken cancellationToken)
     {
-        var existingCart = await _repository.GetByIdAsync(id);
+        var existingCart = await _repository.GetByIdAsync(shoppingCartId);
 
         if (existingCart == null)
         {
-            throw new InvalidOperationException($"Корзины с идентификатором {id} не найдено!");
+            throw new InvalidOperationException($"Корзины с идентификатором {shoppingCartId} не найдено!");
         }
         
         existingCart.Quantity = quantity;
