@@ -4,6 +4,7 @@ using AdvertBoard.AppServices.Product.Services;
 using AdvertBoard.Contracts;
 using Microsoft.AspNetCore.Authorization;
 using AdvertBoard.Domain;
+using AdvertBoard.AppServices.ProductImage.Services;
 
 namespace AdvertBoard.Api.Controllers;
 
@@ -16,11 +17,13 @@ public class ProductController : ControllerBase
 {
     private readonly IProductService _productService;
     private readonly IUserService _userService;
+    private readonly IProductImageService _productImageService;
 
-    public ProductController(IProductService productService, IUserService userService)
+    public ProductController(IProductService productService, IUserService userService, IProductImageService productImageService)
     {
         _productService = productService;
         _userService = userService;
+        _productImageService = productImageService;
     }
 
     /// <summary>
@@ -47,12 +50,12 @@ public class ProductController : ControllerBase
     [HttpPost]
     [Authorize]
     [ProducesResponseType(StatusCodes.Status201Created)]
-    public async Task<IActionResult> Add(string name, string description, decimal price, string category, CancellationToken cancellation)
+    public async Task<IActionResult> Add(string name, string description, decimal price, string category, IFormFile file, CancellationToken cancellationToken)
     {
-        var user = await _userService.GetCurrent(cancellation);
-        Console.WriteLine("USER : " + user.Name);
+        var user = await _userService.GetCurrent(cancellationToken);
        
-        var result = await _productService.AddAsync(name, description, price, category, user, cancellation);
+        var result = await _productService.AddAsync(name, description, price, category, user, cancellationToken);
+        await _productImageService.AddAsync(result, file, cancellationToken);
         return Created("", new { });
     }
 

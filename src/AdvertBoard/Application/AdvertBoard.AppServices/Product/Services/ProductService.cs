@@ -34,7 +34,7 @@ public class ProductService : IProductService
     }
 
     /// <inheritdoc />
-    public async Task<bool> AddAsync(string name, string description, decimal price, string categoryName, User user, CancellationToken cancellation = default) 
+    public async Task<Guid> AddAsync(string name, string description, decimal price, string categoryName, User user, CancellationToken cancellation = default) 
     {
         var product = new Domain.Product
         {
@@ -62,7 +62,7 @@ public class ProductService : IProductService
         product.Category = category;
 
         _productRepository.Add(product, cancellation);
-        return true;
+        return product.Id;
     }
 
     public async Task<bool> EditAsync(Guid productId, string name, string description, decimal price, Guid categoryId, CancellationToken cancellation)

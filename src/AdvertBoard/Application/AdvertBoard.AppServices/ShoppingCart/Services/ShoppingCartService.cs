@@ -1,3 +1,4 @@
+using AdvertBoard.AppServices.Product.Repositories;
 using AdvertBoard.AppServices.ShoppingCart.Repositories;
 using AdvertBoard.Contracts;
 using AdvertBoard.Domain;
@@ -10,15 +11,17 @@ namespace AdvertBoard.AppServices.ShoppingCart.Services;
 public class ShoppingCartService : IShoppingCartService
 {
     private readonly IShoppingCartRepository _shoppingCartRepository;
+    private readonly IProductRepository _productRepository;
 
-    public ShoppingCartService(IShoppingCartRepository shoppingCartRepository)
+    public ShoppingCartService(IShoppingCartRepository shoppingCartRepository, IProductRepository productRepository)
     {
         _shoppingCartRepository = shoppingCartRepository;
+        _productRepository = productRepository;
 
     }
 
     /// <inheritdoc />
-    public Task<IReadOnlyCollection<ShoppingCartDto>> GetAsync(CancellationToken cancellationToken)
+    public async Task<IReadOnlyCollection<ShoppingCartDto>> GetAsync(Guid userId, CancellationToken cancellationToken)
     {
         /* ISession session = _contextAccessor.HttpContext.Session;
          Guid shoppingCartId = session[CartSe]
@@ -27,7 +30,21 @@ public class ShoppingCartService : IShoppingCartService
         {
 
         }*/
-        return _shoppingCartRepository.GetAllAsync(cancellationToken);
+        var shoppingCart = await _shoppingCartRepository.GetAllAsync(userId, cancellationToken);
+        var shoppingCartDto = new List<ShoppingCartDto>();
+        foreach(Domain.ShoppingCart s in shoppingCart)
+        {
+            var product = await _productRepository.FindById(s.ProductId, cancellationToken);
+            shoppingCartDto.Add(new ShoppingCartDto
+            {
+                Id = s.ProductId,
+                ProductName = product.Name,
+                Quantity = s.Quantity,
+                Price = product.Price,
+                Amount = s.Amount
+            });
+        }
+        return shoppingCartDto; 
 
 
     }

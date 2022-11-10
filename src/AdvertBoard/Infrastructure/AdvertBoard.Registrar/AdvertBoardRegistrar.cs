@@ -16,6 +16,10 @@ using AdvertBoard.Infrastructure.Identity;
 using AdvertBoard.DataAccess.EntityConfigurations.Category;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Session;
+using AdvertBoard.AppServices.ProductImage.Services;
+using AdvertBoard.AppServices.ProductImage.Repositories;
+using AdvertBoard.DataAccess.EntityConfigurations.ProductImage;
+using AdvertBoard.Infrastructure.FileService;
 
 namespace AdvertBoard.Registrar;
 
@@ -53,6 +57,11 @@ public static class AdvertBoardRegistrar
 
 
         services.AddTransient<ICategoryRepository, CategoryRepository>();
+
+        services.AddTransient<IProductImageService, ProductImageService>();
+        services.AddTransient<IProductImageRepository, ProductImageRepository>();
+
+        services.AddScoped<IFileService, FileService>();
 
         services.AddScoped<IClaimsAccessor, HttpContextClaimsAccessor>();
 

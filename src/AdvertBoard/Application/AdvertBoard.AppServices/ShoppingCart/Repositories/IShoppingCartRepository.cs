@@ -11,7 +11,7 @@ public interface IShoppingCartRepository
     /// Возвращает все элементы корзины.
     /// </summary>
     /// <returns>Коллекция элементов корзины <see cref="ShoppingCartDto"/>.</returns>
-    Task<IReadOnlyCollection<ShoppingCartDto>> GetAllAsync(CancellationToken cancellationToken);
+    Task<IReadOnlyCollection<Domain.ShoppingCart>> GetAllAsync(Guid userId, CancellationToken cancellationToken);
 
     /// <summary>
     /// Создает корзину.

@@ -1,6 +1,7 @@
 using AdvertBoard.AppServices.Product.Repositories;
 using AdvertBoard.Contracts;
 using AdvertBoard.Domain;
+using AdvertBoard.Infrastructure.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;

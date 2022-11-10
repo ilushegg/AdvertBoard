@@ -52,7 +52,7 @@
             <param name="cancellation"></param>
             <returns></returns>
         </member>
-        <member name="M:AdvertBoard.Api.Controllers.ProductController.Add(System.String,System.String,System.Decimal,System.String,System.Threading.CancellationToken)">
+        <member name="M:AdvertBoard.Api.Controllers.ProductController.Add(System.String,System.String,System.Decimal,System.String,Microsoft.AspNetCore.Http.IFormFile,System.Threading.CancellationToken)">
             <summary>
             Добавляет товар.
             </summary>

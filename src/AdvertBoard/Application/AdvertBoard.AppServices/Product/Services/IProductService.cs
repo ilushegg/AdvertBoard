@@ -45,5 +45,5 @@ public interface IProductService
 
 
     Task<bool> DeleteAsync(Guid productId, CancellationToken cancellation);
-    Task<bool> AddAsync(string name, string description, decimal price, string categoryName, User user, CancellationToken cancellation = default);
+    Task<Guid> AddAsync(string name, string description, decimal price, string categoryName, User user, CancellationToken cancellation = default);
 }

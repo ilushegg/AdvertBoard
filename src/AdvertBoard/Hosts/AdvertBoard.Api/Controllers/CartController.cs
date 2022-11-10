@@ -42,7 +42,9 @@ public class CartController : ControllerBase
     [ProducesResponseType(typeof(IReadOnlyCollection<ShoppingCartDto>), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> GetAsync(CancellationToken cancellationToken)
     {
-        var result = await _shoppingCartService.GetAsync(cancellationToken);
+        var user = await _userService.GetCurrent(cancellationToken);
+
+        var result = await _shoppingCartService.GetAsync(user.Id, cancellationToken);
         return Ok(result);
     }
     
