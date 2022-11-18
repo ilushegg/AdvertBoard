@@ -65,7 +65,7 @@ public class ProductService : IProductService
         return product.Id;
     }
 
-    public async Task<bool> EditAsync(Guid productId, string name, string description, decimal price, Guid categoryId, CancellationToken cancellation)
+    public async Task<Guid> EditAsync(Guid productId, string name, string description, decimal price, Guid categoryId, CancellationToken cancellation)
     {
         var product = await _productRepository.FindById(productId, cancellation);
         if (product == null)
@@ -78,7 +78,8 @@ public class ProductService : IProductService
             product.Price = price;
             product.Description = description;
             product.DateTimeUpdated = DateTime.UtcNow;
-            return await _productRepository.EditAsync(product, cancellation);
+            await _productRepository.EditAsync(product, cancellation);
+            return product.Id;
         }
     }
 

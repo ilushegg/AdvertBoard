@@ -66,9 +66,10 @@ public class ProductController : ControllerBase
     [HttpPut]
     [Authorize]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<IActionResult> Edit(Guid productId, string name, string description, decimal price, Guid categoryId, CancellationToken cancellation)
+    public async Task<IActionResult> Edit(Guid productId, string name, string description, decimal price, Guid categoryId, Guid imageId, IFormFile file, CancellationToken cancellationToken)
     {
-        var result = await _productService.EditAsync(productId, name, description, price, categoryId, cancellation);
+        var result = await _productService.EditAsync(productId, name, description, price, categoryId, cancellationToken);
+        await _productImageService.EditAsync(imageId, file, cancellationToken);
         return Ok(result);
     }
 

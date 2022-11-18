@@ -28,6 +28,7 @@ public class User
     /// <summary>
     /// Дата регистрации.
     /// </summary>
+    
     public DateTime CreateDate { get; set; }
 
     public ICollection<Product> Products { get; set; }

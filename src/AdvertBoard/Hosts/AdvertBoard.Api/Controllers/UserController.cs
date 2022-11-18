@@ -31,17 +31,17 @@ public class UserController : ControllerBase
 
     [HttpPost("register")]
     [ProducesResponseType(StatusCodes.Status201Created)]
-    public async Task<IActionResult> Register(string login, string password, CancellationToken cancellationToken)
+    public async Task<IActionResult> Register(RegisterUserDto userDto)
     {
-        var user = await _userService.Register(login, password, cancellationToken);
+        var user = await _userService.Register(userDto.login, userDto.password, new CancellationToken());
         return Created("", new { });
     }
 
     [HttpPost("login")]
     [ProducesResponseType(StatusCodes.Status201Created)]
-    public async Task<IActionResult> Login(string login, string password, CancellationToken cancellationToken)
+    public async Task<IActionResult> Login(LoginUserDto userDto, CancellationToken cancellationToken)
     {
-        var token = await _userService.Login(login, password, cancellationToken);
+        var token = await _userService.Login(userDto.login, userDto.password, cancellationToken);
         return Ok(token);
     }
 
