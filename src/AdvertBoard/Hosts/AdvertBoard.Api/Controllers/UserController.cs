@@ -42,7 +42,10 @@ public class UserController : ControllerBase
     public async Task<IActionResult> Login(LoginUserDto userDto, CancellationToken cancellationToken)
     {
         var token = await _userService.Login(userDto.login, userDto.password, cancellationToken);
-        return Ok(token);
+        return Ok(new
+        {
+            accessToken = token
+        });
     }
 
 }

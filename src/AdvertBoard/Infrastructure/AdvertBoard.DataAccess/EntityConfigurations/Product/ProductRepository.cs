@@ -28,6 +28,7 @@ public class ProductRepository : IProductRepository
                 Id = p.Id,
                 Name = p.Name,
                 Description = p.Description,
+                CategoryId = p.Category.Id,
                 Price = p.Price
             })
             .Take(take).Skip(skip).ToListAsync(cancellation);
@@ -54,7 +55,8 @@ public class ProductRepository : IProductRepository
                 Id = p.Id,
                 Name = p.Name,
                 Description = p.Description,
-                Price = p.Price
+                Price = p.Price,
+                CategoryId = p.CategoryId
             }).ToListAsync(cancellation);
     }
 

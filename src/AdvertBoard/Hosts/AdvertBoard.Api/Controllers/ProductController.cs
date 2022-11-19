@@ -35,9 +35,9 @@ public class ProductController : ControllerBase
     /// <returns></returns>
     [HttpGet]
     [ProducesResponseType(typeof(IReadOnlyCollection<ProductDto>), StatusCodes.Status201Created)]
-    public async Task<IActionResult> GetAll(int take, int skip, CancellationToken cancellation)
+    public async Task<IActionResult> GetAll([FromQuery]PaginationDto paginationDto, CancellationToken cancellation)
     {
-        var result = await _productService.GetAll(take, skip, cancellation);
+        var result = await _productService.GetAll(paginationDto.Limit, paginationDto.Offset, cancellation);
 
         return Ok(result);
     }

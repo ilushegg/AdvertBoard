@@ -43,7 +43,7 @@
             Работа с корзиной товаров.
             </summary>
         </member>
-        <member name="M:AdvertBoard.Api.Controllers.ProductController.GetAll(System.Int32,System.Int32,System.Threading.CancellationToken)">
+        <member name="M:AdvertBoard.Api.Controllers.ProductController.GetAll(AdvertBoard.Contracts.PaginationDto,System.Threading.CancellationToken)">
             <summary>
             Возвращает все товары.
             </summary>
