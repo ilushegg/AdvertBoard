@@ -29,6 +29,16 @@ public class UserService : IUserService
         _configuration = configuration;
     }
 
+    public async Task<UserDto> GetById(Guid id, CancellationToken cancellationToken)
+    {
+        var user = await _userRepository.FindById(id, cancellationToken);
+        return new UserDto
+        {
+            Id = user.Id,
+            Name = user.Name
+        };
+    }
+
     public async Task<User> GetCurrent(CancellationToken cancellationToken)
     {
         var claims = await _claimsAccessor.GetClaims(cancellationToken);
@@ -50,15 +60,15 @@ public class UserService : IUserService
         return user;
     }
 
-    public async Task<string> Login(string login, string password, CancellationToken cancellationToken)
+    public async Task<(string token, Guid userId)> Login(LoginUserDto userDto, CancellationToken cancellationToken)
     {
-        var user = await _userRepository.FindWhere(user => user.Login == login, cancellationToken);
+        var user = await _userRepository.FindWhere(user => user.Name == userDto.Login, cancellationToken);
         if (user == null)
         {
             throw new Exception("Пользователь не найден.");
         }
 
-        if (!user.Password.Equals(password))
+        if (!user.Password.Equals(userDto.Password))
         {
             throw new Exception("Нет прав.");
         }
@@ -66,7 +76,8 @@ public class UserService : IUserService
         var claims = new List<Claim>
         {
             new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-            new Claim(ClaimTypes.Name, user.Login)
+            new Claim(ClaimTypes.Name, user.Name),
+            new Claim(ClaimTypes.Email, user.Email)
         };
         var secretKey = _configuration["Token:SecretKey"];
         var token = new JwtSecurityToken(
@@ -79,25 +90,25 @@ public class UserService : IUserService
             );
 
         var result = new JwtSecurityTokenHandler().WriteToken(token);
-        return result;
+        return (result, user.Id);
     }
 
-    public async Task<Guid> Register(string login, string password, CancellationToken cancellationToken)
+    public async Task<Guid> Register(RegisterUserDto userDto, CancellationToken cancellationToken)
     {
-        var user = await _userRepository.FindWhere(user => user.Login == login, cancellationToken);
+        var user = await _userRepository.FindWhere(user => user.Email == userDto.Email, cancellationToken);
         if(user == null)
         {
             user = new User
             {
-                Name = login,
-                Login = login,
-                Password = password,
+                Name = userDto.Name,
+                Email = userDto.Email,
+                Password = userDto.Password,
                 CreateDate = DateTime.UtcNow
             };
         }
         else
         {
-            throw new Exception($"Пользователь с логином '{login}' уже зарегестрирован");
+            throw new Exception($"Пользователь с электронным адресом '{userDto.Email}' уже зарегестрирован");
         }
 
         await _userRepository.Add(user);

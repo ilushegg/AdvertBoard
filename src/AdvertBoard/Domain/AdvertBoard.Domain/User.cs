@@ -16,14 +16,19 @@ public class User
     public string Name { get; set; }
 
     /// <summary>
-    /// Логин.
+    /// Эл. адрес.
     /// </summary>
-    public string Login { get; set; }
+    public string Email { get; set; }
     
     /// <summary>
     /// Пароль.
     /// </summary>
     public string Password { get; set; }
+
+    /// <summary>
+    /// Аватар.
+    /// </summary>
+    public UserAvatar Avatar { get; set; }
 
     /// <summary>
     /// Дата регистрации.

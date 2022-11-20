@@ -43,6 +43,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NewFolder1", "NewFolder1", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdvertBoard.DataAccess", "src\AdvertBoard\Infrastructure\AdvertBoard.DataAccess\AdvertBoard.DataAccess.csproj", "{2F6C001A-9296-4B1F-8887-1EE382A922E2}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdvertBoard.Migrations", "src\AdvertBoard\Infrastructure\AdvertBoard.Migrations\AdvertBoard.Migrations.csproj", "{AC692B4A-1DE7-433E-B13B-DB93DF8A53F4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdvertBoard.Registrar", "src\AdvertBoard\Infrastructure\AdvertBoard.Registrar\AdvertBoard.Registrar.csproj", "{D2ABAC65-FB6F-4FCC-98B6-ABC338EFFD9C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -77,6 +81,14 @@ Global
 		{2F6C001A-9296-4B1F-8887-1EE382A922E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2F6C001A-9296-4B1F-8887-1EE382A922E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2F6C001A-9296-4B1F-8887-1EE382A922E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC692B4A-1DE7-433E-B13B-DB93DF8A53F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC692B4A-1DE7-433E-B13B-DB93DF8A53F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC692B4A-1DE7-433E-B13B-DB93DF8A53F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC692B4A-1DE7-433E-B13B-DB93DF8A53F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D2ABAC65-FB6F-4FCC-98B6-ABC338EFFD9C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2ABAC65-FB6F-4FCC-98B6-ABC338EFFD9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2ABAC65-FB6F-4FCC-98B6-ABC338EFFD9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2ABAC65-FB6F-4FCC-98B6-ABC338EFFD9C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -97,6 +109,8 @@ Global
 		{0D3BBEAE-1E20-4812-B7D1-06CADBC7CA74} = {6B34C92E-5678-434C-8359-2188E6A8262B}
 		{CC058D46-2344-40FA-A630-BB578274A2D3} = {51A1C00C-FB75-492E-9B8F-B67654B9730F}
 		{2F6C001A-9296-4B1F-8887-1EE382A922E2} = {51A1C00C-FB75-492E-9B8F-B67654B9730F}
+		{AC692B4A-1DE7-433E-B13B-DB93DF8A53F4} = {51A1C00C-FB75-492E-9B8F-B67654B9730F}
+		{D2ABAC65-FB6F-4FCC-98B6-ABC338EFFD9C} = {51A1C00C-FB75-492E-9B8F-B67654B9730F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {28167FBD-3ACD-4C6B-A70A-FC88313C5B7E}

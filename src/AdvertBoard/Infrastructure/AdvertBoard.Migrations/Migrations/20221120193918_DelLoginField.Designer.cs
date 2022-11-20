@@ -3,6 +3,7 @@ using System;
 using AdvertBoard.Migrations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AdvertBoard.Migrations.Migrations
 {
     [DbContext(typeof(MigrationsDbContext))]
-    partial class MigrationsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221120193918_DelLoginField")]
+    partial class DelLoginField
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -221,26 +223,6 @@ namespace AdvertBoard.Migrations.Migrations
                     b.ToTable("Users", (string)null);
                 });
 
-            modelBuilder.Entity("AdvertBoard.Domain.UserAvatar", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("FilePath")
-                        .HasColumnType("text");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId")
-                        .IsUnique();
-
-                    b.ToTable("UserAvatar");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -414,17 +396,6 @@ namespace AdvertBoard.Migrations.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("AdvertBoard.Domain.UserAvatar", b =>
-                {
-                    b.HasOne("AdvertBoard.Domain.User", "User")
-                        .WithOne("Avatar")
-                        .HasForeignKey("AdvertBoard.Domain.UserAvatar", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -488,9 +459,6 @@ namespace AdvertBoard.Migrations.Migrations
 
             modelBuilder.Entity("AdvertBoard.Domain.User", b =>
                 {
-                    b.Navigation("Avatar")
-                        .IsRequired();
-
                     b.Navigation("Products");
 
                     b.Navigation("ShoppingCarts");

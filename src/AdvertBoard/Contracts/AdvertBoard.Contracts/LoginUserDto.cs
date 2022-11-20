@@ -8,8 +8,8 @@ namespace AdvertBoard.Contracts
 {
     public class LoginUserDto
     {
-        public string login { get; set; }
+        public string Login { get; set; }
 
-        public string password { get; set; }
+        public string Password { get; set; }
     }
 }

@@ -18,7 +18,7 @@ public class UserConfiguration : IEntityTypeConfiguration<Domain.User>
 
         builder.Property(b => b.Name).HasMaxLength(100);
 
-        builder.Property(b => b.Login).HasMaxLength(50);
+        builder.Property(b => b.Email).HasMaxLength(50);
         
         builder.Property(b => b.Password).HasMaxLength(100);
 

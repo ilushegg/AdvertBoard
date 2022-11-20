@@ -29,11 +29,18 @@ public class UserController : ControllerBase
         _userService = userService;
     }
 
+    [HttpGet("get_by_id")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetById(Guid id, CancellationToken cancellationToken)
+    {
+        return Ok(await _userService.GetById(id, cancellationToken));
+    }
+
     [HttpPost("register")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     public async Task<IActionResult> Register(RegisterUserDto userDto)
     {
-        var user = await _userService.Register(userDto.login, userDto.password, new CancellationToken());
+        var user = await _userService.Register(userDto, new CancellationToken());
         return Created("", new { });
     }
 
@@ -41,10 +48,11 @@ public class UserController : ControllerBase
     [ProducesResponseType(StatusCodes.Status201Created)]
     public async Task<IActionResult> Login(LoginUserDto userDto, CancellationToken cancellationToken)
     {
-        var token = await _userService.Login(userDto.login, userDto.password, cancellationToken);
+        var result = await _userService.Login(userDto, cancellationToken);
         return Ok(new
         {
-            accessToken = token
+            accessToken = result.token,
+            id = result.userId
         });
     }
 

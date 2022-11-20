@@ -6,15 +6,23 @@ namespace AdvertBoard.AppServices.Product.Services;
 /// <summary>
 /// Сервис для работы с товарами
 /// </summary>
-public interface IUserService
-{
+public interface IUserService { 
+
+    /// <summary>
+    /// Получение пользователя по ID.
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    Task<UserDto> GetById(Guid id, CancellationToken cancellationToken);
+
     /// <summary>
     /// Регистрация.
     /// </summary>
     /// <param name="Login">Логин.</param>
     /// <param name="Password">Пароль.</param>
     /// <returns>Идентификатор пользователя.</returns>
-    Task<Guid> Register(string login, string password, CancellationToken cancellationToken);
+    Task<Guid> Register(RegisterUserDto userDto, CancellationToken cancellationToken);
 
     /// <summary>
     /// Логин.
@@ -22,7 +30,7 @@ public interface IUserService
     /// <param name="Login">Логин.</param>
     /// <param name="Password">Пароль.</param>
     /// <returns>Токен.</returns>
-    Task<string> Login(string login, string password, CancellationToken cancellationToken);
+    Task<(string token, Guid userId)> Login(LoginUserDto userDto, CancellationToken cancellationToken);
 
     /// <summary>
     /// Получить текущего пользователя.
