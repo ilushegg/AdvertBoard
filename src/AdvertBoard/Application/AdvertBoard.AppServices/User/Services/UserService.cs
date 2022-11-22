@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using System.Net;
 using System.Security.Claims;
 using System.Text;
 
@@ -62,21 +63,21 @@ public class UserService : IUserService
 
     public async Task<(string token, Guid userId)> Login(LoginUserDto userDto, CancellationToken cancellationToken)
     {
-        var user = await _userRepository.FindWhere(user => user.Name == userDto.Login, cancellationToken);
+        var user = await _userRepository.FindWhere(user => user.Email == userDto.Email, cancellationToken);
         if (user == null)
         {
-            throw new Exception("Пользователь не найден.");
+            throw new HttpRequestException("Пользователь с таким логином не найден");
+               
         }
 
         if (!user.Password.Equals(userDto.Password))
         {
-            throw new Exception("Нет прав.");
+            throw new Exception("Неверный пароль.");
         }
 
         var claims = new List<Claim>
         {
             new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-            new Claim(ClaimTypes.Name, user.Name),
             new Claim(ClaimTypes.Email, user.Email)
         };
         var secretKey = _configuration["Token:SecretKey"];
