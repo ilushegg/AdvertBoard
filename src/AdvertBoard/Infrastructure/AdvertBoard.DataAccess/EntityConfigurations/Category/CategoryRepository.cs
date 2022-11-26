@@ -1,4 +1,7 @@
-﻿using AdvertBoard.Infrastructure.Repository;
+﻿using AdvertBoard.AppServices.Category.Repositories;
+using AdvertBoard.Contracts;
+using AdvertBoard.Infrastructure.Repository;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,27 +19,49 @@ namespace AdvertBoard.DataAccess.EntityConfigurations.Category
             _repository = repository;
         }
 
-        public async Task<Domain.Category> FindById(Guid categoryId, CancellationToken cancellation)
+        public async Task<IReadOnlyCollection<CategoryDto>> GetAll(CancellationToken cancellation)
+        {
+            return await _repository.GetAll().Select(c => new CategoryDto
+            {
+                Key = c.Id,
+                Title = c.Name,
+                ParentCategoryId = c.ParentCategoryId
+            }).ToListAsync(cancellation);
+        }
+
+        public async Task<CategoryDto> FindById(Guid categoryId, CancellationToken cancellation)
         {
             var result = await _repository.GetByIdAsync(categoryId);
-            return result;
+            return new CategoryDto
+            {
+                Key = result.Id,
+                Title = result.Name
+            };
         }
 
-        public async Task<Domain.Category> FindByName(string name, CancellationToken cancellation)
+        public async Task<CategoryDto> FindByName(string name, CancellationToken cancellation)
         {
             var result = _repository.GetAll().Where(c => c.Name == name).FirstOrDefault();
-            return result;
+            return new CategoryDto
+            {
+                Key = result.Id,
+                Title = result.Name
+            };
         }
 
-        public async Task<bool> AddAsync(Domain.Category category, CancellationToken cancellation)
+        public async Task AddAsync(Domain.Category category, CancellationToken cancellation)
         {
             var result = _repository.AddAsync(category);
-            return true;
         }
 
-        public void Add(Domain.Category category, CancellationToken cancellation)
+        public async Task EditAsync(Domain.Category category, CancellationToken cancellation)
         {
-            _repository.Add(category);
+            var result = _repository.UpdateAsync(category);
+        }
+
+        public async Task DeleteAsync(Domain.Category category, CancellationToken cancellation)
+        {
+            await _repository.DeleteAsync(category);
         }
 
     }

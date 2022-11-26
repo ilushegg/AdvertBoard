@@ -38,6 +38,24 @@
             </summary>
             <param name="id">Идентификатор товара в корзине.</param>
         </member>
+        <member name="T:AdvertBoard.Api.Controllers.CategoryController">
+            <summary>
+            Работа с категориями.
+            </summary>
+        </member>
+        <member name="M:AdvertBoard.Api.Controllers.CategoryController.#ctor(AdvertBoard.AppServices.Product.Services.ICategoryService)">
+            <summary>
+            
+            </summary>
+            <param name="shoppingCartService"></param>
+        </member>
+        <member name="M:AdvertBoard.Api.Controllers.CategoryController.GetAllAsync(System.Threading.CancellationToken)">
+            <summary>
+            Возвращает категории.
+            </summary>
+            <param name="cancellation"></param>
+            <returns></returns>
+        </member>
         <member name="T:AdvertBoard.Api.Controllers.ProductController">
             <summary>
             Работа с корзиной товаров.
@@ -52,7 +70,7 @@
             <param name="cancellation"></param>
             <returns></returns>
         </member>
-        <member name="M:AdvertBoard.Api.Controllers.ProductController.Add(System.String,System.String,System.Decimal,System.String,Microsoft.AspNetCore.Http.IFormFile,System.Threading.CancellationToken)">
+        <member name="M:AdvertBoard.Api.Controllers.ProductController.Add(AdvertBoard.Contracts.AddProductModel,System.Threading.CancellationToken)">
             <summary>
             Добавляет товар.
             </summary>
@@ -83,6 +101,36 @@
             
             </summary>
             <param name="shoppingCartService"></param>
+        </member>
+        <member name="T:AdvertBoard.Contracts.AddProductModel">
+            <summary>
+            Товар
+            </summary>
+        </member>
+        <member name="P:AdvertBoard.Contracts.AddProductModel.Name">
+            <summary>
+            Наименование.
+            </summary>
+        </member>
+        <member name="P:AdvertBoard.Contracts.AddProductModel.Description">
+            <summary>
+            Описание.
+            </summary>
+        </member>
+        <member name="P:AdvertBoard.Contracts.AddProductModel.Price">
+            <summary>
+            Цена.
+            </summary>
+        </member>
+        <member name="P:AdvertBoard.Contracts.AddProductModel.CategoryId">
+            <summary>
+            Категория.
+            </summary>
+        </member>
+        <member name="P:AdvertBoard.Contracts.AddProductModel.Images">
+            <summary>
+            Изображения.
+            </summary>
         </member>
     </members>
 </doc>

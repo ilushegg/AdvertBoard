@@ -1,6 +1,6 @@
+using AdvertBoard.AppServices.Category.Repositories;
 using AdvertBoard.AppServices.Product.Repositories;
 using AdvertBoard.Contracts;
-using AdvertBoard.DataAccess.EntityConfigurations.Category;
 using AdvertBoard.Domain;
 
 namespace AdvertBoard.AppServices.Product.Services;
@@ -34,7 +34,7 @@ public class ProductService : IProductService
     }
 
     /// <inheritdoc />
-    public async Task<Guid> AddAsync(string name, string description, decimal price, string categoryName, User user, CancellationToken cancellation = default) 
+    public async Task<Guid> AddAsync(string name, string description, decimal price, Guid categoryId, User user, CancellationToken cancellation = default) 
     {
         var product = new Domain.Product
         {
@@ -47,9 +47,9 @@ public class ProductService : IProductService
             DateTimePublish = DateTime.UtcNow
         };
             
-        var category = await _categoryRepository.FindByName(categoryName, cancellation);
+        var category = await _categoryRepository.FindById(categoryId, cancellation);
 
-        if (category == null)
+      /*  if (category == null)
         {
             category = new Category
             {
@@ -57,9 +57,9 @@ public class ProductService : IProductService
                         
             };
             _categoryRepository.Add(category, cancellation);
-        }
+        }*/
 
-        product.Category = category;
+        product.CategoryId = category.Key;
 
         _productRepository.Add(product, cancellation);
         return product.Id;

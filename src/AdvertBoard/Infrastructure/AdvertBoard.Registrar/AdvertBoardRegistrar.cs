@@ -21,6 +21,7 @@ using AdvertBoard.AppServices.ProductImage.Repositories;
 using AdvertBoard.DataAccess.EntityConfigurations.ProductImage;
 using AdvertBoard.Infrastructure.FileService;
 using AdvertBoard.DataAccess.EntityConfigurations.UserAvatar;
+using AdvertBoard.AppServices.Category.Repositories;
 
 namespace AdvertBoard.Registrar;
 
@@ -56,14 +57,14 @@ public static class AdvertBoardRegistrar
         services.AddTransient<IProductService, ProductService>();
         services.AddTransient<IProductRepository, ProductRepository>();
 
-
-        services.AddTransient<ICategoryRepository, CategoryRepository>();
-
         services.AddTransient<IProductImageService, ProductImageService>();
         services.AddTransient<IProductImageRepository, ProductImageRepository>();
 
         services.AddTransient<IUserAvatarService, UserAvatarService>();
         services.AddTransient<IUserAvatarRepository, UserAvatarRepository>();
+
+        services.AddTransient<ICategoryService, CategoryService>();
+        services.AddTransient<ICategoryRepository, CategoryRepository>();
 
         services.AddScoped<IFileService, FileService>();
 

@@ -18,6 +18,7 @@ public class ProductController : ControllerBase
     private readonly IProductService _productService;
     private readonly IUserService _userService;
     private readonly IProductImageService _productImageService;
+    private readonly ICategoryService _categoryService;
 
     public ProductController(IProductService productService, IUserService userService, IProductImageService productImageService)
     {
@@ -47,15 +48,19 @@ public class ProductController : ControllerBase
     /// </summary>
     /// <param name="cancellation"></param>
     /// <returns></returns>
-    [HttpPost]
+    [HttpPost("create")]
     [Authorize]
     [ProducesResponseType(StatusCodes.Status201Created)]
-    public async Task<IActionResult> Add(string name, string description, decimal price, string category, IFormFile file, CancellationToken cancellationToken)
+    public async Task<IActionResult> Add([FromQuery]AddProductModel model, CancellationToken cancellationToken)
     {
         var user = await _userService.GetCurrent(cancellationToken);
        
-        var result = await _productService.AddAsync(name, description, price, category, user, cancellationToken);
-        await _productImageService.AddAsync(result, file, cancellationToken);
+        var result = await _productService.AddAsync(model.Name, model.Description, model.Price, model.CategoryId, user, cancellationToken);
+        if (model.Images != null)
+        {
+            await _productImageService.AddAsync(result, model.Images, cancellationToken);
+
+        }
         return Created("", new { });
     }
 
@@ -84,7 +89,15 @@ public class ProductController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> Delete(Guid productId, CancellationToken cancellation)
     {
-        var result = await _productService.DeleteAsync(productId, cancellation);
-        return Ok(result);
+        try
+        {
+            var result = await _productService.DeleteAsync(productId, cancellation);
+            return Ok(result);
+        }
+        catch(Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
+
 }

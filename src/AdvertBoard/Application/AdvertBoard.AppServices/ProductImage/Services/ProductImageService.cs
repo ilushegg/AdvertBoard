@@ -26,23 +26,26 @@ namespace AdvertBoard.AppServices.ProductImage.Services
             uploads = Path.Combine(_webHostEnvironment.WebRootPath, "uploads");
         }
 
-        public async Task AddAsync(Guid productId, IFormFile file, CancellationToken cancellationToken)
+        public async Task AddAsync(Guid productId, IFormFile[] files, CancellationToken cancellationToken)
         {
-            var productImage = new Domain.ProductImage()
+            foreach (var file in files)
             {
-                ProductId = productId
-            };
-            if (file != null)
-            {
-                var uniqueFileName = _fileService.GetUniqueFileName(file.FileName);
-                var filePath = Path.Combine(uploads, uniqueFileName);
+                var productImage = new Domain.ProductImage()
+                {
+                    ProductId = productId
+                };
+                if (file != null)
+                {
+                    var uniqueFileName = _fileService.GetUniqueFileName(file.FileName);
+                    var filePath = Path.Combine(uploads, uniqueFileName);
 
-                var fileStream = new FileStream(filePath, FileMode.Create);
-                file.CopyTo(fileStream);
-                fileStream.Dispose();
-                productImage.FilePath = filePath;
+                    var fileStream = new FileStream(filePath, FileMode.Create);
+                    file.CopyTo(fileStream);
+                    fileStream.Dispose();
+                    productImage.FilePath = filePath;
+                }
+                await _productImageRepository.AddAsync(productImage, cancellationToken);
             }
-            await _productImageRepository.AddAsync(productImage, cancellationToken);
         }
 
         public async Task EditAsync(Guid id, IFormFile file, CancellationToken cancellationToken)
