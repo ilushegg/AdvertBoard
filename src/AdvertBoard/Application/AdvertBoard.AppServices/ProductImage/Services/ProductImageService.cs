@@ -26,7 +26,7 @@ namespace AdvertBoard.AppServices.ProductImage.Services
             uploads = Path.Combine(_webHostEnvironment.WebRootPath, "uploads");
         }
 
-        public async Task AddAsync(Guid productId, IFormFile[] files, CancellationToken cancellationToken)
+        public async Task AddAsync(Guid productId, Guid[] files, CancellationToken cancellationToken)
         {
             foreach (var file in files)
             {
@@ -36,13 +36,7 @@ namespace AdvertBoard.AppServices.ProductImage.Services
                 };
                 if (file != null)
                 {
-                    var uniqueFileName = _fileService.GetUniqueFileName(file.FileName);
-                    var filePath = Path.Combine(uploads, uniqueFileName);
-
-                    var fileStream = new FileStream(filePath, FileMode.Create);
-                    file.CopyTo(fileStream);
-                    fileStream.Dispose();
-                    productImage.FilePath = filePath;
+                    productImage.ImageId = file;
                 }
                 await _productImageRepository.AddAsync(productImage, cancellationToken);
             }
@@ -64,7 +58,7 @@ namespace AdvertBoard.AppServices.ProductImage.Services
                 file.CopyTo(fileStream);
                 fileStream.Dispose();
 
-                productImage.FilePath = filePath;
+/*                productImage.FilePath = filePath;*/
             }
             await _productImageRepository.EditAsync(productImage, cancellationToken);
         }
@@ -76,11 +70,11 @@ namespace AdvertBoard.AppServices.ProductImage.Services
             {
                 throw new InvalidOperationException($"Изображение с идентификатором {id} не найдено.");
             }
-            if (productImage.FilePath != null)
+/*            if (productImage.FilePath != null)
             {
                 var filePath = Path.Combine(uploads, productImage.FilePath);
                 File.Delete(filePath);
-            }
+            }*/
             await _productImageRepository.Delete(id, cancellationToken);
         }
 

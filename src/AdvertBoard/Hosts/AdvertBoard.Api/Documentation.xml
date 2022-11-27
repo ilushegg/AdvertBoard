@@ -56,6 +56,25 @@
             <param name="cancellation"></param>
             <returns></returns>
         </member>
+        <member name="T:AdvertBoard.Api.Controllers.ImageController">
+            <summary>
+            Работа с корзиной товаров.
+            </summary>
+        </member>
+        <member name="M:AdvertBoard.Api.Controllers.ImageController.EditAsync(System.Guid,Microsoft.AspNetCore.Http.IFormFile,System.Threading.CancellationToken)">
+            <summary>
+            Редактирует товар.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:AdvertBoard.Api.Controllers.ImageController.Delete(System.Guid,System.Threading.CancellationToken)">
+            <summary>
+            Удаляет товар.
+            </summary>
+            <param name="productId"></param>
+            <param name="cancellation"></param>
+            <returns></returns>
+        </member>
         <member name="T:AdvertBoard.Api.Controllers.ProductController">
             <summary>
             Работа с корзиной товаров.
@@ -70,7 +89,7 @@
             <param name="cancellation"></param>
             <returns></returns>
         </member>
-        <member name="M:AdvertBoard.Api.Controllers.ProductController.Add(AdvertBoard.Contracts.AddProductModel,System.Threading.CancellationToken)">
+        <member name="M:AdvertBoard.Api.Controllers.ProductController.AddAsync(AdvertBoard.Contracts.AddProductModel,System.Threading.CancellationToken)">
             <summary>
             Добавляет товар.
             </summary>

@@ -25,7 +25,7 @@ namespace AdvertBoard.DataAccess.EntityConfigurations.ProductImage
             return await _repository.GetAll().Where(p => p.ProductId == productId).
                 Select(p => new ProductImageDto
                 {
-                    FilePath = p.FilePath,
+/*                    FilePath = p.FilePath,*/
                     ProductId = p.ProductId
 
                 }).ToListAsync();

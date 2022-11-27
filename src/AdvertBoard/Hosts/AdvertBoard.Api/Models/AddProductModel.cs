@@ -28,5 +28,5 @@ public class AddProductModel
     /// <summary>
     /// Изображения.
     /// </summary>
-    public IFormFile[] Images { get; set; }
+    public Guid[] Images { get; set; }
 }

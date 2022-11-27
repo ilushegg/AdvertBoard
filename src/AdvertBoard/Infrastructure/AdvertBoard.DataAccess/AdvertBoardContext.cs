@@ -27,7 +27,11 @@ public class AdvertBoardContext : IdentityDbContext<ApplicationUser>
         modelBuilder.ApplyConfiguration(new ProductConfiguration());
         modelBuilder.ApplyConfiguration(new ShoppingCartConfiguration());
         modelBuilder.ApplyConfiguration(new CategoryConfiguration());
-        
+        modelBuilder.ApplyConfiguration(new ProductImageConfiguration());
+        modelBuilder.ApplyConfiguration(new UserAvatarConfiguration());
+        modelBuilder.ApplyConfiguration(new ImageConfiguration());
+
+
         base.OnModelCreating(modelBuilder);
     }
 }

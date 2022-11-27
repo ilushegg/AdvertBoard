@@ -7,32 +7,31 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AdvertBoard.DataAccess.EntityConfigurations.UserAvatar;
+using AdvertBoard.DataAccess.EntityConfigurations.ProductImage;
+using AdvertBoard.Domain;
 
 namespace AdvertBoard.AppServices.ProductImage.Services
 {
-    public class UserAvatarService : IUserAvatarService
+    public class ImageService : IImageService
     {
-        private readonly IUserAvatarRepository _userAvatarRepository;
+        private readonly IImageRepository _imageRepository;
         private readonly IFileService _fileService;
         private readonly IWebHostEnvironment _webHostEnvironment;
         string uploads;
 
 
-        public UserAvatarService(IUserAvatarRepository userAvatarRepository, IFileService fileService, IWebHostEnvironment webHostEnvironment)
+        public ImageService(IImageRepository imageRepository, IFileService fileService, IWebHostEnvironment webHostEnvironment)
         {
-            _userAvatarRepository = userAvatarRepository;
+            _imageRepository = imageRepository;
             _fileService = fileService;
             _webHostEnvironment = webHostEnvironment;
             uploads = Path.Combine(_webHostEnvironment.WebRootPath, "uploads");
         }
 
-        public async Task AddAsync(Guid userId, IFormFile file, CancellationToken cancellationToken)
+        public async Task<Guid> AddAsync(IFormFile file, CancellationToken cancellationToken)
         {
-            var userAvatar = new Domain.UserAvatar()
-            {
-                UserId = userId
-            };
+            var image = new Image();
+
             if (file != null)
             {
                 var uniqueFileName = _fileService.GetUniqueFileName(file.FileName);
@@ -41,15 +40,18 @@ namespace AdvertBoard.AppServices.ProductImage.Services
                 var fileStream = new FileStream(filePath, FileMode.Create);
                 file.CopyTo(fileStream);
                 fileStream.Dispose();
-/*                userAvatar.FilePath = filePath;*/
+                image.FilePath = filePath;
             }
-            await _userAvatarRepository.AddAsync(userAvatar, cancellationToken);
+
+            await _imageRepository.AddAsync(image, cancellationToken);
+            return image.Id;
+
         }
 
-        public async Task EditAsync(Guid id, IFormFile file, CancellationToken cancellationToken)
+        public async Task<Guid> EditAsync(Guid id, IFormFile file, CancellationToken cancellationToken)
         {
-            var userAvatar = await _userAvatarRepository.GetById(id, cancellationToken);
-            if (userAvatar == null)
+            var image = await _imageRepository.GetById(id, cancellationToken);
+            if (image == null)
             {
                 throw new InvalidOperationException($"Изображение с идентификатором {id} не найдено.");
             }
@@ -62,24 +64,25 @@ namespace AdvertBoard.AppServices.ProductImage.Services
                 file.CopyTo(fileStream);
                 fileStream.Dispose();
 
-/*                userAvatar.FilePath = filePath;*/
+                image.FilePath = filePath;
             }
-            await _userAvatarRepository.EditAsync(userAvatar, cancellationToken);
+            await _imageRepository.EditAsync(image, cancellationToken);
+            return id;
         }
 
         public async Task DeleteAsync(Guid id, CancellationToken cancellationToken)
         {
-            var userAvatar = await _userAvatarRepository.GetById(id, cancellationToken);
-            if (userAvatar == null)
+            var image = await _imageRepository.GetById(id, cancellationToken);
+            if (image == null)
             {
                 throw new InvalidOperationException($"Изображение с идентификатором {id} не найдено.");
             }
-/*            if (userAvatar.FilePath != null)
-            {
-                var filePath = Path.Combine(uploads, userAvatar.FilePath);
-                File.Delete(filePath);
-            }*/
-            await _userAvatarRepository.Delete(id, cancellationToken);
+            /*            if (productImage.FilePath != null)
+                        {
+                            var filePath = Path.Combine(uploads, productImage.FilePath);
+                            File.Delete(filePath);
+                        }*/
+            await _imageRepository.Delete(image, cancellationToken);
         }
 
     }

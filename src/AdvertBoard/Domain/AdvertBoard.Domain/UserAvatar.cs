@@ -6,10 +6,17 @@ using System.Threading.Tasks;
 
 namespace AdvertBoard.Domain
 {
-    public class UserAvatar : FileUpload
+    public class UserAvatar
     {
-        public User User { get; set; }
+        public Guid Id { get; set; }
+
+        public Guid ImageId { get; set; }
+
+        public Image Image { get; set; }
 
         public Guid UserId { get; set; }
+
+        public User User { get; set; }
+
     }
 }

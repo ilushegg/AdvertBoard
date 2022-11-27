@@ -51,17 +51,23 @@ public class ProductController : ControllerBase
     [HttpPost("create")]
     [Authorize]
     [ProducesResponseType(StatusCodes.Status201Created)]
-    public async Task<IActionResult> Add([FromQuery]AddProductModel model, CancellationToken cancellationToken)
+    public async Task<IActionResult> AddAsync([FromBody]AddProductModel model, CancellationToken cancellationToken)
     {
-        var user = await _userService.GetCurrent(cancellationToken);
-       
-        var result = await _productService.AddAsync(model.Name, model.Description, model.Price, model.CategoryId, user, cancellationToken);
-        if (model.Images != null)
+        try
         {
-            await _productImageService.AddAsync(result, model.Images, cancellationToken);
+            var user = await _userService.GetCurrent(cancellationToken);
 
+            var result = await _productService.AddAsync(model.Name, model.Description, model.Price, model.CategoryId, user, cancellationToken);
+            if(model.Images != null)
+            {
+                await _productImageService.AddAsync(result, model.Images, cancellationToken);
+            }
+            return Created("", new { });
         }
-        return Created("", new { });
+        catch(Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 
     /// <summary>

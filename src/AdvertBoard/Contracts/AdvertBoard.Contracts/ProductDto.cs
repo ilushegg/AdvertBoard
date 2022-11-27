@@ -29,4 +29,5 @@ public class ProductDto
     /// Категория.
     /// </summary>
     public Guid CategoryId { get; set; }
+
 }

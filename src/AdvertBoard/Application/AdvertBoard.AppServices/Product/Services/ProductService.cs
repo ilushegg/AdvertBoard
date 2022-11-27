@@ -61,7 +61,7 @@ public class ProductService : IProductService
 
         product.CategoryId = category.Key;
 
-        _productRepository.Add(product, cancellation);
+        await _productRepository.AddAsync(product, cancellation);
         return product.Id;
     }
 
