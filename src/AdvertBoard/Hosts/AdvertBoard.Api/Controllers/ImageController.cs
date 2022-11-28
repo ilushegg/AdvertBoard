@@ -25,20 +25,20 @@ public class ImageController : ControllerBase
     [HttpPost("create")]
     [Authorize]
     [ProducesResponseType(StatusCodes.Status201Created)]
-    public async Task<IActionResult> AddAsync(IFormFile[] files, CancellationToken cancellationToken)
+    public async Task<IActionResult> AddAsync([FromForm]IFormFile file, CancellationToken cancellationToken)
     {
         try
         {
-            var imageIds = new List<Guid>();
-            foreach (var file in files)
-            {
+            var result = new Guid();
+            /*foreach (var file in files)
+            {*/
                 if (file != null)
                 {
-                    var result = await _imageService.AddAsync(file, cancellationToken);
-                    imageIds.Add(result);
+                    result = await _imageService.AddAsync(file, cancellationToken);
+
                 }
-            }
-            return Created("", imageIds);
+            /*}*/
+            return Created("", result);
         }
         catch(Exception ex)
         {
