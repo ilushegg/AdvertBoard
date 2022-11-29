@@ -14,7 +14,7 @@ public interface IShoppingCartService
     /// <returns></returns>
     Task<IReadOnlyCollection<ShoppingCartDto>> GetAsync(Guid userId, CancellationToken cancellationToken);
 
-    Task<Guid> AddAsync(Domain.Product product, int quantity, User user, CancellationToken cancellationToken);
+    Task<Guid> AddAsync(FullAdvertisementDto product, int quantity, User user, CancellationToken cancellationToken);
 
     /// <summary>
     /// 

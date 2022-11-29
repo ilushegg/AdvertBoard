@@ -13,7 +13,7 @@ public interface IProductService
     /// </summary>
     /// <param name="cancellation"></param>
     /// <returns></returns>
-    Task<Domain.Product> Get(Guid productId, CancellationToken cancellation);
+    Task<FullAdvertisementDto> GetById(Guid productId, CancellationToken cancellation);
 
 
     /// <summary>

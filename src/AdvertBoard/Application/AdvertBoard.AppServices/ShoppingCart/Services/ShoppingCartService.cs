@@ -34,7 +34,7 @@ public class ShoppingCartService : IShoppingCartService
         var shoppingCartDto = new List<ShoppingCartDto>();
         foreach(Domain.ShoppingCart s in shoppingCart)
         {
-            var product = await _productRepository.FindById(s.ProductId, cancellationToken);
+            var product = await _productRepository.GetById(s.ProductId, cancellationToken);
             shoppingCartDto.Add(new ShoppingCartDto
             {
                 Id = s.ProductId,
@@ -50,7 +50,7 @@ public class ShoppingCartService : IShoppingCartService
     }
 
     /// <inheritdoc />
-    public Task<Guid> AddAsync(Domain.Product product, int quantity, User user, CancellationToken cancellationToken)
+    public Task<Guid> AddAsync(FullAdvertisementDto product, int quantity, User user, CancellationToken cancellationToken)
     {
         var shoppingCart = new Domain.ShoppingCart
         {

@@ -54,6 +54,6 @@ public interface IProductRepository
     /// <param name="productId"></param>
     /// <param name="cancellation"></param>
     /// <returns></returns>
-    Task<Domain.Product> FindById(Guid productId, CancellationToken cancellation);
+    Task<Domain.Product> GetById(Guid productId, CancellationToken cancellation);
 
 }

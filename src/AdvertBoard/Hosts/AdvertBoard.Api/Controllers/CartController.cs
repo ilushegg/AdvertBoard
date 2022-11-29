@@ -70,7 +70,7 @@ public class CartController : ControllerBase
     [ProducesResponseType((int)HttpStatusCode.OK)]
     public async Task<IActionResult> AddAsync(Guid productId, int quantity, CancellationToken cancellationToken)
     {
-        var product = await _productService.Get(productId, cancellationToken);
+        var product = await _productService.GetById(productId, cancellationToken);
         var user = await _userService.GetCurrent(cancellationToken);
         var result = await _shoppingCartService.AddAsync(product, quantity, user, cancellationToken);
 

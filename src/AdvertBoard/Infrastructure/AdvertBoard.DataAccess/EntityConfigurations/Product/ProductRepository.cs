@@ -83,9 +83,10 @@ public class ProductRepository : IProductRepository
         return true;
     }
 
-    public async Task<Domain.Product> FindById(Guid productId, CancellationToken cancellation)
+    public async Task<Domain.Product> GetById(Guid productId, CancellationToken cancellation)
     {
         var result = await _repository.GetByIdAsync(productId);
+
         return result;
     }
 }

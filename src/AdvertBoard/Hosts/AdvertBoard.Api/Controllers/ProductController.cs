@@ -28,10 +28,29 @@ public class ProductController : ControllerBase
     }
 
     /// <summary>
+    /// Возвращает товар по идентификатору.
+    /// </summary>
+    /// <param name="cancellation"></param>
+    /// <returns></returns>
+    [HttpGet("get-by-id")]
+    [ProducesResponseType(typeof(IReadOnlyCollection<ProductDto>), StatusCodes.Status201Created)]
+    public async Task<IActionResult> GetById([FromQuery] Guid id, CancellationToken cancellation)
+    {
+        try
+        {
+            var result = await _productService.GetById(id, cancellation);
+            return Ok(result);
+        }
+        catch(Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+
+    }
+
+    /// <summary>
     /// Возвращает все товары.
     /// </summary>
-    /// <param name="take"></param>
-    /// <param name="skip"></param>
     /// <param name="cancellation"></param>
     /// <returns></returns>
     [HttpGet]

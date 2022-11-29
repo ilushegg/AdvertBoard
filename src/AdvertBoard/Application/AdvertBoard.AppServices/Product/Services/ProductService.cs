@@ -1,7 +1,10 @@
 using AdvertBoard.AppServices.Category.Repositories;
 using AdvertBoard.AppServices.Product.Repositories;
+using AdvertBoard.AppServices.ProductImage.Repositories;
 using AdvertBoard.Contracts;
+using AdvertBoard.DataAccess.EntityConfigurations.ProductImage;
 using AdvertBoard.Domain;
+using System.IO;
 
 namespace AdvertBoard.AppServices.Product.Services;
 
@@ -10,15 +13,19 @@ public class ProductService : IProductService
 {
     private readonly IProductRepository _productRepository;
     private readonly ICategoryRepository _categoryRepository;
+    private readonly IProductImageRepository _productImageRepository;
+    private readonly IUserRepository _userRepository;
 
     /// <summary>
     /// Инициализирует экземпляр <see cref="ProductService"/>.
     /// </summary>
     /// <param name="productRepository"></param>
-    public ProductService(IProductRepository productRepository, ICategoryRepository categoryRepository)
+    public ProductService(IProductRepository productRepository, ICategoryRepository categoryRepository, IProductImageRepository productImageRepository, IUserRepository userRepository)
     {
         _productRepository = productRepository;
         _categoryRepository = categoryRepository;
+        _productImageRepository = productImageRepository;
+        _userRepository = userRepository;
     }
 
     /// <inheritdoc />
@@ -49,16 +56,6 @@ public class ProductService : IProductService
             
         var category = await _categoryRepository.FindById(categoryId, cancellation);
 
-      /*  if (category == null)
-        {
-            category = new Category
-            {
-                Name = categoryName
-                        
-            };
-            _categoryRepository.Add(category, cancellation);
-        }*/
-
         product.CategoryId = category.Key;
 
         await _productRepository.AddAsync(product, cancellation);
@@ -67,7 +64,7 @@ public class ProductService : IProductService
 
     public async Task<Guid> EditAsync(Guid productId, string name, string description, decimal price, Guid categoryId, CancellationToken cancellation)
     {
-        var product = await _productRepository.FindById(productId, cancellation);
+        var product = await _productRepository.GetById(productId, cancellation);
         if (product == null)
         {
             throw new Exception($"Товар с идентификатором '{productId}' не найден");
@@ -85,7 +82,7 @@ public class ProductService : IProductService
 
     public async Task<bool> DeleteAsync(Guid productId, CancellationToken cancellation)
     {
-        var product = await _productRepository.FindById(productId, cancellation);
+        var product = await _productRepository.GetById(productId, cancellation);
         if(product == null)
         {
             throw new Exception($"Товар с идентификатором '{productId}' не найден");
@@ -97,8 +94,30 @@ public class ProductService : IProductService
          
     }
 
-    public Task<Domain.Product> Get(Guid productId, CancellationToken cancellation)
+    public async Task<FullAdvertisementDto> GetById(Guid productId, CancellationToken cancellation)
     {
-        return _productRepository.FindById(productId, cancellation);
+        var ad = await _productRepository.GetById(productId, cancellation);
+        var images = await _productImageRepository.GetAllByProduct(productId, cancellation);
+        var user = await _userRepository.FindById(ad.UserId, cancellation);
+        var imageList = new List<string>();
+        foreach (var image in images)
+        {
+            byte[] byteImage = File.ReadAllBytes(image.FilePath);
+            imageList.Add("data:image/png;base64," + Convert.ToBase64String(byteImage));
+        }
+        var result = new FullAdvertisementDto
+        {
+            Id = ad.Id,
+            Name = ad.Name,
+            Description = ad.Description,
+            Price = ad.Price,
+            Images = imageList,
+            DateTimeCreated = ad.DateTimeCreated,
+            DateTimeUpdated = ad.DateTimeUpdated,
+            AuthorId = ad.UserId,
+            AuthorName = user.Name,
+            AuthorAvatar = ""
+        };
+        return result;
     }
 }

@@ -1,0 +1,64 @@
+namespace AdvertBoard.Contracts;
+
+/// <summary>
+/// Товар
+/// </summary>
+public class FullAdvertisementDto
+{
+    /// <summary>
+    /// Идентификатор.
+    /// </summary>
+    public Guid Id { get; set; }
+    
+    /// <summary>
+    /// Наименование.
+    /// </summary>
+    public string Name { get; set; }
+    
+    /// <summary>
+    /// Описание.
+    /// </summary>
+    public string Description { get; set; }
+    
+    /// <summary>
+    /// Цена.
+    /// </summary>
+    public decimal Price { get; set; }
+
+    /// <summary>
+    /// Изображение.
+    /// </summary>
+    public List<string> Images { get; set; }
+    
+    /// <summary>
+    /// Категория.
+    /// </summary>
+    public Guid CategoryId { get; set; }
+
+    /// <summary>
+    /// Дата создания объявления.
+    /// </summary>
+    public DateTime DateTimeCreated { get; set; }
+
+    /// <summary>
+    /// Дата обновления объявления.
+    /// </summary>
+    public DateTime DateTimeUpdated{ get; set; }
+    
+    /// <summary>
+    /// Идентификатор автора.
+    /// </summary>
+    public Guid AuthorId { get; set; }
+
+    /// <summary>
+    /// Имя автора.
+    /// </summary>
+    public string AuthorName { get; set; }
+
+    /// <summary>
+    /// Аватар автора.
+    /// </summary>
+    public string AuthorAvatar { get; set; }
+
+
+}

@@ -80,12 +80,17 @@
             Работа с корзиной товаров.
             </summary>
         </member>
+        <member name="M:AdvertBoard.Api.Controllers.ProductController.GetById(System.Guid,System.Threading.CancellationToken)">
+            <summary>
+            Возвращает товар по идентификатору.
+            </summary>
+            <param name="cancellation"></param>
+            <returns></returns>
+        </member>
         <member name="M:AdvertBoard.Api.Controllers.ProductController.GetAll(AdvertBoard.Contracts.PaginationDto,System.Threading.CancellationToken)">
             <summary>
             Возвращает все товары.
             </summary>
-            <param name="take"></param>
-            <param name="skip"></param>
             <param name="cancellation"></param>
             <returns></returns>
         </member>
