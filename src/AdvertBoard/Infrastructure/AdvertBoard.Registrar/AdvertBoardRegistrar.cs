@@ -69,7 +69,7 @@ public static class AdvertBoardRegistrar
         services.AddTransient<IImageService, ImageService>();
         services.AddTransient<IImageRepository, ImageRepository>();
 
-        services.AddScoped<IFileService, FileService>();
+        services.AddTransient<IFileService, FileService>();
 
         services.AddScoped<IClaimsAccessor, HttpContextClaimsAccessor>();
 

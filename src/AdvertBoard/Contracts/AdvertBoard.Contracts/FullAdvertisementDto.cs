@@ -38,12 +38,12 @@ public class FullAdvertisementDto
     /// <summary>
     /// Дата создания объявления.
     /// </summary>
-    public DateTime DateTimeCreated { get; set; }
+    public string DateTimeCreated { get; set; }
 
     /// <summary>
     /// Дата обновления объявления.
     /// </summary>
-    public DateTime DateTimeUpdated{ get; set; }
+    public string DateTimeUpdated{ get; set; }
     
     /// <summary>
     /// Идентификатор автора.

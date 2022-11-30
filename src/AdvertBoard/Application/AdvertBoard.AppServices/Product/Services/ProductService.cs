@@ -40,6 +40,27 @@ public class ProductService : IProductService
         return _productRepository.GetAllFiltered(request, cancellation);
     }
 
+    public Guid Add(string name, string description, decimal price, Guid categoryId, User user, CancellationToken cancellation = default)
+    {
+        var product = new Domain.Product
+        {
+            Name = name,
+            Description = description,
+            Price = price,
+            User = user,
+            DateTimeCreated = DateTime.UtcNow,
+            DateTimeUpdated = DateTime.UtcNow,
+            DateTimePublish = DateTime.UtcNow
+        };
+
+        var category = _categoryRepository.FindById(categoryId, cancellation);
+
+        product.CategoryId = category.Result.Key;
+
+        _productRepository.AddAsync(product, cancellation);
+        return product.Id;
+    }
+
     /// <inheritdoc />
     public async Task<Guid> AddAsync(string name, string description, decimal price, Guid categoryId, User user, CancellationToken cancellation = default) 
     {
@@ -112,8 +133,8 @@ public class ProductService : IProductService
             Description = ad.Description,
             Price = ad.Price,
             Images = imageList,
-            DateTimeCreated = ad.DateTimeCreated,
-            DateTimeUpdated = ad.DateTimeUpdated,
+            DateTimeCreated = $"{ad.DateTimeCreated.ToLocalTime().ToString("D")}",
+            DateTimeUpdated = $"{ad.DateTimeUpdated.ToString("D")}",
             AuthorId = ad.UserId,
             AuthorName = user.Name,
             AuthorAvatar = ""

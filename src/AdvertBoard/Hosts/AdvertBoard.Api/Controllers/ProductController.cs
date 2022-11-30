@@ -74,14 +74,14 @@ public class ProductController : ControllerBase
     {
         try
         {
-            var user = await _userService.GetCurrent(cancellationToken);
+            var user = _userService.GetCurrent(cancellationToken);
 
-            var result = await _productService.AddAsync(model.Name, model.Description, model.Price, model.CategoryId, user, cancellationToken);
+            var result = _productService.Add(model.Name, model.Description, model.Price, model.CategoryId, user.Result, cancellationToken);
             if(model.Images != null)
             {
                 await _productImageService.AddAsync(result, model.Images, cancellationToken);
             }
-            return Created("", new { });
+            return Ok(result);
         }
         catch(Exception ex)
         {
