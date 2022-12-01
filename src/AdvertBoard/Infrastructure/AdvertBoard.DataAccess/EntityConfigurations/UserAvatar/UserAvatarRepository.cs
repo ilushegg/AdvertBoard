@@ -1,4 +1,4 @@
-﻿using AdvertBoard.AppServices.ProductImage.Repositories;
+﻿
 using AdvertBoard.Contracts;
 using AdvertBoard.Infrastructure.Repository;
 using Microsoft.EntityFrameworkCore;

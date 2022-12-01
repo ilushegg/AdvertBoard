@@ -5,6 +5,8 @@ using AdvertBoard.Contracts;
 using Microsoft.AspNetCore.Authorization;
 using AdvertBoard.Domain;
 using AdvertBoard.AppServices.ProductImage.Services;
+using AdvertBoard.AppServices.Advertisement.Services;
+using AdvertBoard.AppServices.User.Services;
 
 namespace AdvertBoard.Api.Controllers;
 
@@ -13,16 +15,16 @@ namespace AdvertBoard.Api.Controllers;
 /// </summary>
 [ApiController]
 [Route("v1/[controller]")]
-public class ProductController : ControllerBase
+public class AdvertisementController : ControllerBase
 {
-    private readonly IProductService _productService;
+    private readonly IAdvertisementService _advertisementService;
     private readonly IUserService _userService;
-    private readonly IProductImageService _productImageService;
+    private readonly IAdvertisementImageService _productImageService;
     private readonly ICategoryService _categoryService;
 
-    public ProductController(IProductService productService, IUserService userService, IProductImageService productImageService)
+    public AdvertisementController(IAdvertisementService advertisementService, IUserService userService, IAdvertisementImageService productImageService)
     {
-        _productService = productService;
+        _advertisementService = advertisementService;
         _userService = userService;
         _productImageService = productImageService;
     }
@@ -38,7 +40,7 @@ public class ProductController : ControllerBase
     {
         try
         {
-            var result = await _productService.GetById(id, cancellation);
+            var result = await _advertisementService.GetById(id, cancellation);
             return Ok(result);
         }
         catch(Exception ex)
@@ -57,7 +59,7 @@ public class ProductController : ControllerBase
     [ProducesResponseType(typeof(IReadOnlyCollection<ProductDto>), StatusCodes.Status201Created)]
     public async Task<IActionResult> GetAll([FromQuery]PaginationDto paginationDto, CancellationToken cancellation)
     {
-        var result = await _productService.GetAll(paginationDto.Limit, paginationDto.Offset, cancellation);
+        var result = await _advertisementService.GetAll(paginationDto.Limit, paginationDto.Offset, cancellation);
 
         return Ok(result);
     }
@@ -76,7 +78,7 @@ public class ProductController : ControllerBase
         {
             var user = _userService.GetCurrent(cancellationToken);
 
-            var result = _productService.Add(model.Name, model.Description, model.Price, model.CategoryId, user.Result, cancellationToken);
+            var result = _advertisementService.Add(model.Name, model.Description, model.Price, model.CategoryId, user.Result, cancellationToken);
             if(model.Images != null)
             {
                 await _productImageService.AddAsync(result, model.Images, cancellationToken);
@@ -98,7 +100,7 @@ public class ProductController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> Edit(Guid productId, string name, string description, decimal price, Guid categoryId, Guid imageId, IFormFile file, CancellationToken cancellationToken)
     {
-        var result = await _productService.EditAsync(productId, name, description, price, categoryId, cancellationToken);
+        var result = await _advertisementService.EditAsync(productId, name, description, price, categoryId, cancellationToken);
         await _productImageService.EditAsync(imageId, file, cancellationToken);
         return Ok(result);
     }
@@ -116,7 +118,7 @@ public class ProductController : ControllerBase
     {
         try
         {
-            var result = await _productService.DeleteAsync(productId, cancellation);
+            var result = await _advertisementService.DeleteAsync(productId, cancellation);
             return Ok(result);
         }
         catch(Exception ex)

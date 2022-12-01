@@ -1,4 +1,4 @@
-﻿using AdvertBoard.AppServices.ProductImage.Repositories;
+﻿using AdvertBoard.AppServices.AdvertisementImage.Repositories;
 using AdvertBoard.Infrastructure.FileService;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;

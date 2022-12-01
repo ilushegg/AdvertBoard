@@ -5,6 +5,7 @@ using AdvertBoard.Contracts;
 using Microsoft.AspNetCore.Authorization;
 using AdvertBoard.Domain;
 using AdvertBoard.AppServices.ProductImage.Services;
+using AdvertBoard.AppServices.Image.Services;
 
 namespace AdvertBoard.Api.Controllers;
 

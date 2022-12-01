@@ -2,16 +2,16 @@ using AdvertBoard.Contracts;
 using AdvertBoard.Domain;
 using System.Linq.Expressions;
 
-namespace AdvertBoard.AppServices.Product.Repositories;
+namespace AdvertBoard.AppServices.User.Repositories;
 
 /// <summary>
 /// Репозиторий чтения/записи для работы с товарами.
 /// </summary>
 public interface IUserRepository
 {
-    Task<User> FindWhere(Expression<Func<User, bool>> predicate, CancellationToken cancellationToken);
+    Task<Domain.User> FindWhere(Expression<Func<Domain.User, bool>> predicate, CancellationToken cancellationToken);
 
-    Task Add(User user);
+    Task Add(Domain.User user);
 
-    Task<User> FindById(Guid id, CancellationToken cancellationToken);
+    Task<Domain.User> FindById(Guid id, CancellationToken cancellationToken);
 }

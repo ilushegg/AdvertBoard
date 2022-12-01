@@ -8,6 +8,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AdvertBoard", "AdvertBoard", "{0E443DCC-CE93-43FC-87C8-92E38C7BAF81}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{51A1C00C-FB75-492E-9B8F-B67654B9730F}"
+	ProjectSection(SolutionItems) = preProject
+		src\AdvertBoard\Infrastructure\AdvertBoard.Infrastructure\AdvertBoard.Infrastructure.csproj = src\AdvertBoard\Infrastructure\AdvertBoard.Infrastructure\AdvertBoard.Infrastructure.csproj
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{A5C9A28C-4748-4428-A5CD-A72517C4059F}"
 EndProject
@@ -36,8 +39,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Contracts", "Contracts", "{6B34C92E-5678-434C-8359-2188E6A8262B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdvertBoard.Contracts", "src\AdvertBoard\Contracts\AdvertBoard.Contracts\AdvertBoard.Contracts.csproj", "{0D3BBEAE-1E20-4812-B7D1-06CADBC7CA74}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdvertBoard.Infrastructure", "src\AdvertBoard\Infrastructure\AdvertBoard.Infrastructure\AdvertBoard.Infrastructure.csproj", "{3FD6402D-D897-46E7-B28A-A398ADDA33B1}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdvertBoard.Registrar", "src\AdvertBoard\Infrastructure\AdvertBoard.Registrar\AdvertBoard.Registrar.csproj", "{1999E103-2930-4C83-B3A0-D18C5870AC7C}"
 EndProject
@@ -71,10 +72,6 @@ Global
 		{0D3BBEAE-1E20-4812-B7D1-06CADBC7CA74}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0D3BBEAE-1E20-4812-B7D1-06CADBC7CA74}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0D3BBEAE-1E20-4812-B7D1-06CADBC7CA74}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3FD6402D-D897-46E7-B28A-A398ADDA33B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3FD6402D-D897-46E7-B28A-A398ADDA33B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3FD6402D-D897-46E7-B28A-A398ADDA33B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3FD6402D-D897-46E7-B28A-A398ADDA33B1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1999E103-2930-4C83-B3A0-D18C5870AC7C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1999E103-2930-4C83-B3A0-D18C5870AC7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1999E103-2930-4C83-B3A0-D18C5870AC7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -104,7 +101,6 @@ Global
 		{3122B8A3-39D9-490A-8919-B5C770D42276} = {1B5D104C-AA79-4744-8078-A89342F0D6C5}
 		{6B34C92E-5678-434C-8359-2188E6A8262B} = {0E443DCC-CE93-43FC-87C8-92E38C7BAF81}
 		{0D3BBEAE-1E20-4812-B7D1-06CADBC7CA74} = {6B34C92E-5678-434C-8359-2188E6A8262B}
-		{3FD6402D-D897-46E7-B28A-A398ADDA33B1} = {51A1C00C-FB75-492E-9B8F-B67654B9730F}
 		{1999E103-2930-4C83-B3A0-D18C5870AC7C} = {51A1C00C-FB75-492E-9B8F-B67654B9730F}
 		{EDAD942B-F8CC-481F-92D8-9082B1EB04AA} = {51A1C00C-FB75-492E-9B8F-B67654B9730F}
 		{EA7E58E8-4DA4-4CA1-93B6-C5FD40A1BB1A} = {51A1C00C-FB75-492E-9B8F-B67654B9730F}

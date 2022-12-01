@@ -1,4 +1,4 @@
-﻿using AdvertBoard.AppServices.ProductImage.Repositories;
+﻿using AdvertBoard.AppServices.AdvertisementImage.Repositories;
 using AdvertBoard.Contracts;
 using AdvertBoard.Infrastructure.Repository;
 using Microsoft.EntityFrameworkCore;
@@ -8,13 +8,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AdvertBoard.DataAccess.EntityConfigurations.ProductImage
+namespace AdvertBoard.DataAccess.EntityConfigurations.AdvertisementImage
 {
-    public class ProductImageRepository : IProductImageRepository
+    public class AdvertisementImageRepository : IAdvertisementImageRepository
     {
-        private readonly IRepository<Domain.ProductImage> _repository;
+        private readonly IRepository<Domain.AdvertisementImage> _repository;
 
-        public ProductImageRepository(IRepository<Domain.ProductImage> repository)
+        public AdvertisementImageRepository(IRepository<Domain.AdvertisementImage> repository)
         {
             _repository = repository;
         }
@@ -22,21 +22,21 @@ namespace AdvertBoard.DataAccess.EntityConfigurations.ProductImage
 
         public async Task<IReadOnlyCollection<ProductImageDto>> GetAllByProduct(Guid productId, CancellationToken cancellationToken)
         {
-            return await _repository.GetAll().Where(p => p.ProductId == productId).
+            return await _repository.GetAll().Where(p => p.AdvertisementId == productId).
                 Select(p => new ProductImageDto
                 {
                     FilePath = p.Image.FilePath,
-                    ProductId = p.ProductId
+                    ProductId = p.AdvertisementId
 
                 }).ToListAsync();
         }
 
-        public async Task AddAsync(Domain.ProductImage productImage, CancellationToken cancellationToken)
+        public async Task AddAsync(Domain.AdvertisementImage productImage, CancellationToken cancellationToken)
         {
             await _repository.AddAsync(productImage);
         }
 
-        public async Task EditAsync(Domain.ProductImage productImage, CancellationToken cancellationToken)
+        public async Task EditAsync(Domain.AdvertisementImage productImage, CancellationToken cancellationToken)
         {
             await _repository.UpdateAsync(productImage);
         }
@@ -53,7 +53,7 @@ namespace AdvertBoard.DataAccess.EntityConfigurations.ProductImage
             await _repository.DeleteAsync(productImage);
         }
 
-        public async Task<Domain.ProductImage> GetById(Guid id, CancellationToken cancellationToken)
+        public async Task<Domain.AdvertisementImage> GetById(Guid id, CancellationToken cancellationToken)
         {
             return await _repository.GetByIdAsync(id);
         }

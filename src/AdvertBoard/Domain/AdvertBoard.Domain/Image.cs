@@ -12,7 +12,7 @@ namespace AdvertBoard.Domain
 
         public string? FilePath { get; set; }
 
-        public ProductImage ProductImage { get; set; }
+        public AdvertisementImage AdvertisementImage { get; set; }
 
         public UserAvatar UserAvatar { get; set; }
 

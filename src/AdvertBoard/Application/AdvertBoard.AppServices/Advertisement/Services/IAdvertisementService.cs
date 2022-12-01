@@ -1,12 +1,12 @@
 using AdvertBoard.Contracts;
 using AdvertBoard.Domain;
 
-namespace AdvertBoard.AppServices.Product.Services;
+namespace AdvertBoard.AppServices.Advertisement.Services;
 
 /// <summary>
 /// Сервис для работы с товарами
 /// </summary>
-public interface IProductService
+public interface IAdvertisementService
 {
     /// <summary>
     /// 
@@ -46,7 +46,7 @@ public interface IProductService
 
     Task<bool> DeleteAsync(Guid productId, CancellationToken cancellation);
 
-    Guid Add(string name, string description, decimal price, Guid categoryId, User user, CancellationToken cancellation = default);
+    Guid Add(string name, string description, decimal price, Guid categoryId, Domain.User user, CancellationToken cancellation = default);
 
-    Task<Guid> AddAsync(string name, string description, decimal price, Guid categoryId, User user, CancellationToken cancellation = default);
+    Task<Guid> AddAsync(string name, string description, decimal price, Guid categoryId, Domain.User user, CancellationToken cancellation = default);
 }

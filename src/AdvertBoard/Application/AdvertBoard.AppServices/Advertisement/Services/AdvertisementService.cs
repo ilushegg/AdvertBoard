@@ -1,26 +1,26 @@
 using AdvertBoard.AppServices.Category.Repositories;
 using AdvertBoard.AppServices.Product.Repositories;
-using AdvertBoard.AppServices.ProductImage.Repositories;
+using AdvertBoard.AppServices.AdvertisementImage.Repositories;
 using AdvertBoard.Contracts;
-using AdvertBoard.DataAccess.EntityConfigurations.ProductImage;
 using AdvertBoard.Domain;
 using System.IO;
+using AdvertBoard.AppServices.User.Repositories;
 
-namespace AdvertBoard.AppServices.Product.Services;
+namespace AdvertBoard.AppServices.Advertisement.Services;
 
 /// <inheritdoc />
-public class ProductService : IProductService
+public class AdvertisementService : IAdvertisementService
 {
-    private readonly IProductRepository _productRepository;
+    private readonly IAdvertisementRepository _productRepository;
     private readonly ICategoryRepository _categoryRepository;
-    private readonly IProductImageRepository _productImageRepository;
+    private readonly IAdvertisementImageRepository _productImageRepository;
     private readonly IUserRepository _userRepository;
 
     /// <summary>
-    /// Инициализирует экземпляр <see cref="ProductService"/>.
+    /// Инициализирует экземпляр <see cref="AdvertisementService"/>.
     /// </summary>
     /// <param name="productRepository"></param>
-    public ProductService(IProductRepository productRepository, ICategoryRepository categoryRepository, IProductImageRepository productImageRepository, IUserRepository userRepository)
+    public AdvertisementService(IAdvertisementRepository productRepository, ICategoryRepository categoryRepository, IAdvertisementImageRepository productImageRepository, IUserRepository userRepository)
     {
         _productRepository = productRepository;
         _categoryRepository = categoryRepository;
@@ -40,9 +40,9 @@ public class ProductService : IProductService
         return _productRepository.GetAllFiltered(request, cancellation);
     }
 
-    public Guid Add(string name, string description, decimal price, Guid categoryId, User user, CancellationToken cancellation = default)
+    public Guid Add(string name, string description, decimal price, Guid categoryId, Domain.User user, CancellationToken cancellation = default)
     {
-        var product = new Domain.Product
+        var product = new Domain.Advertisement
         {
             Name = name,
             Description = description,
@@ -62,9 +62,9 @@ public class ProductService : IProductService
     }
 
     /// <inheritdoc />
-    public async Task<Guid> AddAsync(string name, string description, decimal price, Guid categoryId, User user, CancellationToken cancellation = default) 
+    public async Task<Guid> AddAsync(string name, string description, decimal price, Guid categoryId, Domain.User user, CancellationToken cancellation = default) 
     {
-        var product = new Domain.Product
+        var product = new Domain.Advertisement
         {
             Name = name,
             Description = description,

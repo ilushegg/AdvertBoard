@@ -1,4 +1,4 @@
-﻿using AdvertBoard.AppServices.ProductImage.Repositories;
+﻿
 using AdvertBoard.Infrastructure.FileService;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -7,10 +7,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AdvertBoard.DataAccess.EntityConfigurations.ProductImage;
+using AdvertBoard.DataAccess.EntityConfigurations.Image;
 using AdvertBoard.Domain;
 
-namespace AdvertBoard.AppServices.ProductImage.Services
+namespace AdvertBoard.AppServices.Image.Services
 {
     public class ImageService : IImageService
     {
@@ -30,7 +30,7 @@ namespace AdvertBoard.AppServices.ProductImage.Services
 
         public async Task<Guid> AddAsync(IFormFile file, CancellationToken cancellationToken)
         {
-            var image = new Image();
+            var image = new Domain.Image();
 
             if (file != null)
             {

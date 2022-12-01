@@ -1,9 +1,9 @@
 namespace AdvertBoard.Domain;
 
 /// <summary>
-/// Товар
+/// Объявление.
 /// </summary>
-public class Product
+public class Advertisement
 {
     /// <summary>
     /// Идентификатор.
@@ -38,7 +38,7 @@ public class Product
     /// <summary>
     /// Изображения.
     /// </summary>
-    public ICollection<ProductImage>? ProductImages { get; set; }
+    public ICollection<AdvertisementImage>? AdvertisementImages { get; set; }
 
     /// <summary>
     /// Идентификатор пользователя (автора) продукта.

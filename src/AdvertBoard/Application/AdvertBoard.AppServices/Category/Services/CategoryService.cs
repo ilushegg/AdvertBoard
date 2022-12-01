@@ -12,7 +12,7 @@ public class CategoryService : ICategoryService
     private readonly ICategoryRepository _categoryRepository;
 
     /// <summary>
-    /// Инициализирует экземпляр <see cref="ProductService"/>.
+    /// Инициализирует экземпляр <see cref="AdvertisementService"/>.
     /// </summary>
     /// <param name="productRepository"></param>
     public CategoryService(ICategoryRepository categoryRepository)
@@ -56,12 +56,18 @@ public class CategoryService : ICategoryService
     /// <inheritdoc />
     public async Task<Guid> AddAsync(Guid parentId, string categoryName, CancellationToken cancellation = default)
     {
-        var category = new Domain.Category
+        var category = new Domain.Category();
+        if (parentId.Equals(Guid.Empty))
         {
-            Name = categoryName,
-            ParentCategoryId = parentId
-        };
 
+            category.Name = categoryName;
+            category.ParentCategoryId = null;
+        }
+        else
+        {
+            category.Name = categoryName;
+            category.ParentCategoryId = parentId;
+        }
 
         await _categoryRepository.AddAsync(category, cancellation);
         return category.Id;

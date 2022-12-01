@@ -1,12 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Threading.Tasks;
+
 using Microsoft.AspNetCore.Mvc;
-using AdvertBoard.AppServices.ShoppingCart.Services;
+
 using AdvertBoard.Contracts;
-using AdvertBoard.AppServices.Product.Services;
+
 using Microsoft.AspNetCore.Authorization;
+using AdvertBoard.AppServices.User.Services;
 
 namespace AdvertBoard.Api.Controllers;
 

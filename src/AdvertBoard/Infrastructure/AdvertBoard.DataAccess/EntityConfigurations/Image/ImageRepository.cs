@@ -1,4 +1,4 @@
-﻿using AdvertBoard.AppServices.ProductImage.Repositories;
+﻿
 using AdvertBoard.Contracts;
 using AdvertBoard.Infrastructure.Repository;
 using Microsoft.EntityFrameworkCore;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AdvertBoard.DataAccess.EntityConfigurations.ProductImage
+namespace AdvertBoard.DataAccess.EntityConfigurations.Image
 {
     public class ImageRepository : IImageRepository
     {

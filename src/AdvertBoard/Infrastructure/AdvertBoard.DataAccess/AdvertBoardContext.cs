@@ -1,9 +1,13 @@
 using Microsoft.EntityFrameworkCore;
-using AdvertBoard.DataAccess.EntityConfigurations.Product;
 using AdvertBoard.DataAccess.EntityConfigurations.ShoppingCart;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using AdvertBoard.Domain;
 using AdvertBoard.DataAccess.EntityConfigurations.Category;
+using AdvertBoard.DataAccess.EntityConfigurations.Advertisement;
+using AdvertBoard.DataAccess.EntityConfigurations.User;
+using AdvertBoard.DataAccess.EntityConfigurations.UserAvatar;
+using AdvertBoard.DataAccess.EntityConfigurations.Image;
+using AdvertBoard.DataAccess.EntityConfigurations.AdvertisementImage;
 
 namespace AdvertBoard.DataAccess;
 
@@ -24,10 +28,11 @@ public class AdvertBoardContext : IdentityDbContext<ApplicationUser>
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfiguration(new UserConfiguration());
-        modelBuilder.ApplyConfiguration(new ProductConfiguration());
+        modelBuilder.ApplyConfiguration(new AdvertisementConfiguration());
         modelBuilder.ApplyConfiguration(new ShoppingCartConfiguration());
+        modelBuilder.ApplyConfiguration(new FavoriteConfiguration());
         modelBuilder.ApplyConfiguration(new CategoryConfiguration());
-        modelBuilder.ApplyConfiguration(new ProductImageConfiguration());
+        modelBuilder.ApplyConfiguration(new AdvertisementImageConfiguration());
         modelBuilder.ApplyConfiguration(new UserAvatarConfiguration());
         modelBuilder.ApplyConfiguration(new ImageConfiguration());
 

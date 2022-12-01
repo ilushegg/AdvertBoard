@@ -5,7 +5,7 @@ namespace AdvertBoard.AppServices.Product.Repositories;
 /// <summary>
 /// Репозиторий чтения/записи для работы с товарами.
 /// </summary>
-public interface IProductRepository
+public interface IAdvertisementRepository
 {
     /// <summary>
     /// Возвращает записи товаров используя постраничную загрузку.
@@ -30,7 +30,7 @@ public interface IProductRepository
     /// <param name="product"></param>
     /// <param name="cancellation"></param>
     /// <returns></returns>
-    Task<bool> AddAsync(Domain.Product product, CancellationToken cancellation);
+    Task<bool> AddAsync(Domain.Advertisement product, CancellationToken cancellation);
 
     /// <summary>
     /// Удаляет товар.
@@ -38,7 +38,7 @@ public interface IProductRepository
     /// <param name="id"></param>
     /// <param name="cancellation"></param>
     /// <returns></returns>
-    Task<bool> DeleteAsync(Domain.Product product, CancellationToken cancellation);
+    Task<bool> DeleteAsync(Domain.Advertisement product, CancellationToken cancellation);
 
     /// <summary>
     /// Редактирует товар.
@@ -46,7 +46,7 @@ public interface IProductRepository
     /// <param name="product"></param>
     /// <param name="cancellation"></param>
     /// <returns></returns>
-    Task<bool> EditAsync(Domain.Product product, CancellationToken cancellation);
+    Task<bool> EditAsync(Domain.Advertisement product, CancellationToken cancellation);
 
     /// <summary>
     /// Ищет товар по идентификатору.
@@ -54,6 +54,6 @@ public interface IProductRepository
     /// <param name="productId"></param>
     /// <param name="cancellation"></param>
     /// <returns></returns>
-    Task<Domain.Product> GetById(Guid productId, CancellationToken cancellation);
+    Task<Domain.Advertisement> GetById(Guid productId, CancellationToken cancellation);
 
 }

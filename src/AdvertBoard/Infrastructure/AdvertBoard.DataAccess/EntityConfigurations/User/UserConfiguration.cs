@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace AdvertBoard.DataAccess.EntityConfigurations.Product;
+namespace AdvertBoard.DataAccess.EntityConfigurations.User;
 
 /// <summary>
 /// Конфигурация таблицы Products.

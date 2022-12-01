@@ -4,6 +4,7 @@ using AdvertBoard.Contracts;
 using AdvertBoard.Infrastructure.Repository;
 using AdvertBoard.Domain;
 using System.Linq.Expressions;
+using AdvertBoard.AppServices.User.Repositories;
 
 namespace AdvertBoard.DataAccess.EntityConfigurations.Product;
 
@@ -22,19 +23,19 @@ public class UserRepository : IUserRepository
     }
 
 
-    public async Task<User> FindWhere(Expression<Func<User, bool>> predicate, CancellationToken cancellationToken)
+    public async Task<Domain.User> FindWhere(Expression<Func<Domain.User, bool>> predicate, CancellationToken cancellationToken)
     {
         var data = _repository.GetAllFiltered(predicate);
 
         return await data.Where(predicate).FirstOrDefaultAsync(cancellationToken);
     }
     
-    public Task Add(User user)
+    public Task Add(Domain.User user)
     {
         return _repository.AddAsync(user);
     }
 
-    public async Task<User> FindById(Guid id, CancellationToken cancellationToken)
+    public async Task<Domain.User> FindById(Guid id, CancellationToken cancellationToken)
     {
         return await _repository.GetByIdAsync(id);
     }

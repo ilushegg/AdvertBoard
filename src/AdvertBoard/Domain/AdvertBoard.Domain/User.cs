@@ -16,6 +16,11 @@ public class User
     public string Name { get; set; }
 
     /// <summary>
+    /// Номер телефона.
+    /// </summary>
+    public string Number { get; set; }
+
+    /// <summary>
     /// Эл. адрес.
     /// </summary>
     public string Email { get; set; }
@@ -33,10 +38,12 @@ public class User
     /// <summary>
     /// Дата регистрации.
     /// </summary>
-    
     public DateTime CreateDate { get; set; }
 
-    public ICollection<Product> Products { get; set; }
+    public ICollection<Advertisement> Advertisements { get; set; }
+
+    public ICollection<Favorite> Favorites { get; set; }
+
 
     public ICollection<ShoppingCart> ShoppingCarts { get; set; }
     

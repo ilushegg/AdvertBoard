@@ -1,4 +1,4 @@
-﻿using AdvertBoard.AppServices.ProductImage.Repositories;
+﻿using AdvertBoard.AppServices.AdvertisementImage.Repositories;
 using AdvertBoard.Infrastructure.FileService;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -10,15 +10,15 @@ using System.Threading.Tasks;
 
 namespace AdvertBoard.AppServices.ProductImage.Services
 {
-    public class ProductImageService : IProductImageService
+    public class AdvertisementImageService : IAdvertisementImageService
     {
-        private readonly IProductImageRepository _productImageRepository;
+        private readonly IAdvertisementImageRepository _productImageRepository;
         private readonly IFileService _fileService;
         private readonly IWebHostEnvironment _webHostEnvironment;
         string uploads;
 
 
-        public ProductImageService(IProductImageRepository productImageRepository, IFileService fileService, IWebHostEnvironment webHostEnvironment)
+        public AdvertisementImageService(IAdvertisementImageRepository productImageRepository, IFileService fileService, IWebHostEnvironment webHostEnvironment)
         {
             _productImageRepository = productImageRepository;
             _fileService = fileService;
@@ -30,9 +30,9 @@ namespace AdvertBoard.AppServices.ProductImage.Services
         {
             foreach (var file in files)
             {
-                var productImage = new Domain.ProductImage()
+                var productImage = new Domain.AdvertisementImage()
                 {
-                    ProductId = productId
+                    AdvertisementId = productId
                 };
                 if (file != null)
                 {

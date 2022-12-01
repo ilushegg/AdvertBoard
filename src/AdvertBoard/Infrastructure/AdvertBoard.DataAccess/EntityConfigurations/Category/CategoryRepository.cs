@@ -51,12 +51,12 @@ namespace AdvertBoard.DataAccess.EntityConfigurations.Category
 
         public async Task AddAsync(Domain.Category category, CancellationToken cancellation)
         {
-            var result = _repository.AddAsync(category);
+            await _repository.AddAsync(category);
         }
 
         public async Task EditAsync(Domain.Category category, CancellationToken cancellation)
         {
-            var result = _repository.UpdateAsync(category);
+            await _repository.UpdateAsync(category);
         }
 
         public async Task DeleteAsync(Domain.Category category, CancellationToken cancellation)

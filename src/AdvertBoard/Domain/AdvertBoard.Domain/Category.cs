@@ -24,7 +24,7 @@ namespace AdvertBoard.Domain
         /// <summary>
         /// Продукты.
         /// </summary>
-        public ICollection<Product> Products { get; set; }
+        public ICollection<Advertisement> Advertisements { get; set; }
 
         /// <summary>
         /// Подкатегории.

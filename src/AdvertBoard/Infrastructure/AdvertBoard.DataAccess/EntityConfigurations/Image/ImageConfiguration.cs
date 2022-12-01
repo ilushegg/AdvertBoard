@@ -1,10 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace AdvertBoard.DataAccess.EntityConfigurations.Product;
+namespace AdvertBoard.DataAccess.EntityConfigurations.Image;
 
 /// <summary>
-/// Конфигурация таблицы Products.
+/// Конфигурация таблицы Images.
 /// </summary>
 public class ImageConfiguration : IEntityTypeConfiguration<Domain.Image>
 {
@@ -15,7 +15,7 @@ public class ImageConfiguration : IEntityTypeConfiguration<Domain.Image>
 
         builder.HasKey(k => k.Id);
 
-        builder.HasOne(p => p.ProductImage)
+        builder.HasOne(p => p.AdvertisementImage)
             .WithOne(p => p.Image);
 
         builder.HasOne(p => p.UserAvatar)

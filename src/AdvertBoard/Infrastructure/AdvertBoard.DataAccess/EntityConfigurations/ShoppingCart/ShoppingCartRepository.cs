@@ -10,13 +10,13 @@ namespace AdvertBoard.DataAccess.EntityConfigurations.ShoppingCart;
 public class ShoppingCartRepository : IShoppingCartRepository
 {
     private readonly IRepository<Domain.ShoppingCart> _repository;
-    private readonly IRepository<Domain.Product> _productRepository;
+    private readonly IRepository<Domain.Advertisement> _productRepository;
 
     /// <summary>
     /// Инициализирует экземпляр <see cref="ShoppingCartRepository"/>.
     /// </summary>
     /// <param name="repository">Базовый репозиторий.</param>
-    public ShoppingCartRepository(IRepository<Domain.ShoppingCart> repository, IRepository<Domain.Product> product)
+    public ShoppingCartRepository(IRepository<Domain.ShoppingCart> repository, IRepository<Domain.Advertisement> product)
     {
         _repository = repository;
         _productRepository = product;

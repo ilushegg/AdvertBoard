@@ -1,12 +1,12 @@
 ﻿using AdvertBoard.Domain;
 
-namespace AdvertBoard.DataAccess.EntityConfigurations.ProductImage
+namespace AdvertBoard.DataAccess.EntityConfigurations.Image
 {
     public interface IImageRepository
     {
-        Task AddAsync(Image image, CancellationToken cancellationToken);
-        Task Delete(Image image, CancellationToken cancellationToken);
-        Task EditAsync(Image image, CancellationToken cancellationToken);
-        Task<Image> GetById(Guid id, CancellationToken cancellationToken);
+        Task AddAsync(Domain.Image image, CancellationToken cancellationToken);
+        Task Delete(Domain.Image image, CancellationToken cancellationToken);
+        Task EditAsync(Domain.Image image, CancellationToken cancellationToken);
+        Task<Domain.Image> GetById(Guid id, CancellationToken cancellationToken);
     }
 }

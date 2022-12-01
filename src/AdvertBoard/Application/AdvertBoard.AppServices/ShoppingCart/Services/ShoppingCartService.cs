@@ -11,9 +11,9 @@ namespace AdvertBoard.AppServices.ShoppingCart.Services;
 public class ShoppingCartService : IShoppingCartService
 {
     private readonly IShoppingCartRepository _shoppingCartRepository;
-    private readonly IProductRepository _productRepository;
+    private readonly IAdvertisementRepository _productRepository;
 
-    public ShoppingCartService(IShoppingCartRepository shoppingCartRepository, IProductRepository productRepository)
+    public ShoppingCartService(IShoppingCartRepository shoppingCartRepository, IAdvertisementRepository productRepository)
     {
         _shoppingCartRepository = shoppingCartRepository;
         _productRepository = productRepository;
@@ -50,7 +50,7 @@ public class ShoppingCartService : IShoppingCartService
     }
 
     /// <inheritdoc />
-    public Task<Guid> AddAsync(FullAdvertisementDto product, int quantity, User user, CancellationToken cancellationToken)
+    public Task<Guid> AddAsync(FullAdvertisementDto product, int quantity, Domain.User user, CancellationToken cancellationToken)
     {
         var shoppingCart = new Domain.ShoppingCart
         {
@@ -76,7 +76,7 @@ public class ShoppingCartService : IShoppingCartService
         return _shoppingCartRepository.DeleteAsync(id, cancellationToken);
     }
 
-    public async Task<Domain.ShoppingCart> GetByProductId(Guid productId, User user, CancellationToken cancellationToken)
+    public async Task<Domain.ShoppingCart> GetByProductId(Guid productId, Domain.User user, CancellationToken cancellationToken)
     {
         return await _shoppingCartRepository.GetByProductId(productId, user.Id, cancellationToken);
     }

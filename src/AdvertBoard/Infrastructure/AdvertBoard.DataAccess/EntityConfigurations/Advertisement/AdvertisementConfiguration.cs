@@ -1,17 +1,17 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace AdvertBoard.DataAccess.EntityConfigurations.Product;
+namespace AdvertBoard.DataAccess.EntityConfigurations.Advertisement;
 
 /// <summary>
-/// Конфигурация таблицы Products.
+/// Конфигурация таблицы Advertisements.
 /// </summary>
-public class ProductConfiguration : IEntityTypeConfiguration<Domain.Product>
+public class AdvertisementConfiguration : IEntityTypeConfiguration<Domain.Advertisement>
 {
     /// <inheritdoc />
-    public void Configure(EntityTypeBuilder<Domain.Product> builder)
+    public void Configure(EntityTypeBuilder<Domain.Advertisement> builder)
     {
-        builder.ToTable("Products");
+        builder.ToTable("Advertisements");
 
         builder.HasKey(b => b.Id);
         builder.Property(b => b.Id).ValueGeneratedOnAdd();
@@ -21,7 +21,7 @@ public class ProductConfiguration : IEntityTypeConfiguration<Domain.Product>
         builder.Property(b => b.Description).HasMaxLength(2000).IsRequired();
 
         builder.HasOne(s => s.Category)
-            .WithMany(p => p.Products)
+            .WithMany(p => p.Advertisements)
             .HasForeignKey(s => s.CategoryId);
 
         builder.Property(b => b.DateTimeCreated);
@@ -30,12 +30,12 @@ public class ProductConfiguration : IEntityTypeConfiguration<Domain.Product>
 
         builder.Property(b => b.DateTimeUpdated);
 
-        builder.HasMany(p => p.ProductImages)
-            .WithOne(s => s.Product)
-            .HasForeignKey(s => s.ProductId);
+        builder.HasMany(p => p.AdvertisementImages)
+            .WithOne(s => s.Advertisement)
+            .HasForeignKey(s => s.AdvertisementId);
 
         builder.HasOne(s => s.User)
-            .WithMany(p => p.Products)
+            .WithMany(p => p.Advertisements)
             .HasForeignKey(s => s.UserId);
 /*
         builder.HasMany(p => p.ShoppingCarts)

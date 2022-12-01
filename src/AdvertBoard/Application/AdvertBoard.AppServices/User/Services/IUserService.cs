@@ -1,7 +1,7 @@
 using AdvertBoard.Contracts;
 using AdvertBoard.Domain;
 
-namespace AdvertBoard.AppServices.Product.Services;
+namespace AdvertBoard.AppServices.User.Services;
 
 /// <summary>
 /// Сервис для работы с товарами
@@ -37,6 +37,6 @@ public interface IUserService {
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    Task<User> GetCurrent(CancellationToken cancellationToken);
+    Task<Domain.User> GetCurrent(CancellationToken cancellationToken);
 
 }

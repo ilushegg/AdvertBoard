@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 
-namespace AdvertBoard.AppServices.ProductImage.Services
+namespace AdvertBoard.AppServices.Image.Services
 {
     public interface IImageService
     {

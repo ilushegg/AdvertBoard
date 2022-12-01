@@ -3,18 +3,18 @@ using AdvertBoard.AppServices.Product.Repositories;
 using AdvertBoard.Contracts;
 using AdvertBoard.Infrastructure.Repository;
 
-namespace AdvertBoard.DataAccess.EntityConfigurations.Product;
+namespace AdvertBoard.DataAccess.EntityConfigurations.Advertisement;
 
 /// <inheritdoc />
-public class ProductRepository : IProductRepository
+public class AdvertisementRepository : IAdvertisementRepository
 {
-    private readonly IRepository<Domain.Product> _repository;
+    private readonly IRepository<Domain.Advertisement> _repository;
 
     /// <summary>
-    /// Инициализирует экземпляр <see cref="ProductRepository"/>.
+    /// Инициализирует экземпляр <see cref="AdvertisementRepository"/>.
     /// </summary>
     /// <param name="repository">Базовый репозиторий.</param>
-    public ProductRepository(IRepository<Domain.Product> repository, IRepository<ProductDto> repositoryDto)
+    public AdvertisementRepository(IRepository<Domain.Advertisement> repository, IRepository<ProductDto> repositoryDto)
     {
         _repository = repository;
     }
@@ -60,30 +60,30 @@ public class ProductRepository : IProductRepository
             }).ToListAsync(cancellation);
     }
 
-    public async Task<bool> AddAsync(Domain.Product product, CancellationToken cancellation)
+    public async Task<bool> AddAsync(Domain.Advertisement product, CancellationToken cancellation)
     {
         var result = _repository.AddAsync(product);
         return true;
     }
 
-    public void Add(Domain.Product product, CancellationToken cancellation)
+    public void Add(Domain.Advertisement product, CancellationToken cancellation)
     {
         _repository.Add(product);
     }
 
-    public async Task<bool> DeleteAsync(Domain.Product product, CancellationToken cancellation)
+    public async Task<bool> DeleteAsync(Domain.Advertisement product, CancellationToken cancellation)
     {
         var result = _repository.DeleteAsync(product);
         return true;
     }
 
-    public async Task<bool> EditAsync(Domain.Product product, CancellationToken cancellation)
+    public async Task<bool> EditAsync(Domain.Advertisement product, CancellationToken cancellation)
     {
         var result = _repository.UpdateAsync(product);
         return true;
     }
 
-    public async Task<Domain.Product> GetById(Guid productId, CancellationToken cancellation)
+    public async Task<Domain.Advertisement> GetById(Guid productId, CancellationToken cancellation)
     {
         var result = await _repository.GetByIdAsync(productId);
 

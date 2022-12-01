@@ -17,11 +17,17 @@ using AdvertBoard.DataAccess.EntityConfigurations.Category;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Session;
 using AdvertBoard.AppServices.ProductImage.Services;
-using AdvertBoard.AppServices.ProductImage.Repositories;
-using AdvertBoard.DataAccess.EntityConfigurations.ProductImage;
+using AdvertBoard.AppServices.AdvertisementImage.Repositories;
+using AdvertBoard.DataAccess.EntityConfigurations.AdvertisementImage;
 using AdvertBoard.Infrastructure.FileService;
 using AdvertBoard.DataAccess.EntityConfigurations.UserAvatar;
 using AdvertBoard.AppServices.Category.Repositories;
+using AdvertBoard.AppServices.User.Services;
+using AdvertBoard.AppServices.User.Repositories;
+using AdvertBoard.AppServices.Advertisement.Services;
+using AdvertBoard.DataAccess.EntityConfigurations.Advertisement;
+using AdvertBoard.AppServices.Image.Services;
+using AdvertBoard.DataAccess.EntityConfigurations.Image;
 
 namespace AdvertBoard.Registrar;
 
@@ -54,11 +60,11 @@ public static class AdvertBoardRegistrar
         services.AddTransient<IUserService, UserService>();
         services.AddTransient<IUserRepository, UserRepository>();
 
-        services.AddTransient<IProductService, ProductService>();
-        services.AddTransient<IProductRepository, ProductRepository>();
+        services.AddTransient<IAdvertisementService, AdvertisementService>();
+        services.AddTransient<IAdvertisementRepository, AdvertisementRepository>();
 
-        services.AddTransient<IProductImageService, ProductImageService>();
-        services.AddTransient<IProductImageRepository, ProductImageRepository>();
+        services.AddTransient<IAdvertisementImageService, AdvertisementImageService>();
+        services.AddTransient<IAdvertisementImageRepository, AdvertisementImageRepository>();
 
         services.AddTransient<IUserAvatarService, UserAvatarService>();
         services.AddTransient<IUserAvatarRepository, UserAvatarRepository>();

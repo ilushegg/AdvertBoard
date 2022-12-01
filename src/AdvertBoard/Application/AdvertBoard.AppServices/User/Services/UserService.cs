@@ -1,4 +1,5 @@
 using AdvertBoard.AppServices.Product.Repositories;
+using AdvertBoard.AppServices.User.Repositories;
 using AdvertBoard.Contracts;
 using AdvertBoard.Domain;
 using AdvertBoard.Infrastructure.Identity;
@@ -10,7 +11,7 @@ using System.Net;
 using System.Security.Claims;
 using System.Text;
 
-namespace AdvertBoard.AppServices.Product.Services;
+namespace AdvertBoard.AppServices.User.Services;
 
 /// <inheritdoc />
 public class UserService : IUserService
@@ -40,7 +41,7 @@ public class UserService : IUserService
         };
     }
 
-    public async Task<User> GetCurrent(CancellationToken cancellationToken)
+    public async Task<Domain.User> GetCurrent(CancellationToken cancellationToken)
     {
         var claims = await _claimsAccessor.GetClaims(cancellationToken);
         var claimId = claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
@@ -99,7 +100,7 @@ public class UserService : IUserService
         var user = await _userRepository.FindWhere(user => user.Email == userDto.Email, cancellationToken);
         if(user == null)
         {
-            user = new User
+            user = new Domain.User
             {
                 Name = userDto.Name,
                 Email = userDto.Email,
