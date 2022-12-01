@@ -14,16 +14,16 @@ public class AdvertisementRepository : IAdvertisementRepository
     /// Инициализирует экземпляр <see cref="AdvertisementRepository"/>.
     /// </summary>
     /// <param name="repository">Базовый репозиторий.</param>
-    public AdvertisementRepository(IRepository<Domain.Advertisement> repository, IRepository<ProductDto> repositoryDto)
+    public AdvertisementRepository(IRepository<Domain.Advertisement> repository, IRepository<AdvertisementDto> repositoryDto)
     {
         _repository = repository;
     }
 
     /// <inheritdoc />
-    public async Task<IReadOnlyCollection<ProductDto>> GetAll(int take, int skip, CancellationToken cancellation)
+    public async Task<IReadOnlyCollection<AdvertisementDto>> GetAll(int take, int skip, CancellationToken cancellation)
     {
         return await _repository.GetAll()
-            .Select(p => new ProductDto
+            .Select(p => new AdvertisementDto
             {
                 Id = p.Id,
                 Name = p.Name,
@@ -35,7 +35,7 @@ public class AdvertisementRepository : IAdvertisementRepository
     }
 
     /// <inheritdoc />
-    public async Task<IReadOnlyCollection<ProductDto>> GetAllFiltered(ProductFilterRequest request,
+    public async Task<IReadOnlyCollection<AdvertisementDto>> GetAllFiltered(ProductFilterRequest request,
         CancellationToken cancellation)
     {
         var query = _repository.GetAll();
@@ -50,7 +50,7 @@ public class AdvertisementRepository : IAdvertisementRepository
             query = query.Where(p => p.Name.ToLower().Contains(request.Name.ToLower()));
         }
             
-        return await query.Select(p => new ProductDto
+        return await query.Select(p => new AdvertisementDto
             {
                 Id = p.Id,
                 Name = p.Name,

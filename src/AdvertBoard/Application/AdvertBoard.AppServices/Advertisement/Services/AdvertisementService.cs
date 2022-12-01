@@ -29,20 +29,20 @@ public class AdvertisementService : IAdvertisementService
     }
 
     /// <inheritdoc />
-    public Task<IReadOnlyCollection<ProductDto>> GetAll(int take, int skip, CancellationToken cancellation)
+    public Task<IReadOnlyCollection<AdvertisementDto>> GetAll(int take, int skip, CancellationToken cancellation)
     {
         return _productRepository.GetAll(take, skip, cancellation);
     }
 
     /// <inheritdoc />
-    public Task<IReadOnlyCollection<ProductDto>> GetAllFiltered(ProductFilterRequest request, CancellationToken cancellation)
+    public Task<IReadOnlyCollection<AdvertisementDto>> GetAllFiltered(ProductFilterRequest request, CancellationToken cancellation)
     {
         return _productRepository.GetAllFiltered(request, cancellation);
     }
 
     public Guid Add(string name, string description, decimal price, Guid categoryId, Domain.User user, CancellationToken cancellation = default)
     {
-        var product = new Domain.Advertisement
+        var advertisement = new Domain.Advertisement
         {
             Name = name,
             Description = description,
@@ -55,10 +55,10 @@ public class AdvertisementService : IAdvertisementService
 
         var category = _categoryRepository.FindById(categoryId, cancellation);
 
-        product.CategoryId = category.Result.Key;
+        advertisement.CategoryId = category.Result.Key;
 
-        _productRepository.AddAsync(product, cancellation);
-        return product.Id;
+        _productRepository.AddAsync(advertisement, cancellation);
+        return advertisement.Id;
     }
 
     /// <inheritdoc />
@@ -115,30 +115,39 @@ public class AdvertisementService : IAdvertisementService
          
     }
 
-    public async Task<FullAdvertisementDto> GetById(Guid productId, CancellationToken cancellation)
+    public async Task<FullAdvertisementDto> GetById(Guid advertisementId, CancellationToken cancellation)
     {
-        var ad = await _productRepository.GetById(productId, cancellation);
-        var images = await _productImageRepository.GetAllByProduct(productId, cancellation);
-        var user = await _userRepository.FindById(ad.UserId, cancellation);
-        var imageList = new List<string>();
-        foreach (var image in images)
+        try
         {
-            byte[] byteImage = File.ReadAllBytes(image.FilePath);
-            imageList.Add("data:image/png;base64," + Convert.ToBase64String(byteImage));
+            var ad = await _productRepository.GetById(advertisementId, cancellation);
+            var images = await _productImageRepository.GetAllByProduct(advertisementId, cancellation);
+            var user = await _userRepository.FindById(ad.UserId, cancellation);
+            var imageList = new List<string>();
+            foreach (var image in images)
+            {
+                byte[] byteImage = File.ReadAllBytes(image.FilePath);
+                imageList.Add("data:image/png;base64," + Convert.ToBase64String(byteImage));
+            }
+            var result = new FullAdvertisementDto
+            {
+                Id = ad.Id,
+                Name = ad.Name,
+                Description = ad.Description,
+                Price = ad.Price,
+                Images = imageList,
+                DateTimeCreated = $"{ad.DateTimeCreated.ToLocalTime().ToString("D")}",
+                DateTimeUpdated = $"{ad.DateTimeUpdated.ToString("D")}",
+                AuthorId = ad.UserId,
+                AuthorName = user.Name,
+                AuthorAvatar = "",
+                AuthorNumber = user.Number
+            };
+            return result;
+
         }
-        var result = new FullAdvertisementDto
+        catch(Exception ex)
         {
-            Id = ad.Id,
-            Name = ad.Name,
-            Description = ad.Description,
-            Price = ad.Price,
-            Images = imageList,
-            DateTimeCreated = $"{ad.DateTimeCreated.ToLocalTime().ToString("D")}",
-            DateTimeUpdated = $"{ad.DateTimeUpdated.ToString("D")}",
-            AuthorId = ad.UserId,
-            AuthorName = user.Name,
-            AuthorAvatar = ""
-        };
-        return result;
+            throw new Exception(ex.Message);
+        }
     }
 }

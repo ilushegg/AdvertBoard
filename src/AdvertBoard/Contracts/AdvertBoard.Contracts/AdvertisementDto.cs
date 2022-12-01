@@ -3,7 +3,7 @@ namespace AdvertBoard.Contracts;
 /// <summary>
 /// Товар
 /// </summary>
-public class ProductDto
+public class AdvertisementDto
 {
     /// <summary>
     /// Идентификатор.

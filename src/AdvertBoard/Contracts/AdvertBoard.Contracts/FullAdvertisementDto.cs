@@ -60,5 +60,10 @@ public class FullAdvertisementDto
     /// </summary>
     public string AuthorAvatar { get; set; }
 
+    /// <summary>
+    /// Номер телефона автора.
+    /// </summary>
+    public string AuthorNumber { get; set; }
+
 
 }

@@ -22,7 +22,7 @@ public interface IAdvertisementService
     /// <param name="take"></param>
     /// <param name="skip"></param>
     /// <returns></returns>
-    Task<IReadOnlyCollection<ProductDto>> GetAll(int take, int skip, CancellationToken cancellation);
+    Task<IReadOnlyCollection<AdvertisementDto>> GetAll(int take, int skip, CancellationToken cancellation);
 
     /// <summary>
     /// 
@@ -30,7 +30,7 @@ public interface IAdvertisementService
     /// <param name="request"></param>
     /// <param name="cancellation"></param>
     /// <returns></returns>
-    Task<IReadOnlyCollection<ProductDto>> GetAllFiltered(ProductFilterRequest request, CancellationToken cancellation);
+    Task<IReadOnlyCollection<AdvertisementDto>> GetAllFiltered(ProductFilterRequest request, CancellationToken cancellation);
 
     /// <summary>
     /// 

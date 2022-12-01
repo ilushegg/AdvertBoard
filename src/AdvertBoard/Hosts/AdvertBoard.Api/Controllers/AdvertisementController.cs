@@ -35,7 +35,7 @@ public class AdvertisementController : ControllerBase
     /// <param name="cancellation"></param>
     /// <returns></returns>
     [HttpGet("get-by-id")]
-    [ProducesResponseType(typeof(IReadOnlyCollection<ProductDto>), StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(IReadOnlyCollection<AdvertisementDto>), StatusCodes.Status201Created)]
     public async Task<IActionResult> GetById([FromQuery] Guid id, CancellationToken cancellation)
     {
         try
@@ -56,7 +56,7 @@ public class AdvertisementController : ControllerBase
     /// <param name="cancellation"></param>
     /// <returns></returns>
     [HttpGet]
-    [ProducesResponseType(typeof(IReadOnlyCollection<ProductDto>), StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(IReadOnlyCollection<AdvertisementDto>), StatusCodes.Status201Created)]
     public async Task<IActionResult> GetAll([FromQuery]PaginationDto paginationDto, CancellationToken cancellation)
     {
         var result = await _advertisementService.GetAll(paginationDto.Limit, paginationDto.Offset, cancellation);
