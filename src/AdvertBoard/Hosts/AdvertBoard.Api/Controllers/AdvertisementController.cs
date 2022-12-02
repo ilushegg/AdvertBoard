@@ -72,7 +72,7 @@ public class AdvertisementController : ControllerBase
     [HttpPost("create")]
     [Authorize]
     [ProducesResponseType(StatusCodes.Status201Created)]
-    public async Task<IActionResult> AddAsync([FromBody]AddProductModel model, CancellationToken cancellationToken)
+    public IActionResult AddAsync([FromBody]AddProductModel model, CancellationToken cancellationToken)
     {
         try
         {
@@ -81,7 +81,7 @@ public class AdvertisementController : ControllerBase
             var result = _advertisementService.Add(model.Name, model.Description, model.Price, model.CategoryId, user.Result, cancellationToken);
             if(model.Images != null)
             {
-                await _productImageService.AddAsync(result, model.Images, cancellationToken);
+                _productImageService.AddAsync(result, model.Images, cancellationToken);
             }
             return Ok(result);
         }

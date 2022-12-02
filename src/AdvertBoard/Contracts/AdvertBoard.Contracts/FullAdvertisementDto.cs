@@ -26,7 +26,7 @@ public class FullAdvertisementDto
     public decimal Price { get; set; }
 
     /// <summary>
-    /// Изображение.
+    /// Изображения.
     /// </summary>
     public List<string> Images { get; set; }
     
@@ -64,6 +64,13 @@ public class FullAdvertisementDto
     /// Номер телефона автора.
     /// </summary>
     public string AuthorNumber { get; set; }
+
+    /// <summary>
+    /// Дата регистрации автора.
+    /// </summary>
+    public string AuthorRegisterDate { get; set; }
+
+
 
 
 }

@@ -29,7 +29,8 @@ public class AdvertisementRepository : IAdvertisementRepository
                 Name = p.Name,
                 Description = p.Description,
                 CategoryId = p.Category.Id,
-                Price = p.Price
+                Price = p.Price,
+                DateTimeCreated = $"{p.DateTimeCreated.ToString("f")}"
             })
             .Take(take).Skip(skip).ToListAsync(cancellation);
     }

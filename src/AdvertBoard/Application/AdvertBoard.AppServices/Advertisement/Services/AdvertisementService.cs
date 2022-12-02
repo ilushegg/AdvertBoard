@@ -5,6 +5,7 @@ using AdvertBoard.Contracts;
 using AdvertBoard.Domain;
 using System.IO;
 using AdvertBoard.AppServices.User.Repositories;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace AdvertBoard.AppServices.Advertisement.Services;
 
@@ -29,9 +30,23 @@ public class AdvertisementService : IAdvertisementService
     }
 
     /// <inheritdoc />
-    public Task<IReadOnlyCollection<AdvertisementDto>> GetAll(int take, int skip, CancellationToken cancellation)
+    public async Task<IReadOnlyCollection<AdvertisementDto>> GetAll(int take, int skip, CancellationToken cancellation)
     {
-        return _productRepository.GetAll(take, skip, cancellation);
+        var advertisements = await _productRepository.GetAll(take, skip, cancellation);
+        foreach(var ad in advertisements)
+        {
+            var images = await _productImageRepository.GetAllByProduct(ad.Id, cancellation);
+            var imageList = new List<string>();
+            foreach (var image in images)
+            {
+                byte[] byteImage = File.ReadAllBytes(image.FilePath);
+                imageList.Add("data:image/png;base64," + Convert.ToBase64String(byteImage));
+            }
+            ad.Images = imageList;
+        }
+
+        return advertisements;
+
     }
 
     /// <inheritdoc />
@@ -123,6 +138,7 @@ public class AdvertisementService : IAdvertisementService
             var images = await _productImageRepository.GetAllByProduct(advertisementId, cancellation);
             var user = await _userRepository.FindById(ad.UserId, cancellation);
             var imageList = new List<string>();
+           
             foreach (var image in images)
             {
                 byte[] byteImage = File.ReadAllBytes(image.FilePath);
@@ -134,13 +150,15 @@ public class AdvertisementService : IAdvertisementService
                 Name = ad.Name,
                 Description = ad.Description,
                 Price = ad.Price,
+                CategoryId = ad.CategoryId,
                 Images = imageList,
-                DateTimeCreated = $"{ad.DateTimeCreated.ToLocalTime().ToString("D")}",
-                DateTimeUpdated = $"{ad.DateTimeUpdated.ToString("D")}",
+                DateTimeCreated = $"{ad.DateTimeCreated.ToString("f")}",
+                DateTimeUpdated = $"{ad.DateTimeUpdated.ToString("f")}",
                 AuthorId = ad.UserId,
                 AuthorName = user.Name,
                 AuthorAvatar = "",
-                AuthorNumber = user.Number
+                AuthorNumber = user.Number,
+                AuthorRegisterDate = $"{user.CreateDate.ToString("D")}"
             };
             return result;
 

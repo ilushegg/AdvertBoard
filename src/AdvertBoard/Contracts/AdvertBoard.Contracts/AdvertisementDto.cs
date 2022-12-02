@@ -30,4 +30,14 @@ public class AdvertisementDto
     /// </summary>
     public Guid CategoryId { get; set; }
 
+    /// <summary>
+    /// Изображения.
+    /// </summary>
+    public List<string> Images { get; set; }
+
+    /// <summary>
+    /// Дата создания объявления.
+    /// </summary>
+    public string DateTimeCreated { get; set; }
+
 }
