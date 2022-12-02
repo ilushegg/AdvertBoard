@@ -55,7 +55,7 @@ public class AdvertisementService : IAdvertisementService
         return _productRepository.GetAllFiltered(request, cancellation);
     }
 
-    public Guid Add(string name, string description, decimal price, Guid categoryId, Domain.User user, CancellationToken cancellation = default)
+    public Guid Add(string name, string description, decimal price, Guid categoryId, Guid locationId, Domain.User user, CancellationToken cancellation = default)
     {
         var advertisement = new Domain.Advertisement
         {
@@ -63,6 +63,7 @@ public class AdvertisementService : IAdvertisementService
             Description = description,
             Price = price,
             User = user,
+            LocationId = locationId,
             DateTimeCreated = DateTime.UtcNow,
             DateTimeUpdated = DateTime.UtcNow,
             DateTimePublish = DateTime.UtcNow
@@ -77,14 +78,15 @@ public class AdvertisementService : IAdvertisementService
     }
 
     /// <inheritdoc />
-    public async Task<Guid> AddAsync(string name, string description, decimal price, Guid categoryId, Domain.User user, CancellationToken cancellation = default) 
+    public async Task<Guid> AddAsync(string name, string description, decimal price, Guid categoryId, Guid locationId, Domain.User user, CancellationToken cancellation = default) 
     {
-        var product = new Domain.Advertisement
+        var advertisement = new Domain.Advertisement
         {
             Name = name,
             Description = description,
             Price = price, 
             User = user,
+            LocationId = locationId,
             DateTimeCreated = DateTime.UtcNow,
             DateTimeUpdated = DateTime.UtcNow,
             DateTimePublish = DateTime.UtcNow
@@ -92,40 +94,40 @@ public class AdvertisementService : IAdvertisementService
             
         var category = await _categoryRepository.FindById(categoryId, cancellation);
 
-        product.CategoryId = category.Key;
+        advertisement.CategoryId = category.Key;
 
-        await _productRepository.AddAsync(product, cancellation);
-        return product.Id;
+        await _productRepository.AddAsync(advertisement, cancellation);
+        return advertisement.Id;
     }
 
     public async Task<Guid> EditAsync(Guid productId, string name, string description, decimal price, Guid categoryId, CancellationToken cancellation)
     {
-        var product = await _productRepository.GetById(productId, cancellation);
-        if (product == null)
+        var advertisement = await _productRepository.GetById(productId, cancellation);
+        if (advertisement == null)
         {
             throw new Exception($"Товар с идентификатором '{productId}' не найден");
         }
         else
         {
-            product.Name = name;
-            product.Price = price;
-            product.Description = description;
-            product.DateTimeUpdated = DateTime.UtcNow;
-            await _productRepository.EditAsync(product, cancellation);
-            return product.Id;
+            advertisement.Name = name;
+            advertisement.Price = price;
+            advertisement.Description = description;
+            advertisement.DateTimeUpdated = DateTime.UtcNow;
+            await _productRepository.EditAsync(advertisement, cancellation);
+            return advertisement.Id;
         }
     }
 
     public async Task<bool> DeleteAsync(Guid productId, CancellationToken cancellation)
     {
-        var product = await _productRepository.GetById(productId, cancellation);
-        if(product == null)
+        var advertisement = await _productRepository.GetById(productId, cancellation);
+        if(advertisement == null)
         {
             throw new Exception($"Товар с идентификатором '{productId}' не найден");
         }
         else
         {
-            return await _productRepository.DeleteAsync(product, cancellation);
+            return await _productRepository.DeleteAsync(advertisement, cancellation);
         }
          
     }

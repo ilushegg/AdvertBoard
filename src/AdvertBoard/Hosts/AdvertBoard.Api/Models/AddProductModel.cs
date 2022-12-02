@@ -28,5 +28,25 @@ public class AddProductModel
     /// <summary>
     /// Изображения.
     /// </summary>
-    public Guid[] Images { get; set; }
+    public Guid[]? Images { get; set; }
+
+    /// <summary>
+    /// Страна.
+    /// </summary>
+    public string? Country { get; set; }
+
+    /// <summary>
+    /// Город.
+    /// </summary>
+    public string? City { get; set; }
+
+    /// <summary>
+    /// Улица.
+    /// </summary>
+    public string? Street { get; set; }
+
+    /// <summary>
+    /// Номер.
+    /// </summary>
+    public string? Number { get; set; }
 }

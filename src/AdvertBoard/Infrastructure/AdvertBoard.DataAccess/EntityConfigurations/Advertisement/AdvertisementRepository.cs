@@ -14,7 +14,7 @@ public class AdvertisementRepository : IAdvertisementRepository
     /// Инициализирует экземпляр <see cref="AdvertisementRepository"/>.
     /// </summary>
     /// <param name="repository">Базовый репозиторий.</param>
-    public AdvertisementRepository(IRepository<Domain.Advertisement> repository, IRepository<AdvertisementDto> repositoryDto)
+    public AdvertisementRepository(IRepository<Domain.Advertisement> repository)
     {
         _repository = repository;
     }

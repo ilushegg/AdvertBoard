@@ -66,9 +66,14 @@ public class Advertisement
     public DateTime DateTimeUpdated { get; set; }
     
     /// <summary>
-    /// Коллекция элементов корзины.
+    /// Идентификатор локации.
     /// </summary>
-/*    public ICollection<ShoppingCart> ShoppingCarts { get; set; }*/
+    public Guid? LocationId { get; set; }
+
+    /// <summary>
+    /// Локация.
+    /// </summary>
+    public Location? Location { get; set; }
 
 
 }

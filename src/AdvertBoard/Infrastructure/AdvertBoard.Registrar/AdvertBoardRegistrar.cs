@@ -28,6 +28,9 @@ using AdvertBoard.AppServices.Advertisement.Services;
 using AdvertBoard.DataAccess.EntityConfigurations.Advertisement;
 using AdvertBoard.AppServices.Image.Services;
 using AdvertBoard.DataAccess.EntityConfigurations.Image;
+using AdvertBoard.AppServices.Location.Services;
+using AdvertBoard.DataAccess.EntityConfigurations.Location;
+using AdvertBoard.AppServices.Location.Repositories;
 
 namespace AdvertBoard.Registrar;
 
@@ -74,6 +77,9 @@ public static class AdvertBoardRegistrar
 
         services.AddTransient<IImageService, ImageService>();
         services.AddTransient<IImageRepository, ImageRepository>();
+        
+        services.AddTransient<ILocationService, LocationService>();
+        services.AddTransient<ILocationRepository, LocationRepository>();
 
         services.AddTransient<IFileService, FileService>();
 

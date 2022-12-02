@@ -7,6 +7,7 @@ using AdvertBoard.Domain;
 using AdvertBoard.AppServices.ProductImage.Services;
 using AdvertBoard.AppServices.Advertisement.Services;
 using AdvertBoard.AppServices.User.Services;
+using AdvertBoard.AppServices.Location.Services;
 
 namespace AdvertBoard.Api.Controllers;
 
@@ -21,12 +22,14 @@ public class AdvertisementController : ControllerBase
     private readonly IUserService _userService;
     private readonly IAdvertisementImageService _productImageService;
     private readonly ICategoryService _categoryService;
+    private readonly ILocationService _locationService;
 
-    public AdvertisementController(IAdvertisementService advertisementService, IUserService userService, IAdvertisementImageService productImageService)
+    public AdvertisementController(IAdvertisementService advertisementService, IUserService userService, IAdvertisementImageService productImageService, ILocationService locationService)
     {
         _advertisementService = advertisementService;
         _userService = userService;
         _productImageService = productImageService;
+        _locationService = locationService;
     }
 
     /// <summary>
@@ -72,13 +75,13 @@ public class AdvertisementController : ControllerBase
     [HttpPost("create")]
     [Authorize]
     [ProducesResponseType(StatusCodes.Status201Created)]
-    public IActionResult AddAsync([FromBody]AddProductModel model, CancellationToken cancellationToken)
+    public IActionResult Add([FromBody]AddProductModel model, CancellationToken cancellationToken)
     {
         try
         {
             var user = _userService.GetCurrent(cancellationToken);
-
-            var result = _advertisementService.Add(model.Name, model.Description, model.Price, model.CategoryId, user.Result, cancellationToken);
+            var location = _locationService.Add(model.Country, model.City, model.Street, model.Number, cancellationToken);
+            var result = _advertisementService.Add(model.Name, model.Description, model.Price, model.CategoryId, location, user.Result, cancellationToken);
             if(model.Images != null)
             {
                 _productImageService.AddAsync(result, model.Images, cancellationToken);
