@@ -1,12 +1,6 @@
-﻿
-using AdvertBoard.Contracts;
+﻿using AdvertBoard.Contracts;
 using AdvertBoard.Infrastructure.Repository;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AdvertBoard.DataAccess.EntityConfigurations.UserAvatar
 {
@@ -42,10 +36,25 @@ namespace AdvertBoard.DataAccess.EntityConfigurations.UserAvatar
             await _repository.DeleteAsync(productImage);
         }
 
-        public async Task<Domain.UserAvatar> GetById(Guid id, CancellationToken cancellationToken)
+        public async Task<UserAvatarDto> GetByUserIdAsync(Guid userId, CancellationToken cancellationToken)
         {
-            return await _repository.GetByIdAsync(id);
+            var avatar = await _repository.GetAll().Where(u => u.UserId == userId).FirstOrDefaultAsync();
+            if (avatar != null)
+            {
+                return new UserAvatarDto
+                {
+                    Id = avatar.Id,
+                    UserId = avatar.UserId,
+                    ImageId = avatar.ImageId,
+                    FilePath = avatar.Image.FilePath
+                };
+            }
+            return new UserAvatarDto
+            {
+                FilePath = null
+            };
         }
+
 
     }
 }

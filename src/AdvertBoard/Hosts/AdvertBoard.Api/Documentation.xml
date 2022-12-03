@@ -120,7 +120,7 @@
             Работа с корзиной товаров.
             </summary>
         </member>
-        <member name="M:AdvertBoard.Api.Controllers.UserController.#ctor(AdvertBoard.AppServices.User.Services.IUserService)">
+        <member name="M:AdvertBoard.Api.Controllers.UserController.#ctor(AdvertBoard.AppServices.User.Services.IUserService,AdvertBoard.AppServices.User.Services.IUserAvatarService)">
             <summary>
             
             </summary>
@@ -171,9 +171,24 @@
             Улица.
             </summary>
         </member>
-        <member name="P:AdvertBoard.Contracts.AddProductModel.Number">
+        <member name="P:AdvertBoard.Contracts.AddProductModel.House">
             <summary>
-            Номер.
+            Дом.
+            </summary>
+        </member>
+        <member name="P:AdvertBoard.Contracts.AddProductModel.Flat">
+            <summary>
+            Квартира.
+            </summary>
+        </member>
+        <member name="P:AdvertBoard.Contracts.AddProductModel.Lat">
+            <summary>
+            Координаты широты.
+            </summary>
+        </member>
+        <member name="P:AdvertBoard.Contracts.AddProductModel.Lon">
+            <summary>
+            Координаты долготы.
             </summary>
         </member>
     </members>

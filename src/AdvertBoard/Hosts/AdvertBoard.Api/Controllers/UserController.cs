@@ -5,6 +5,7 @@ using AdvertBoard.Contracts;
 
 using Microsoft.AspNetCore.Authorization;
 using AdvertBoard.AppServices.User.Services;
+using AdvertBoard.Api.Models;
 
 namespace AdvertBoard.Api.Controllers;
 
@@ -17,28 +18,38 @@ namespace AdvertBoard.Api.Controllers;
 public class UserController : ControllerBase
 {
     private readonly IUserService _userService;
+    private readonly IUserAvatarService _userAvatarService;
     
     /// <summary>
     /// 
     /// </summary>
     /// <param name="shoppingCartService"></param>
-    public UserController(IUserService userService)
+    public UserController(IUserService userService, IUserAvatarService userAvatarService)
     {
         _userService = userService;
+        _userAvatarService = userAvatarService;
     }
 
     [HttpGet("get_by_id")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> GetById(Guid id, CancellationToken cancellationToken)
     {
-        return Ok(await _userService.GetById(id, cancellationToken));
+        var user = await _userService.GetById(id, cancellationToken);
+
+        return Ok(user);
     }
 
     [HttpPost("register")]
     [ProducesResponseType(StatusCodes.Status201Created)]
-    public async Task<IActionResult> Register(RegisterUserDto userDto)
+    public async Task<IActionResult> Register(RegisterModel model, CancellationToken cancellationToken)
     {
-        var user = await _userService.Register(userDto, new CancellationToken());
+        var user = _userService.Register(model.Name, model.Email, model.Password, model.Number, cancellationToken);
+        if (model.Avatar != null)
+        {
+            var avatar = await _userAvatarService.AddAsync(user.Result, model.Avatar, cancellationToken);
+
+        }
+
         return Created("", new { });
     }
 

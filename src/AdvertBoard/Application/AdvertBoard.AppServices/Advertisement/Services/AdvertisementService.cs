@@ -7,6 +7,7 @@ using System.IO;
 using AdvertBoard.AppServices.User.Repositories;
 using static System.Net.Mime.MediaTypeNames;
 
+
 namespace AdvertBoard.AppServices.Advertisement.Services;
 
 /// <inheritdoc />
@@ -72,6 +73,7 @@ public class AdvertisementService : IAdvertisementService
         var category = _categoryRepository.FindById(categoryId, cancellation);
 
         advertisement.CategoryId = category.Result.Key;
+
 
         _productRepository.AddAsync(advertisement, cancellation);
         return advertisement.Id;

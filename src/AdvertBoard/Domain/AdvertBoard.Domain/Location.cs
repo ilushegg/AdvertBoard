@@ -32,9 +32,24 @@ namespace AdvertBoard.Domain
         public string? Street { get; set; }
 
         /// <summary>
+        /// Дом.
+        /// </summary>
+        public string? House { get; set; }
+
+        /// <summary>
         /// Номер.
         /// </summary>
         public string? Number { get; set; }
+
+        /// <summary>
+        /// Координата широты.
+        /// </summary>
+        public string Lat { get; set; }
+
+        /// <summary>
+        /// Координата долготы.
+        /// </summary>
+        public string Lon { get; set; }
 
         /// <summary>
         /// Объявление.

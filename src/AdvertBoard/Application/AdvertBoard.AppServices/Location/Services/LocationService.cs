@@ -37,14 +37,17 @@ public class LocationService : ILocationService
     }
 
 
-    public Guid Add(string country, string city, string street, string number, CancellationToken cancellation)
+    public Guid Add(string country, string city, string street, string house, string flat, string lat, string lon, CancellationToken cancellation)
     {
         var location = new Domain.Location
         {
             Country = country,
             City = city,
             Street = street,
-            Number = number
+            House = house,
+            Number = flat,
+            Lat = lat,
+            Lon = lon
         };
 
         _locationRepository.Add(location, cancellation);
@@ -52,14 +55,17 @@ public class LocationService : ILocationService
     }
 
     /// <inheritdoc />
-    public async Task<Guid> AddAsync(string country, string city, string street, string number, CancellationToken cancellation)
+    public async Task<Guid> AddAsync(string country, string city, string street, string house, string flat, string lat, string lon, CancellationToken cancellation)
     {
         var location = new Domain.Location
         {
             Country = country,
             City = city,
             Street = street,
-            Number = number
+            House = house,
+            Number = flat,
+            Lat = lat,
+            Lon = lon
         };
 
         await _locationRepository.AddAsync(location, cancellation);

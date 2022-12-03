@@ -64,6 +64,11 @@ public class Advertisement
     /// Дата редактирования.
     /// </summary>
     public DateTime DateTimeUpdated { get; set; }
+
+    /// <summary>
+    /// Активность объявления.
+    /// </summary>
+    public bool isActived { get; set; }
     
     /// <summary>
     /// Идентификатор локации.

@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AdvertBoard.DataAccess.EntityConfigurations.UserAvatar;
 
-namespace AdvertBoard.AppServices.ProductImage.Services
+namespace AdvertBoard.AppServices.User.Services
 {
     public class UserAvatarService : IUserAvatarService
     {
@@ -27,28 +27,42 @@ namespace AdvertBoard.AppServices.ProductImage.Services
             uploads = Path.Combine(_webHostEnvironment.WebRootPath, "uploads");
         }
 
-        public async Task AddAsync(Guid userId, IFormFile file, CancellationToken cancellationToken)
+        public async Task<Guid> GetAvatarByUserIdAsync(Guid userId, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var userAvatar = await _userAvatarRepository.GetByUserIdAsync(userId, cancellationToken);
+
+                return userAvatar.ImageId;
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+
+
+
+        }
+
+        public async Task<Guid> AddAsync(Guid userId, Guid imageId, CancellationToken cancellationToken)
         {
             var userAvatar = new Domain.UserAvatar()
             {
                 UserId = userId
             };
-            if (file != null)
+            if (imageId != null)
             {
-                var uniqueFileName = _fileService.GetUniqueFileName(file.FileName);
-                var filePath = Path.Combine(uploads, uniqueFileName);
-
-                var fileStream = new FileStream(filePath, FileMode.Create);
-                file.CopyTo(fileStream);
-                fileStream.Dispose();
-/*                userAvatar.FilePath = filePath;*/
+                userAvatar.ImageId = imageId;
             }
             await _userAvatarRepository.AddAsync(userAvatar, cancellationToken);
+
+            return userAvatar.Id;
         }
 
         public async Task EditAsync(Guid id, IFormFile file, CancellationToken cancellationToken)
         {
-            var userAvatar = await _userAvatarRepository.GetById(id, cancellationToken);
+            /*var userAvatar = await _userAvatarRepository.GetById(id, cancellationToken);
             if (userAvatar == null)
             {
                 throw new InvalidOperationException($"Изображение с идентификатором {id} не найдено.");
@@ -62,24 +76,24 @@ namespace AdvertBoard.AppServices.ProductImage.Services
                 file.CopyTo(fileStream);
                 fileStream.Dispose();
 
-/*                userAvatar.FilePath = filePath;*/
+*//*                userAvatar.FilePath = filePath;*//*
             }
-            await _userAvatarRepository.EditAsync(userAvatar, cancellationToken);
+            await _userAvatarRepository.EditAsync(userAvatar, cancellationToken);*/
         }
 
         public async Task DeleteAsync(Guid id, CancellationToken cancellationToken)
         {
-            var userAvatar = await _userAvatarRepository.GetById(id, cancellationToken);
+            /*var userAvatar = await _userAvatarRepository.GetById(id, cancellationToken);
             if (userAvatar == null)
             {
                 throw new InvalidOperationException($"Изображение с идентификатором {id} не найдено.");
             }
-/*            if (userAvatar.FilePath != null)
+*//*            if (userAvatar.FilePath != null)
             {
                 var filePath = Path.Combine(uploads, userAvatar.FilePath);
                 File.Delete(filePath);
-            }*/
-            await _userAvatarRepository.Delete(id, cancellationToken);
+            }*//*
+            await _userAvatarRepository.Delete(id, cancellationToken);*/
         }
 
     }

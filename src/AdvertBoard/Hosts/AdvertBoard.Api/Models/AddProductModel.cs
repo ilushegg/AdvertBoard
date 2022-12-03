@@ -46,7 +46,22 @@ public class AddProductModel
     public string? Street { get; set; }
 
     /// <summary>
-    /// Номер.
+    /// Дом.
     /// </summary>
-    public string? Number { get; set; }
+    public string? House { get; set; }
+
+    /// <summary>
+    /// Квартира.
+    /// </summary>
+    public string? Flat { get; set; }
+
+    /// <summary>
+    /// Координаты широты.
+    /// </summary>
+    public string? Lat { get; set; }
+
+    /// <summary>
+    /// Координаты долготы.
+    /// </summary>
+    public string? Lon { get; set; }
 }
