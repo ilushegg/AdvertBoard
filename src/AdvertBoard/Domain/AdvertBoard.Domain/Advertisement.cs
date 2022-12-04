@@ -73,7 +73,7 @@ public class Advertisement
     /// <summary>
     /// Идентификатор локации.
     /// </summary>
-    public Guid? LocationId { get; set; }
+    public Guid LocationId { get; set; }
 
     /// <summary>
     /// Локация.

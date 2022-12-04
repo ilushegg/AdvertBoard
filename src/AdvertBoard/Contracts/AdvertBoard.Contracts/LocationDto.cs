@@ -30,4 +30,9 @@ public class LocationDto
     /// </summary>
     public string Number { get; set; }
 
+    /// <summary>
+    /// Строка адреса.
+    /// </summary>
+    public string LocationQueryString { get; set; }
+
 }

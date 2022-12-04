@@ -70,6 +70,21 @@ public class FullAdvertisementDto
     /// </summary>
     public string AuthorRegisterDate { get; set; }
 
+    /// <summary>
+    /// Строка адреса.
+    /// </summary>
+    public string LocationQueryString { get; set; }
+
+    /// <summary>
+    /// Координаты широты.
+    /// </summary>
+    public string LocationLat { get; set; }
+
+    /// <summary>
+    /// Координаты долготы.
+    /// </summary>
+    public string LocationLon { get; set; }
+
 
 
 

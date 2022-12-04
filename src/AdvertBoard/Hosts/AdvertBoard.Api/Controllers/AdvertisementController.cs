@@ -80,11 +80,11 @@ public class AdvertisementController : ControllerBase
         try
         {
             var user = _userService.GetCurrent(cancellationToken);
-            var location = _locationService.Add(model.Country, model.City, model.Street, model.House, model.Flat, model.Lat, model.Lon, cancellationToken);
+            var location = _locationService.Add(model.Country, model.City, model.Street, model.House, model.Flat, model.LocationQueryString, model.Lat, model.Lon, cancellationToken);
             var result = _advertisementService.Add(model.Name, model.Description, model.Price, model.CategoryId, location, user.Result, cancellationToken);
             if(model.Images != null)
             {
-                _productImageService.AddAsync(result, model.Images, cancellationToken);
+                _productImageService.Add(result, model.Images);
             }
             return Ok(result);
         }

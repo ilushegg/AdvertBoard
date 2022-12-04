@@ -52,6 +52,11 @@ namespace AdvertBoard.Domain
         public string Lon { get; set; }
 
         /// <summary>
+        /// Строка адреса.
+        /// </summary>
+        public string LocationQueryString { get; set; }
+
+        /// <summary>
         /// Объявление.
         /// </summary>
         public Advertisement Advertisement { get; set; }

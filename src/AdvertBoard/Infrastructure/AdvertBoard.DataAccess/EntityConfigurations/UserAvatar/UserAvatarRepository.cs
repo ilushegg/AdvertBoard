@@ -38,21 +38,27 @@ namespace AdvertBoard.DataAccess.EntityConfigurations.UserAvatar
 
         public async Task<UserAvatarDto> GetByUserIdAsync(Guid userId, CancellationToken cancellationToken)
         {
-            var avatar = await _repository.GetAll().Where(u => u.UserId == userId).FirstOrDefaultAsync();
-            if (avatar != null)
+            try
+            {
+                return await _repository.GetAll().Where(u => u.UserId == userId).
+                Select(a => new UserAvatarDto
+                {
+                    FilePath = a.Image.FilePath,
+                    Id = a.Id,
+                    UserId = a.UserId,
+                    ImageId = a.ImageId
+
+                }).FirstOrDefaultAsync();
+            }
+            catch(Exception ex)
             {
                 return new UserAvatarDto
                 {
-                    Id = avatar.Id,
-                    UserId = avatar.UserId,
-                    ImageId = avatar.ImageId,
-                    FilePath = avatar.Image.FilePath
+                    FilePath = null
                 };
             }
-            return new UserAvatarDto
-            {
-                FilePath = null
-            };
+            
+            
         }
 
 

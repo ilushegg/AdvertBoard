@@ -181,6 +181,11 @@
             Квартира.
             </summary>
         </member>
+        <member name="P:AdvertBoard.Contracts.AddProductModel.LocationQueryString">
+            <summary>
+            Строка адреса.
+            </summary>
+        </member>
         <member name="P:AdvertBoard.Contracts.AddProductModel.Lat">
             <summary>
             Координаты широты.

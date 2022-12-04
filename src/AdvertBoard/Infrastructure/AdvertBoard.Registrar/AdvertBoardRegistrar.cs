@@ -46,13 +46,13 @@ public static class AdvertBoardRegistrar
         });
 
         services.AddSingleton<IDateTimeService, DateTimeService>();
-        services.AddSingleton<IDbContextOptionsConfigurator<AdvertBoardContext>, AdvertBoardContextConfiguration>();
+        services.AddTransient<IDbContextOptionsConfigurator<AdvertBoardContext>, AdvertBoardContextConfiguration>();
         
         services.AddDbContext<AdvertBoardContext>((Action<IServiceProvider, DbContextOptionsBuilder>)
             ((sp, dbOptions) => sp.GetRequiredService<IDbContextOptionsConfigurator<AdvertBoardContext>>()
                 .Configure((DbContextOptionsBuilder<AdvertBoardContext>)dbOptions)));
 
-        services.AddScoped((Func<IServiceProvider, DbContext>) (sp => sp.GetRequiredService<AdvertBoardContext>()));
+        services.AddTransient((Func<IServiceProvider, DbContext>) (sp => sp.GetRequiredService<AdvertBoardContext>()));
         
         services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
         

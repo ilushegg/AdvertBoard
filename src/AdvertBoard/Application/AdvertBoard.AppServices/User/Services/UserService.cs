@@ -38,11 +38,11 @@ public class UserService : IUserService
     public async Task<UserDto> GetById(Guid id, CancellationToken cancellationToken)
     {
         var user = await _userRepository.FindById(id, cancellationToken);
-        var avatar = _userAvatarRepository.GetByUserIdAsync(user.Id, cancellationToken);
+        var avatar = await _userAvatarRepository.GetByUserIdAsync(user.Id, cancellationToken);
         var avatarData = "";
-        if(avatar.Result.FilePath != null)
+        if(avatar.FilePath != null)
         {
-            byte[] byteImage = File.ReadAllBytes(avatar.Result.FilePath);
+            byte[] byteImage = File.ReadAllBytes(avatar.FilePath);
             avatarData = "data:image/png;base64," + Convert.ToBase64String(byteImage);
         }
         return new UserDto

@@ -7,6 +7,7 @@ using AdvertBoard.AppServices.User.Repositories;
 using static System.Net.Mime.MediaTypeNames;
 using AdvertBoard.AppServices.Location.Repositories;
 using System.Diagnostics.Metrics;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace AdvertBoard.AppServices.Location.Services;
 
@@ -37,7 +38,7 @@ public class LocationService : ILocationService
     }
 
 
-    public Guid Add(string country, string city, string street, string house, string flat, string lat, string lon, CancellationToken cancellation)
+    public Guid Add(string country, string city, string street, string house, string flat, string query, string lat, string lon, CancellationToken cancellation)
     {
         var location = new Domain.Location
         {
@@ -46,16 +47,17 @@ public class LocationService : ILocationService
             Street = street,
             House = house,
             Number = flat,
+            LocationQueryString = query,
             Lat = lat,
             Lon = lon
         };
 
-        _locationRepository.Add(location, cancellation);
+        _locationRepository.Add(location);
         return location.Id;
     }
 
     /// <inheritdoc />
-    public async Task<Guid> AddAsync(string country, string city, string street, string house, string flat, string lat, string lon, CancellationToken cancellation)
+    public async Task<Guid> AddAsync(string country, string city, string street, string house, string flat, string query, string lat, string lon, CancellationToken cancellation)
     {
         var location = new Domain.Location
         {
@@ -64,6 +66,7 @@ public class LocationService : ILocationService
             Street = street,
             House = house,
             Number = flat,
+            LocationQueryString = query,
             Lat = lat,
             Lon = lon
         };

@@ -6,7 +6,8 @@ using AdvertBoard.Domain;
 using System.IO;
 using AdvertBoard.AppServices.User.Repositories;
 using static System.Net.Mime.MediaTypeNames;
-
+using AdvertBoard.DataAccess.EntityConfigurations.UserAvatar;
+using AdvertBoard.AppServices.Location.Repositories;
 
 namespace AdvertBoard.AppServices.Advertisement.Services;
 
@@ -17,17 +18,21 @@ public class AdvertisementService : IAdvertisementService
     private readonly ICategoryRepository _categoryRepository;
     private readonly IAdvertisementImageRepository _productImageRepository;
     private readonly IUserRepository _userRepository;
+    private readonly IUserAvatarRepository _userAvatarRepository;
+    private readonly ILocationRepository _locationRepository;
 
     /// <summary>
     /// Инициализирует экземпляр <see cref="AdvertisementService"/>.
     /// </summary>
     /// <param name="productRepository"></param>
-    public AdvertisementService(IAdvertisementRepository productRepository, ICategoryRepository categoryRepository, IAdvertisementImageRepository productImageRepository, IUserRepository userRepository)
+    public AdvertisementService(IAdvertisementRepository productRepository, ICategoryRepository categoryRepository, IAdvertisementImageRepository productImageRepository, IUserRepository userRepository, IUserAvatarRepository userAvatarRepository, ILocationRepository locationRepository)
     {
         _productRepository = productRepository;
         _categoryRepository = categoryRepository;
         _productImageRepository = productImageRepository;
         _userRepository = userRepository;
+        _userAvatarRepository = userAvatarRepository;
+        _locationRepository = locationRepository;
     }
 
     /// <inheritdoc />
@@ -139,8 +144,10 @@ public class AdvertisementService : IAdvertisementService
         try
         {
             var ad = await _productRepository.GetById(advertisementId, cancellation);
+            var location = await _locationRepository.GetById(ad.LocationId, cancellation);
             var images = await _productImageRepository.GetAllByProduct(advertisementId, cancellation);
             var user = await _userRepository.FindById(ad.UserId, cancellation);
+            var userAvatar = await _userAvatarRepository.GetByUserIdAsync(user.Id, cancellation);
             var imageList = new List<string>();
            
             foreach (var image in images)
@@ -160,9 +167,12 @@ public class AdvertisementService : IAdvertisementService
                 DateTimeUpdated = $"{ad.DateTimeUpdated.ToString("f")}",
                 AuthorId = ad.UserId,
                 AuthorName = user.Name,
-                AuthorAvatar = "",
+                AuthorAvatar = "data:image/png;base64," + Convert.ToBase64String(File.ReadAllBytes(userAvatar.FilePath)),
                 AuthorNumber = user.Number,
-                AuthorRegisterDate = $"{user.CreateDate.ToString("D")}"
+                AuthorRegisterDate = $"{user.CreateDate.ToString("D")}",
+                LocationQueryString = location.LocationQueryString,
+                LocationLat = location.Lat,
+                LocationLon = location.Lon
             };
             return result;
 

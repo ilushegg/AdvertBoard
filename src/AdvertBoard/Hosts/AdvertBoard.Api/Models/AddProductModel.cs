@@ -56,6 +56,11 @@ public class AddProductModel
     public string? Flat { get; set; }
 
     /// <summary>
+    /// Строка адреса.
+    /// </summary>
+    public string LocationQueryString { get; set; }
+
+    /// <summary>
     /// Координаты широты.
     /// </summary>
     public string? Lat { get; set; }

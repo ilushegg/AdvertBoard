@@ -40,7 +40,7 @@ public class LocationRepository : ILocationRepository
         await _repository.AddAsync(location);
     }
 
-    public void Add(Domain.Location location, CancellationToken cancellation)
+    public void Add(Domain.Location location)
     {
         _repository.Add(location);
     }

@@ -42,6 +42,22 @@ namespace AdvertBoard.AppServices.ProductImage.Services
             }
         }
 
+        public void Add(Guid productId, Guid[] files)
+        {
+            foreach (var file in files)
+            {
+                var productImage = new Domain.AdvertisementImage()
+                {
+                    AdvertisementId = productId
+                };
+                if (file != null)
+                {
+                    productImage.ImageId = file;
+                }
+                _productImageRepository.Add(productImage);
+            }
+        }
+
         public async Task EditAsync(Guid id, IFormFile file, CancellationToken cancellationToken)
         {
             var productImage = await _productImageRepository.GetById(id, cancellationToken);

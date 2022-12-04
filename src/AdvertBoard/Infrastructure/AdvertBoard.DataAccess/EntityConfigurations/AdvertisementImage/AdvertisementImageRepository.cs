@@ -36,6 +36,11 @@ namespace AdvertBoard.DataAccess.EntityConfigurations.AdvertisementImage
             await _repository.AddAsync(productImage);
         }
 
+        public void Add(Domain.AdvertisementImage productImage)
+        {
+            _repository.Add(productImage);
+        }
+
         public async Task EditAsync(Domain.AdvertisementImage productImage, CancellationToken cancellationToken)
         {
             await _repository.UpdateAsync(productImage);
