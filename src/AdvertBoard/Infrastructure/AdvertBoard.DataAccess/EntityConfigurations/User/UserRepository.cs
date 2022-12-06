@@ -39,4 +39,14 @@ public class UserRepository : IUserRepository
     {
         return await _repository.GetByIdAsync(id);
     }
+
+    public void Edit(Domain.User user)
+    {
+        _repository.Update(user);
+    }
+
+    public async Task EditAsync(Domain.User user, CancellationToken cancellation)
+    {
+       await _repository.UpdateAsync(user);
+    }
 }

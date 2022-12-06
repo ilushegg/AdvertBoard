@@ -77,6 +77,18 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity: class
     }
 
     /// <inheritdoc />
+    public void Update(TEntity model)
+    {
+        if (model == null)
+        {
+            throw new ArgumentNullException(nameof(model));
+        }
+
+        DbSet.Update(model);
+        DbContext.SaveChangesAsync();
+    }
+
+    /// <inheritdoc />
     public async Task DeleteAsync(TEntity model)
     {
         if (model == null)

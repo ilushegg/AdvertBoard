@@ -57,29 +57,29 @@ public static class AdvertBoardRegistrar
         services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
         
 
-        services.AddTransient<IShoppingCartService, ShoppingCartService>();
         services.AddTransient<IShoppingCartRepository, ShoppingCartRepository>();
+        services.AddTransient<IShoppingCartService, ShoppingCartService>();
 
-        services.AddTransient<IUserService, UserService>();
         services.AddTransient<IUserRepository, UserRepository>();
+        services.AddTransient<IUserService, UserService>();
 
-        services.AddTransient<IAdvertisementService, AdvertisementService>();
         services.AddTransient<IAdvertisementRepository, AdvertisementRepository>();
+        services.AddTransient<IAdvertisementService, AdvertisementService>();
 
-        services.AddTransient<IAdvertisementImageService, AdvertisementImageService>();
         services.AddTransient<IAdvertisementImageRepository, AdvertisementImageRepository>();
+        services.AddTransient<IAdvertisementImageService, AdvertisementImageService>();
 
-        services.AddTransient<IUserAvatarService, UserAvatarService>();
         services.AddTransient<IUserAvatarRepository, UserAvatarRepository>();
+        services.AddTransient<IUserAvatarService, UserAvatarService>();
 
-        services.AddTransient<ICategoryService, CategoryService>();
         services.AddTransient<ICategoryRepository, CategoryRepository>();
+        services.AddTransient<ICategoryService, CategoryService>();
 
-        services.AddTransient<IImageService, ImageService>();
         services.AddTransient<IImageRepository, ImageRepository>();
+        services.AddTransient<IImageService, ImageService>();
         
-        services.AddTransient<ILocationService, LocationService>();
         services.AddTransient<ILocationRepository, LocationRepository>();
+        services.AddTransient<ILocationService, LocationService>();
 
         services.AddTransient<IFileService, FileService>();
 

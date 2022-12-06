@@ -39,4 +39,14 @@ public interface IUserService {
     /// <returns></returns>
     Task<Domain.User> GetCurrent(CancellationToken cancellationToken);
 
+    /// <summary>
+    /// Редактирует пользователя.
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="name"></param>
+    /// <param name="mobile"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    Task<Guid> EditAsync(Guid id, string name, string mobile, CancellationToken cancellationToken);
+
 }

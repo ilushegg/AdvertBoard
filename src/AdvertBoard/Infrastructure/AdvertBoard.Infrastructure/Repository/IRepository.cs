@@ -39,12 +39,24 @@ public interface IRepository<TEntity> where TEntity: class
     /// </summary>
     /// <param name="model">Существующая сущность <see cref="TEntity"/>.</param>
     Task UpdateAsync(TEntity model);
-        
+
+    /// <summary>
+    /// Обновляет элемент <see cref="TEntity"/>.
+    /// </summary>
+    /// <param name="model">Существующая сущность <see cref="TEntity"/>.</param>
+    void Update(TEntity model);
+
     /// <summary>
     /// Удаляет элемент <see cref="TEntity"/>.
     /// </summary>
     /// <param name="model">Существующая сущность <see cref="TEntity"/>.</param>
     Task DeleteAsync(TEntity model);
+
+    /// <summary>
+    /// Удаляет элемент <see cref="TEntity"/>.
+    /// </summary>
+    /// <param name="model">Существующая сущность <see cref="TEntity"/>.</param>
+    void Delete(TEntity model);
 
     void Add(TEntity model);
 }

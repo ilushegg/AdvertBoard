@@ -20,9 +20,9 @@ public class AdvertisementController : ControllerBase
 {
     private readonly IAdvertisementService _advertisementService;
     private readonly IUserService _userService;
+    private readonly ILocationService _locationService;
     private readonly IAdvertisementImageService _productImageService;
     private readonly ICategoryService _categoryService;
-    private readonly ILocationService _locationService;
 
     public AdvertisementController(IAdvertisementService advertisementService, IUserService userService, IAdvertisementImageService productImageService, ILocationService locationService)
     {
@@ -101,10 +101,10 @@ public class AdvertisementController : ControllerBase
     [HttpPut]
     [Authorize]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<IActionResult> Edit(Guid productId, string name, string description, decimal price, Guid categoryId, Guid imageId, IFormFile file, CancellationToken cancellationToken)
+    public async Task<IActionResult> Edit([FromBody] EditAdvertisementModel model, CancellationToken cancellationToken)
     {
-        var result = await _advertisementService.EditAsync(productId, name, description, price, categoryId, cancellationToken);
-        await _productImageService.EditAsync(imageId, file, cancellationToken);
+        var result = await _advertisementService.EditAsync(model.Id, model.Name, model.Description, model.Price, model.CategoryId, cancellationToken);
+/*        await _productImageService.EditAsync(model.Images, file, cancellationToken);*/
         return Ok(result);
     }
 

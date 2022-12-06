@@ -65,4 +65,14 @@ public class UserController : ControllerBase
         });
     }
 
+    [HttpPost("edit")]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    public async Task<IActionResult> Edit(EditUserModel model, CancellationToken cancellationToken)
+    {
+        var user = await _userService.EditAsync(model.Id, model.Name, model.Mobile, cancellationToken);
+
+
+        return Ok(user);
+    }
+
 }

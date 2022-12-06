@@ -14,4 +14,8 @@ public interface IUserRepository
     Task Add(Domain.User user);
 
     Task<Domain.User> FindById(Guid id, CancellationToken cancellationToken);
+
+    void Edit(Domain.User user);
+
+    Task EditAsync(Domain.User user, CancellationToken cancellation);
 }

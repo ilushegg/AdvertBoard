@@ -42,6 +42,7 @@ public class LocationService : ILocationService
     {
         var location = new Domain.Location
         {
+            Id = new Guid(),
             Country = country,
             City = city,
             Street = street,

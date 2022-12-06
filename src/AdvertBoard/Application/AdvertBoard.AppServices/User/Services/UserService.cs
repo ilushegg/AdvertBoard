@@ -50,7 +50,7 @@ public class UserService : IUserService
             Id = user.Id,
             Name = user.Name,
             Email = user.Email,
-            Number = user.Number,
+            Mobile = user.Number,
             CreateDate = user.CreateDate,
             Avatar = avatarData
         };
@@ -131,6 +131,23 @@ public class UserService : IUserService
 
         await _userRepository.Add(user);
         return user.Id; 
+    }
+
+    public async Task<Guid> EditAsync(Guid id, string name, string mobile, CancellationToken cancellationToken)
+    {
+        var user = await _userRepository.FindWhere(user => user.Id == id, cancellationToken);
+        if (user != null)
+        {
+            user.Name = name;
+            user.Number = mobile;
+        }
+        else
+        {
+            throw new Exception($"Пользователь не найден");
+        }
+
+        await _userRepository.EditAsync(user, cancellationToken);
+        return user.Id;
     }
 
 }
