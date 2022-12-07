@@ -8,5 +8,7 @@ namespace AdvertBoard.DataAccess.EntityConfigurations.UserAvatar
         Task Delete(Guid productId, CancellationToken cancellationToken);
         Task EditAsync(Domain.UserAvatar userAvatar, CancellationToken cancellationToken);
         Task<UserAvatarDto> GetByUserIdAsync(Guid userId, CancellationToken cancellationToken);
+
+        UserAvatarDto GetByUserId(Guid userId);
     }
 }

@@ -6,6 +6,7 @@ using AdvertBoard.Contracts;
 using Microsoft.AspNetCore.Authorization;
 using AdvertBoard.AppServices.User.Services;
 using AdvertBoard.Api.Models;
+using AdvertBoard.Domain;
 
 namespace AdvertBoard.Api.Controllers;
 
@@ -66,13 +67,40 @@ public class UserController : ControllerBase
     }
 
     [HttpPost("edit")]
-    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> Edit(EditUserModel model, CancellationToken cancellationToken)
     {
         var user = await _userService.EditAsync(model.Id, model.Name, model.Mobile, cancellationToken);
 
 
         return Ok(user);
+    }
+
+    [HttpPost("edit_avatar")]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    public async Task<IActionResult> AddAvatarAsync(AddUserAvatarModel model, CancellationToken cancellationToken)
+    {
+        try
+        {
+            var avatar = _userAvatarService.GetAvatarByUserId(model.UserId);
+            if (avatar == null)
+            {
+                avatar = await _userAvatarService.AddAsync(model.UserId, model.ImageId, cancellationToken);
+
+            }
+            else
+            {
+                avatar = await _userAvatarService.EditAsync(model.UserId, model.ImageId, cancellationToken);
+            }
+
+
+            return Ok(avatar);
+        }
+        catch(Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+        
     }
 
 }

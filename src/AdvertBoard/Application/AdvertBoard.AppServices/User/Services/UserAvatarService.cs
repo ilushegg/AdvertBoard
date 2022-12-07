@@ -35,13 +35,25 @@ namespace AdvertBoard.AppServices.User.Services
 
                 return userAvatar.ImageId;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
 
+        }
 
+        public Guid GetAvatarByUserId(Guid userId)
+        {
+            try
+            {
+                var userAvatar = _userAvatarRepository.GetByUserId(userId);
 
+                return userAvatar.ImageId;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
 
         }
 
@@ -60,25 +72,26 @@ namespace AdvertBoard.AppServices.User.Services
             return userAvatar.Id;
         }
 
-        public async Task EditAsync(Guid id, IFormFile file, CancellationToken cancellationToken)
+        public async Task<Guid> EditAsync(Guid id, Guid imageId, CancellationToken cancellationToken)
         {
-            /*var userAvatar = await _userAvatarRepository.GetById(id, cancellationToken);
+            var userAvatar = _userAvatarRepository.GetByUserId(id);
             if (userAvatar == null)
             {
                 throw new InvalidOperationException($"Изображение с идентификатором {id} не найдено.");
             }
-            if (file != null)
+            if (imageId != null)
             {
-                var uniqueFileName = _fileService.GetUniqueFileName(file.FileName);
-                var filePath = Path.Combine(uploads, uniqueFileName);
 
-                var fileStream = new FileStream(filePath, FileMode.Create);
-                file.CopyTo(fileStream);
-                fileStream.Dispose();
+                await _userAvatarRepository.EditAsync(new Domain.UserAvatar
+                {
+                    Id = userAvatar.Id,
+                    UserId = userAvatar.UserId,
+                    ImageId = imageId
+                }, cancellationToken);
 
-*//*                userAvatar.FilePath = filePath;*//*
+                
             }
-            await _userAvatarRepository.EditAsync(userAvatar, cancellationToken);*/
+            return userAvatar.Id;
         }
 
         public async Task DeleteAsync(Guid id, CancellationToken cancellationToken)

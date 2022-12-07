@@ -61,6 +61,29 @@ namespace AdvertBoard.DataAccess.EntityConfigurations.UserAvatar
             
         }
 
+        public UserAvatarDto GetByUserId(Guid userId)
+        {
+            try
+            {
+                return _repository.GetAll().Where(u => u.UserId == userId).
+                Select(a => new UserAvatarDto
+                {
+                    FilePath = a.Image.FilePath,
+                    Id = a.Id,
+                    UserId = a.UserId,
+                    ImageId = a.ImageId
+
+                }).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                return new UserAvatarDto
+                {
+                    FilePath = null
+                };
+            }
+        }
+
 
     }
 }
