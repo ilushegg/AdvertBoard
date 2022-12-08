@@ -22,7 +22,7 @@ public interface IUserService {
     /// <param name="Login">Логин.</param>
     /// <param name="Password">Пароль.</param>
     /// <returns>Идентификатор пользователя.</returns>
-    Task<Guid> Register(string name, string email, string password, string mobile, CancellationToken cancellationToken);
+    Task<Guid> Register(string name, string email, string password, CancellationToken cancellationToken);
 
     /// <summary>
     /// Логин.

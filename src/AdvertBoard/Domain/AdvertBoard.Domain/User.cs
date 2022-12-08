@@ -18,7 +18,7 @@ public class User
     /// <summary>
     /// Номер телефона.
     /// </summary>
-    public string Number { get; set; }
+    public string? Mobile { get; set; }
 
     /// <summary>
     /// Эл. адрес.

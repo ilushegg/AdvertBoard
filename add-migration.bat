@@ -1,3 +1,3 @@
-dotnet ef migrations add AddedLocationQueryStr --project src\AdvertBoard\Infrastructure\AdvertBoard.Migrations\AdvertBoard.Migrations.csproj -c AdvertBoard.Migrations.MigrationsDbContext
+dotnet ef migrations add FixUserTable --project src\AdvertBoard\Infrastructure\AdvertBoard.Migrations\AdvertBoard.Migrations.csproj -c AdvertBoard.Migrations.MigrationsDbContext
 
 pause

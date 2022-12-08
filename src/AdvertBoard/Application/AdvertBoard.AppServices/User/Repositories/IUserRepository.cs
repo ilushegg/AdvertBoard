@@ -11,7 +11,9 @@ public interface IUserRepository
 {
     Task<Domain.User> FindWhere(Expression<Func<Domain.User, bool>> predicate, CancellationToken cancellationToken);
 
-    Task Add(Domain.User user);
+    Task AddAsync(Domain.User user);
+
+    void Add(Domain.User user);
 
     Task<Domain.User> FindById(Guid id, CancellationToken cancellationToken);
 

@@ -60,9 +60,23 @@ public class AdvertisementController : ControllerBase
     /// <returns></returns>
     [HttpGet]
     [ProducesResponseType(typeof(IReadOnlyCollection<AdvertisementDto>), StatusCodes.Status201Created)]
-    public async Task<IActionResult> GetAll([FromQuery]PaginationDto paginationDto, CancellationToken cancellation)
+    public async Task<IActionResult> GetAll([FromQuery]PaginationModel paginationDto, CancellationToken cancellation)
     {
         var result = await _advertisementService.GetAll(paginationDto.Limit, paginationDto.Offset, cancellation);
+
+        return Ok(result);
+    }
+
+    /// <summary>
+    /// Возвращает все объявления пользователя.
+    /// </summary>
+    /// <param name="cancellation"></param>
+    /// <returns></returns>
+    [HttpGet("get_all_by_author")]
+    [ProducesResponseType(typeof(IReadOnlyCollection<AdvertisementDto>), StatusCodes.Status201Created)]
+    public async Task<IActionResult> GetAllByAuthor([FromQuery] AuthorAdvertisementsModel model, CancellationToken cancellation)
+    {
+        var result = await _advertisementService.GetAllByAuthor(model.Limit, model.Offset, model.AuthorId, cancellation);
 
         return Ok(result);
     }

@@ -56,6 +56,26 @@ public class AdvertisementService : IAdvertisementService
     }
 
     /// <inheritdoc />
+    public async Task<IReadOnlyCollection<AdvertisementDto>> GetAllByAuthor(int take, int skip, Guid userId, CancellationToken cancellation)
+    {
+        var advertisements = await _productRepository.GetAllByAuthor(take, skip, userId, cancellation);
+        foreach (var ad in advertisements)
+        {
+            var images = await _productImageRepository.GetAllByProduct(ad.Id, cancellation);
+            var imageList = new List<string>();
+            foreach (var image in images)
+            {
+                byte[] byteImage = File.ReadAllBytes(image.FilePath);
+                imageList.Add("data:image/png;base64," + Convert.ToBase64String(byteImage));
+            }
+            ad.Images = imageList;
+        }
+
+        return advertisements;
+
+    }
+
+    /// <inheritdoc />
     public Task<IReadOnlyCollection<AdvertisementDto>> GetAllFiltered(ProductFilterRequest request, CancellationToken cancellation)
     {
         return _productRepository.GetAllFiltered(request, cancellation);
@@ -168,7 +188,7 @@ public class AdvertisementService : IAdvertisementService
                 AuthorId = ad.UserId,
                 AuthorName = user.Name,
                 AuthorAvatar = "data:image/png;base64," + Convert.ToBase64String(File.ReadAllBytes(userAvatar.FilePath)),
-                AuthorNumber = user.Number,
+                AuthorNumber = user.Mobile,
                 AuthorRegisterDate = $"{user.CreateDate.ToString("D")}",
                 LocationQueryString = location.LocationQueryString,
                 LocationLat = location.Lat,

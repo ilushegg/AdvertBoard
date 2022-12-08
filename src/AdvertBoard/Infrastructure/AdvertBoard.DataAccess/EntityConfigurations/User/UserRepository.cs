@@ -30,9 +30,14 @@ public class UserRepository : IUserRepository
         return await data.Where(predicate).FirstOrDefaultAsync(cancellationToken);
     }
     
-    public Task Add(Domain.User user)
+    public async Task AddAsync(Domain.User user)
     {
-        return _repository.AddAsync(user);
+        await _repository.AddAsync(user);
+    }
+
+    public void Add(Domain.User user)
+    {
+        _repository.Add(user);
     }
 
     public async Task<Domain.User> FindById(Guid id, CancellationToken cancellationToken)

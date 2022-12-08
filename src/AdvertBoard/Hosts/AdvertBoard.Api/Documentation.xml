@@ -16,9 +16,16 @@
             <param name="cancellation"></param>
             <returns></returns>
         </member>
-        <member name="M:AdvertBoard.Api.Controllers.AdvertisementController.GetAll(AdvertBoard.Contracts.PaginationDto,System.Threading.CancellationToken)">
+        <member name="M:AdvertBoard.Api.Controllers.AdvertisementController.GetAll(AdvertBoard.Contracts.PaginationModel,System.Threading.CancellationToken)">
             <summary>
             Возвращает все товары.
+            </summary>
+            <param name="cancellation"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AdvertBoard.Api.Controllers.AdvertisementController.GetAllByAuthor(AdvertBoard.Contracts.AuthorAdvertisementsModel,System.Threading.CancellationToken)">
+            <summary>
+            Возвращает все объявления пользователя.
             </summary>
             <param name="cancellation"></param>
             <returns></returns>
@@ -196,6 +203,21 @@
             Координаты долготы.
             </summary>
         </member>
+        <member name="P:AdvertBoard.Contracts.AuthorAdvertisementsModel.Offset">
+            <summary>
+            Смещение.
+            </summary>
+        </member>
+        <member name="P:AdvertBoard.Contracts.AuthorAdvertisementsModel.Limit">
+            <summary>
+            Лимит.
+            </summary>
+        </member>
+        <member name="P:AdvertBoard.Contracts.AuthorAdvertisementsModel.AuthorId">
+            <summary>
+            Идентификатор автора.
+            </summary>
+        </member>
         <member name="T:AdvertBoard.Contracts.EditAdvertisementModel">
             <summary>
             Товар
@@ -269,6 +291,16 @@
         <member name="P:AdvertBoard.Contracts.EditAdvertisementModel.Lon">
             <summary>
             Координаты долготы.
+            </summary>
+        </member>
+        <member name="P:AdvertBoard.Contracts.PaginationModel.Offset">
+            <summary>
+            Смещение.
+            </summary>
+        </member>
+        <member name="P:AdvertBoard.Contracts.PaginationModel.Limit">
+            <summary>
+            Лимит.
             </summary>
         </member>
     </members>

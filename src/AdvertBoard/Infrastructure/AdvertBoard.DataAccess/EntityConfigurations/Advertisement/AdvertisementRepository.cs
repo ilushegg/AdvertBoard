@@ -36,6 +36,22 @@ public class AdvertisementRepository : IAdvertisementRepository
     }
 
     /// <inheritdoc />
+    public async Task<IReadOnlyCollection<AdvertisementDto>> GetAllByAuthor(int take, int skip, Guid userId, CancellationToken cancellation)
+    {
+        return await _repository.GetAll().Where(ad => ad.UserId == userId)
+            .Select(p => new AdvertisementDto
+            {
+                Id = p.Id,
+                Name = p.Name,
+                Description = p.Description,
+                CategoryId = p.Category.Id,
+                Price = p.Price,
+                DateTimeCreated = $"{p.DateTimeCreated.ToString("f")}"
+            })
+            .Take(take).Skip(skip).ToListAsync(cancellation);
+    }
+
+    /// <inheritdoc />
     public async Task<IReadOnlyCollection<AdvertisementDto>> GetAllFiltered(ProductFilterRequest request,
         CancellationToken cancellation)
     {

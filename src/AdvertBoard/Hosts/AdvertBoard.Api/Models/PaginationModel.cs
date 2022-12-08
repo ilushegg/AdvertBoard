@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AdvertBoard.Contracts
 {
-    public class PaginationDto
+    public class PaginationModel
     {
         /// <summary>
         /// Смещение.

@@ -24,6 +24,9 @@ public interface IAdvertisementService
     /// <returns></returns>
     Task<IReadOnlyCollection<AdvertisementDto>> GetAll(int take, int skip, CancellationToken cancellation);
 
+
+    Task<IReadOnlyCollection<AdvertisementDto>> GetAllByAuthor(int take, int skip, Guid userId, CancellationToken cancellation);
+
     /// <summary>
     /// 
     /// </summary>

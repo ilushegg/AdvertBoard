@@ -17,6 +17,15 @@ public interface IAdvertisementRepository
     Task<IReadOnlyCollection<AdvertisementDto>> GetAll(int take, int skip, CancellationToken cancellation);
 
     /// <summary>
+    /// Возвращает объявления автора используя постраничную загрузку.
+    /// </summary>
+    /// <param name="take">Количество записей в ответе.</param>
+    /// <param name="skip">Количество пропущеных записей.</param>
+    /// <param name="cancellation">Отмена операции.</param>
+    /// <returns>Коллекция элементов <see cref="AdvertisementDto"/>.</returns>
+    Task<IReadOnlyCollection<AdvertisementDto>> GetAllByAuthor(int take, int skip, Guid userId, CancellationToken cancellation);
+
+    /// <summary>
     /// Возвращает записи товаров по фильтру.
     /// </summary>
     /// <param name="request">Модель фильтра товаров.</param>

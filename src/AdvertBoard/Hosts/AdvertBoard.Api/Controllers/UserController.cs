@@ -44,12 +44,12 @@ public class UserController : ControllerBase
     [ProducesResponseType(StatusCodes.Status201Created)]
     public async Task<IActionResult> Register(RegisterModel model, CancellationToken cancellationToken)
     {
-        var user = _userService.Register(model.Name, model.Email, model.Password, model.Number, cancellationToken);
-        if (model.Avatar != null)
+        var user = _userService.Register(model.Name, model.Email, model.Password, cancellationToken);
+        /*if (model.Avatar != null)
         {
             var avatar = await _userAvatarService.AddAsync(user.Result, model.Avatar, cancellationToken);
 
-        }
+        }*/
 
         return Created("", new { });
     }

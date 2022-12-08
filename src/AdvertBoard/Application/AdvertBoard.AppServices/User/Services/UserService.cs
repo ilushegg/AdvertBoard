@@ -50,7 +50,7 @@ public class UserService : IUserService
             Id = user.Id,
             Name = user.Name,
             Email = user.Email,
-            Mobile = user.Number,
+            Mobile = user.Mobile,
             CreateDate = user.CreateDate,
             Avatar = avatarData
         };
@@ -110,17 +110,17 @@ public class UserService : IUserService
         return (result, user.Id);
     }
 
-    public async Task<Guid> Register(string name, string email, string password, string mobile, CancellationToken cancellationToken)
+    public async Task<Guid> Register(string name, string email, string password, CancellationToken cancellationToken)
     {
         var user = await _userRepository.FindWhere(user => user.Email == email, cancellationToken);
         if(user == null)
         {
             user = new Domain.User
             {
+                Id = new Guid(),
                 Name = name,
                 Email = email,
                 Password = password,
-                Number = mobile,
                 CreateDate = DateTime.UtcNow
             };
         }
@@ -129,7 +129,7 @@ public class UserService : IUserService
             throw new Exception($"Пользователь с электронным адресом '{email}' уже зарегестрирован");
         }
 
-        await _userRepository.Add(user);
+        _userRepository.Add(user);
         return user.Id; 
     }
 
@@ -139,7 +139,7 @@ public class UserService : IUserService
         if (user != null)
         {
             user.Name = name;
-            user.Number = mobile;
+            user.Mobile = mobile;
         }
         else
         {
