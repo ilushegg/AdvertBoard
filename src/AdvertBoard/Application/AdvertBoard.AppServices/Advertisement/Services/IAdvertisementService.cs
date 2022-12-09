@@ -47,10 +47,9 @@ public interface IAdvertisementService
     Task<Guid> EditAsync(Guid productId, string name, string description, decimal price, Guid categoryId, CancellationToken cancellation);
 
 
-    Task<bool> DeleteAsync(Guid productId, CancellationToken cancellation);
+    Task DeleteAsync(Guid productId, CancellationToken cancellation);
 
-    Guid Add(string name, string description, decimal price, Guid categoryId, Guid locationId, Domain.User user, CancellationToken cancellation = default);
-
+    Guid Add(string name, string description, decimal price, Guid categoryId, Guid locationId, Guid userId);
     Task<Guid> AddAsync(string name, string description, decimal price, Guid categoryId, Guid locationId, Domain.User user, CancellationToken cancellation = default);
 
 

@@ -40,9 +40,10 @@ public class LocationRepository : ILocationRepository
         await _repository.AddAsync(location);
     }
 
-    public void Add(Domain.Location location)
+    public Guid Add(Domain.Location location)
     {
         _repository.Add(location);
+        return location.Id;
     }
 
     public async Task DeleteAsync(Domain.Location location, CancellationToken cancellation)

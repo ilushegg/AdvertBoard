@@ -25,7 +25,7 @@ public class UserRepository : IUserRepository
 
     public async Task<Domain.User> FindWhere(Expression<Func<Domain.User, bool>> predicate, CancellationToken cancellationToken)
     {
-        var data = _repository.GetAllFiltered(predicate);
+        var data = _repository.GetAll();
 
         return await data.Where(predicate).FirstOrDefaultAsync(cancellationToken);
     }
@@ -35,9 +35,10 @@ public class UserRepository : IUserRepository
         await _repository.AddAsync(user);
     }
 
-    public void Add(Domain.User user)
+    public Guid Add(Domain.User user)
     {
         _repository.Add(user);
+        return user.Id;
     }
 
     public async Task<Domain.User> FindById(Guid id, CancellationToken cancellationToken)
@@ -45,9 +46,10 @@ public class UserRepository : IUserRepository
         return await _repository.GetByIdAsync(id);
     }
 
-    public void Edit(Domain.User user)
+    public Guid Edit(Domain.User user)
     {
         _repository.Update(user);
+        return user.Id;
     }
 
     public async Task EditAsync(Domain.User user, CancellationToken cancellation)

@@ -29,7 +29,17 @@ namespace AdvertBoard.DataAccess.EntityConfigurations.Category
             }).ToListAsync(cancellation);
         }
 
-        public async Task<CategoryDto> FindById(Guid categoryId, CancellationToken cancellation)
+        public CategoryDto FindById(Guid categoryId)
+        {
+            var result = _repository.GetById(categoryId);
+            return new CategoryDto
+            {
+                Key = result.Id,
+                Title = result.Name
+            };
+        }
+
+        public async Task<CategoryDto> FindByIdAsync(Guid categoryId, CancellationToken cancellation)
         {
             var result = await _repository.GetByIdAsync(categoryId);
             return new CategoryDto

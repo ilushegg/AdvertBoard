@@ -38,7 +38,7 @@ public class LocationService : ILocationService
     }
 
 
-    public Guid Add(string country, string city, string street, string house, string flat, string query, string lat, string lon, CancellationToken cancellation)
+    public Guid Add(string country, string city, string street, string house, string flat, string query, string lat, string lon)
     {
         var location = new Domain.Location
         {
@@ -53,8 +53,7 @@ public class LocationService : ILocationService
             Lon = lon
         };
 
-        _locationRepository.Add(location);
-        return location.Id;
+        return _locationRepository.Add(location);
     }
 
     /// <inheritdoc />

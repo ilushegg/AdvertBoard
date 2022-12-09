@@ -75,7 +75,7 @@ public class CategoryService : ICategoryService
 
     public async Task<Guid> EditAsync(Guid categoryId, string name, CancellationToken cancellation)
     {
-        var category = await _categoryRepository.FindById(categoryId, cancellation);
+        var category = _categoryRepository.FindById(categoryId);
         if (category == null)
         {
             throw new Exception($"Категория с идентификатором '{categoryId}' не найден");
@@ -95,7 +95,7 @@ public class CategoryService : ICategoryService
 
     public async Task<Guid> DeleteAsync(Guid categoryId, CancellationToken cancellation)
     {
-        var category = await _categoryRepository.FindById(categoryId, cancellation);
+        var category = _categoryRepository.FindById(categoryId);
         if (category == null)
         {
             throw new Exception($"Категория с идентификатором '{categoryId}' не найден");
@@ -113,8 +113,13 @@ public class CategoryService : ICategoryService
 
     }
 
-    public Task<CategoryDto> Get(Guid categoryId, CancellationToken cancellation)
+    public CategoryDto Get(Guid categoryId, CancellationToken cancellation)
     {
-        return _categoryRepository.FindById(categoryId, cancellation);
+        return _categoryRepository.FindById(categoryId);
+    }
+
+    public Task<CategoryDto> GetAsync(Guid categoryId, CancellationToken cancellation)
+    {
+        return _categoryRepository.FindByIdAsync(categoryId, cancellation);
     }
 }

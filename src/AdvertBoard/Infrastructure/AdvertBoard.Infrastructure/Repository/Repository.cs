@@ -41,6 +41,11 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity: class
         return await DbSet.FindAsync(id);
     }
 
+    public TEntity GetById(Guid id)
+    {
+        return DbSet.Find(id);
+    }
+
     /// <inheritdoc />
     public async Task AddAsync(TEntity model)
     {

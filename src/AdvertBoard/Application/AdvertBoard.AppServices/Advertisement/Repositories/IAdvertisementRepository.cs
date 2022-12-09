@@ -41,13 +41,16 @@ public interface IAdvertisementRepository
     /// <returns></returns>
     Task<bool> AddAsync(Domain.Advertisement product, CancellationToken cancellation);
 
+
+    Guid Add(Domain.Advertisement product);
+
     /// <summary>
     /// Удаляет товар.
     /// </summary>
     /// <param name="id"></param>
     /// <param name="cancellation"></param>
     /// <returns></returns>
-    Task<bool> DeleteAsync(Domain.Advertisement product, CancellationToken cancellation);
+    Task DeleteAsync(Domain.Advertisement product, CancellationToken cancellation);
 
     /// <summary>
     /// Редактирует товар.

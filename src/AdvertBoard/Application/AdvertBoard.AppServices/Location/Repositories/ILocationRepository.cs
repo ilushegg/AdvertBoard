@@ -4,7 +4,7 @@ namespace AdvertBoard.AppServices.Location.Repositories
 {
     public interface ILocationRepository
     {
-        void Add(Domain.Location location);
+        Guid Add(Domain.Location location);
         Task AddAsync(Domain.Location location, CancellationToken cancellation);
         Task DeleteAsync(Domain.Location location, CancellationToken cancellation);
         Task EditAsync(Domain.Location location, CancellationToken cancellation);

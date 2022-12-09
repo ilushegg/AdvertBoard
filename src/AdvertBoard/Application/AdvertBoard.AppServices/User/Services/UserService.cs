@@ -37,23 +37,30 @@ public class UserService : IUserService
 
     public async Task<UserDto> GetById(Guid id, CancellationToken cancellationToken)
     {
-        var user = await _userRepository.FindById(id, cancellationToken);
-        var avatar = await _userAvatarRepository.GetByUserIdAsync(user.Id, cancellationToken);
-        var avatarData = "";
-        if(avatar.FilePath != null)
+        try
         {
-            byte[] byteImage = File.ReadAllBytes(avatar.FilePath);
-            avatarData = "data:image/png;base64," + Convert.ToBase64String(byteImage);
+            var user = await _userRepository.FindById(id, cancellationToken);
+            var avatar = await _userAvatarRepository.GetByUserIdAsync(user.Id, cancellationToken);
+            var avatarData = "";
+            if (avatar?.FilePath != null)
+            {
+                byte[] byteImage = File.ReadAllBytes(avatar.FilePath);
+                avatarData = "data:image/png;base64," + Convert.ToBase64String(byteImage);
+            }
+            return new UserDto
+            {
+                Id = user.Id,
+                Name = user.Name,
+                Email = user.Email,
+                Mobile = user.Mobile,
+                CreateDate = user.CreateDate,
+                Avatar = avatarData
+            };
         }
-        return new UserDto
+        catch(Exception ex)
         {
-            Id = user.Id,
-            Name = user.Name,
-            Email = user.Email,
-            Mobile = user.Mobile,
-            CreateDate = user.CreateDate,
-            Avatar = avatarData
-        };
+            throw new Exception(ex.Message);
+        }
     }
 
     public async Task<Domain.User> GetCurrent(CancellationToken cancellationToken)

@@ -3,8 +3,13 @@ namespace AdvertBoard.Contracts;
 /// <summary>
 /// Товар
 /// </summary>
-public class AddProductModel
+public class AddAdvertisementModel
 {   
+    /// <summary>
+    /// Идентификатор автора.
+    /// </summary>
+    public Guid UserId { get; set; }
+
     /// <summary>
     /// Наименование.
     /// </summary>

@@ -83,15 +83,16 @@ public class AdvertisementRepository : IAdvertisementRepository
         return true;
     }
 
-    public void Add(Domain.Advertisement product, CancellationToken cancellation)
+    public Guid Add(Domain.Advertisement product)
     {
         _repository.Add(product);
+        return product.Id;
     }
 
-    public async Task<bool> DeleteAsync(Domain.Advertisement product, CancellationToken cancellation)
+    public async Task DeleteAsync(Domain.Advertisement product, CancellationToken cancellation)
     {
-        var result = _repository.DeleteAsync(product);
-        return true;
+        await _repository.DeleteAsync(product);
+
     }
 
     public async Task<bool> EditAsync(Domain.Advertisement product, CancellationToken cancellation)

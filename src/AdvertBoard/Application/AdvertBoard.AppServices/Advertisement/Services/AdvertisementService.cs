@@ -81,26 +81,26 @@ public class AdvertisementService : IAdvertisementService
         return _productRepository.GetAllFiltered(request, cancellation);
     }
 
-    public Guid Add(string name, string description, decimal price, Guid categoryId, Guid locationId, Domain.User user, CancellationToken cancellation = default)
+    public Guid Add(string name, string description, decimal price, Guid categoryId, Guid locationId, Guid userId)
     {
         var advertisement = new Domain.Advertisement
         {
             Name = name,
             Description = description,
             Price = price,
-            User = user,
+            UserId = userId,
             LocationId = locationId,
             DateTimeCreated = DateTime.UtcNow,
             DateTimeUpdated = DateTime.UtcNow,
             DateTimePublish = DateTime.UtcNow
         };
 
-        var category = _categoryRepository.FindById(categoryId, cancellation);
+        var category = _categoryRepository.FindById(categoryId);
 
-        advertisement.CategoryId = category.Result.Key;
+        advertisement.CategoryId = category.Key;
 
 
-        _productRepository.AddAsync(advertisement, cancellation);
+        _productRepository.Add(advertisement);
         return advertisement.Id;
     }
 
@@ -119,7 +119,7 @@ public class AdvertisementService : IAdvertisementService
             DateTimePublish = DateTime.UtcNow
         };
             
-        var category = await _categoryRepository.FindById(categoryId, cancellation);
+        var category = await _categoryRepository.FindByIdAsync(categoryId, cancellation);
 
         advertisement.CategoryId = category.Key;
 
@@ -145,7 +145,7 @@ public class AdvertisementService : IAdvertisementService
         }
     }
 
-    public async Task<bool> DeleteAsync(Guid productId, CancellationToken cancellation)
+    public async Task DeleteAsync(Guid productId, CancellationToken cancellation)
     {
         var advertisement = await _productRepository.GetById(productId, cancellation);
         if(advertisement == null)
@@ -154,7 +154,7 @@ public class AdvertisementService : IAdvertisementService
         }
         else
         {
-            return await _productRepository.DeleteAsync(advertisement, cancellation);
+            await _productRepository.DeleteAsync(advertisement, cancellation);
         }
          
     }

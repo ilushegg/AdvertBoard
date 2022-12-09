@@ -89,13 +89,13 @@ public class AdvertisementController : ControllerBase
     [HttpPost("create")]
     [Authorize]
     [ProducesResponseType(StatusCodes.Status201Created)]
-    public IActionResult Add([FromBody]AddProductModel model, CancellationToken cancellationToken)
+    public IActionResult Add([FromBody]AddAdvertisementModel model)
     {
         try
         {
-            var user = _userService.GetCurrent(cancellationToken);
-            var location = _locationService.Add(model.Country, model.City, model.Street, model.House, model.Flat, model.LocationQueryString, model.Lat, model.Lon, cancellationToken);
-            var result = _advertisementService.Add(model.Name, model.Description, model.Price, model.CategoryId, location, user.Result, cancellationToken);
+            
+            var location = _locationService.Add(model.Country, model.City, model.Street, model.House, model.Flat, model.LocationQueryString, model.Lat, model.Lon);
+            var result = _advertisementService.Add(model.Name, model.Description, model.Price, model.CategoryId, location, model.UserId);
             if(model.Images != null)
             {
                 _productImageService.Add(result, model.Images);
@@ -128,15 +128,15 @@ public class AdvertisementController : ControllerBase
     /// <param name="productId"></param>
     /// <param name="cancellation"></param>
     /// <returns></returns>
-    [HttpDelete]
+    [HttpDelete("delete")]
     [Authorize]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<IActionResult> Delete(Guid productId, CancellationToken cancellation)
+    public async Task<IActionResult> DeleteAsync(Guid Id, CancellationToken cancellation)
     {
         try
         {
-            var result = await _advertisementService.DeleteAsync(productId, cancellation);
-            return Ok(result);
+            await _advertisementService.DeleteAsync(Id, cancellation);
+            return Ok();
         }
         catch(Exception ex)
         {

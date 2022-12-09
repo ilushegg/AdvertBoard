@@ -46,9 +46,17 @@ namespace AdvertBoard.AppServices.User.Services
         {
             try
             {
-                var userAvatar = _userAvatarRepository.GetByUserId(userId);
-
+                Contracts.UserAvatarDto? userAvatar = _userAvatarRepository.GetByUserId(userId);
+                if (userAvatar == null)
+                {
+                    return Guid.Empty;
+                }
+                else
+                {
                 return userAvatar.ImageId;
+
+                }
+
             }
             catch (Exception ex)
             {

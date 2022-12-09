@@ -83,7 +83,7 @@ public class UserController : ControllerBase
         try
         {
             var avatar = _userAvatarService.GetAvatarByUserId(model.UserId);
-            if (avatar == null)
+            if (avatar == Guid.Empty)
             {
                 avatar = await _userAvatarService.AddAsync(model.UserId, model.ImageId, cancellationToken);
 

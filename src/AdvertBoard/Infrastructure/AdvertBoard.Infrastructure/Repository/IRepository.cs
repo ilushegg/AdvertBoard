@@ -28,6 +28,8 @@ public interface IRepository<TEntity> where TEntity: class
     /// <returns><see cref="TEntity"/>.</returns>
     Task<TEntity> GetByIdAsync(Guid id);
 
+    TEntity GetById(Guid id);
+
     /// <summary>
     /// Добавляет элемент <see cref="TEntity"/>.
     /// </summary>

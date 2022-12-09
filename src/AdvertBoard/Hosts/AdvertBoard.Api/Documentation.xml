@@ -30,7 +30,7 @@
             <param name="cancellation"></param>
             <returns></returns>
         </member>
-        <member name="M:AdvertBoard.Api.Controllers.AdvertisementController.Add(AdvertBoard.Contracts.AddProductModel,System.Threading.CancellationToken)">
+        <member name="M:AdvertBoard.Api.Controllers.AdvertisementController.Add(AdvertBoard.Contracts.AddAdvertisementModel)">
             <summary>
             Добавляет товар.
             </summary>
@@ -43,7 +43,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:AdvertBoard.Api.Controllers.AdvertisementController.Delete(System.Guid,System.Threading.CancellationToken)">
+        <member name="M:AdvertBoard.Api.Controllers.AdvertisementController.DeleteAsync(System.Guid,System.Threading.CancellationToken)">
             <summary>
             Удаляет товар.
             </summary>
@@ -133,72 +133,77 @@
             </summary>
             <param name="shoppingCartService"></param>
         </member>
-        <member name="T:AdvertBoard.Contracts.AddProductModel">
+        <member name="T:AdvertBoard.Contracts.AddAdvertisementModel">
             <summary>
             Товар
             </summary>
         </member>
-        <member name="P:AdvertBoard.Contracts.AddProductModel.Name">
+        <member name="P:AdvertBoard.Contracts.AddAdvertisementModel.UserId">
+            <summary>
+            Идентификатор автора.
+            </summary>
+        </member>
+        <member name="P:AdvertBoard.Contracts.AddAdvertisementModel.Name">
             <summary>
             Наименование.
             </summary>
         </member>
-        <member name="P:AdvertBoard.Contracts.AddProductModel.Description">
+        <member name="P:AdvertBoard.Contracts.AddAdvertisementModel.Description">
             <summary>
             Описание.
             </summary>
         </member>
-        <member name="P:AdvertBoard.Contracts.AddProductModel.Price">
+        <member name="P:AdvertBoard.Contracts.AddAdvertisementModel.Price">
             <summary>
             Цена.
             </summary>
         </member>
-        <member name="P:AdvertBoard.Contracts.AddProductModel.CategoryId">
+        <member name="P:AdvertBoard.Contracts.AddAdvertisementModel.CategoryId">
             <summary>
             Категория.
             </summary>
         </member>
-        <member name="P:AdvertBoard.Contracts.AddProductModel.Images">
+        <member name="P:AdvertBoard.Contracts.AddAdvertisementModel.Images">
             <summary>
             Изображения.
             </summary>
         </member>
-        <member name="P:AdvertBoard.Contracts.AddProductModel.Country">
+        <member name="P:AdvertBoard.Contracts.AddAdvertisementModel.Country">
             <summary>
             Страна.
             </summary>
         </member>
-        <member name="P:AdvertBoard.Contracts.AddProductModel.City">
+        <member name="P:AdvertBoard.Contracts.AddAdvertisementModel.City">
             <summary>
             Город.
             </summary>
         </member>
-        <member name="P:AdvertBoard.Contracts.AddProductModel.Street">
+        <member name="P:AdvertBoard.Contracts.AddAdvertisementModel.Street">
             <summary>
             Улица.
             </summary>
         </member>
-        <member name="P:AdvertBoard.Contracts.AddProductModel.House">
+        <member name="P:AdvertBoard.Contracts.AddAdvertisementModel.House">
             <summary>
             Дом.
             </summary>
         </member>
-        <member name="P:AdvertBoard.Contracts.AddProductModel.Flat">
+        <member name="P:AdvertBoard.Contracts.AddAdvertisementModel.Flat">
             <summary>
             Квартира.
             </summary>
         </member>
-        <member name="P:AdvertBoard.Contracts.AddProductModel.LocationQueryString">
+        <member name="P:AdvertBoard.Contracts.AddAdvertisementModel.LocationQueryString">
             <summary>
             Строка адреса.
             </summary>
         </member>
-        <member name="P:AdvertBoard.Contracts.AddProductModel.Lat">
+        <member name="P:AdvertBoard.Contracts.AddAdvertisementModel.Lat">
             <summary>
             Координаты широты.
             </summary>
         </member>
-        <member name="P:AdvertBoard.Contracts.AddProductModel.Lon">
+        <member name="P:AdvertBoard.Contracts.AddAdvertisementModel.Lon">
             <summary>
             Координаты долготы.
             </summary>

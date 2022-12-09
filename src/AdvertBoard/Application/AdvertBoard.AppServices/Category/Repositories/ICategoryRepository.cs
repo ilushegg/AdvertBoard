@@ -8,9 +8,12 @@ namespace AdvertBoard.AppServices.Category.Repositories
 
         Task AddAsync(Domain.Category category, CancellationToken cancellation);
 
+
         Task EditAsync(Domain.Category category, CancellationToken cancellation);
 
-        Task<CategoryDto> FindById(Guid categoryId, CancellationToken cancellation);
+        Task<CategoryDto> FindByIdAsync(Guid categoryId, CancellationToken cancellation);
+
+        CategoryDto FindById(Guid categoryId);
 
         Task<CategoryDto> FindByName(string name, CancellationToken cancellation);
 
