@@ -30,6 +30,7 @@ public class AdvertisementRepository : IAdvertisementRepository
                 Description = p.Description,
                 CategoryId = p.Category.Id,
                 Price = p.Price,
+                LocationQuery = p.Location.City,
                 DateTimeCreated = $"{p.DateTimeCreated.ToString("f")}"
             })
             .Take(take).Skip(skip).ToListAsync(cancellation);

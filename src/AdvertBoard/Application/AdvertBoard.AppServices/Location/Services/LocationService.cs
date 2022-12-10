@@ -77,7 +77,7 @@ public class LocationService : ILocationService
 
     public async Task<Guid> EditAsync(Guid locationId, string country, string city, string street, string number, CancellationToken cancellation)
     {
-        var location = await _locationRepository.GetById(locationId, cancellation);
+        var location = await _locationRepository.GetByIdAsync(locationId, cancellation);
         if (location == null)
         {
             throw new Exception($"Локация с идентификатором '{locationId}' не найдена");
@@ -95,7 +95,7 @@ public class LocationService : ILocationService
 
     public async Task DeleteAsync(Guid locationId, CancellationToken cancellation)
     {
-        var location = await _locationRepository.GetById(locationId, cancellation);
+        var location = await _locationRepository.GetByIdAsync(locationId, cancellation);
         if (location == null)
         {
             throw new Exception($"Локация с идентификатором '{locationId}' не найдена");
@@ -111,7 +111,7 @@ public class LocationService : ILocationService
     {
         try
         {
-            var location = await _locationRepository.GetById(locationId, cancellation);
+            var location = await _locationRepository.GetByIdAsync(locationId, cancellation);
 
 
             var result = new LocationDto

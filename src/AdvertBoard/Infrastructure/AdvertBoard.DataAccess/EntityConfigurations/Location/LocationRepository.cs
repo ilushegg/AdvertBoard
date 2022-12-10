@@ -56,7 +56,7 @@ public class LocationRepository : ILocationRepository
         await _repository.UpdateAsync(location);
     }
 
-    public async Task<Domain.Location> GetById(Guid locationId, CancellationToken cancellation)
+    public async Task<Domain.Location> GetByIdAsync(Guid locationId, CancellationToken cancellation)
     {
         return await _repository.GetByIdAsync(locationId);
     }

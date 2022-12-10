@@ -7,4 +7,8 @@
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\..\Domain\AdvertBoard.Domain\AdvertBoard.Domain.csproj" />
+    </ItemGroup>
+
 </Project>

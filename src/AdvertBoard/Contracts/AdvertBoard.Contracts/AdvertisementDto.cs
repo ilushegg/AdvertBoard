@@ -1,3 +1,5 @@
+using AdvertBoard.Domain;
+
 namespace AdvertBoard.Contracts;
 
 /// <summary>
@@ -39,5 +41,10 @@ public class AdvertisementDto
     /// Дата создания объявления.
     /// </summary>
     public string DateTimeCreated { get; set; }
+
+    /// <summary>
+    /// Локация.
+    /// </summary>
+    public string LocationQuery { get; set; }
 
 }

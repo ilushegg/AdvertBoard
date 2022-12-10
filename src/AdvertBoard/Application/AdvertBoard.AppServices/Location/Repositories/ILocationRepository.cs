@@ -9,6 +9,6 @@ namespace AdvertBoard.AppServices.Location.Repositories
         Task DeleteAsync(Domain.Location location, CancellationToken cancellation);
         Task EditAsync(Domain.Location location, CancellationToken cancellation);
         Task<IReadOnlyCollection<LocationDto>> GetAll(CancellationToken cancellation);
-        Task<Domain.Location> GetById(Guid locationId, CancellationToken cancellation);
+        Task<Domain.Location> GetByIdAsync(Guid locationId, CancellationToken cancellation);
     }
 }

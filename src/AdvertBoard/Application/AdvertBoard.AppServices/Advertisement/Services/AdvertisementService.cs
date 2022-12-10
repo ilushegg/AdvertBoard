@@ -49,6 +49,7 @@ public class AdvertisementService : IAdvertisementService
                 imageList.Add("data:image/png;base64," + Convert.ToBase64String(byteImage));
             }
             ad.Images = imageList;
+
         }
 
         return advertisements;
@@ -164,7 +165,7 @@ public class AdvertisementService : IAdvertisementService
         try
         {
             var ad = await _productRepository.GetById(advertisementId, cancellation);
-            var location = await _locationRepository.GetById(ad.LocationId, cancellation);
+            var location = await _locationRepository.GetByIdAsync(ad.LocationId, cancellation);
             var images = await _productImageRepository.GetAllByProduct(advertisementId, cancellation);
             var user = await _userRepository.FindById(ad.UserId, cancellation);
             var userAvatar = await _userAvatarRepository.GetByUserIdAsync(user.Id, cancellation);
