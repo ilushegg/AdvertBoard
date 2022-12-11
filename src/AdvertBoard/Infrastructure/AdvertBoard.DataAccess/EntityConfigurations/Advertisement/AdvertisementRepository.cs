@@ -47,9 +47,16 @@ public class AdvertisementRepository : IAdvertisementRepository
                 Description = p.Description,
                 CategoryId = p.Category.Id,
                 Price = p.Price,
+                LocationQuery = p.Location.City,
                 DateTimeCreated = $"{p.DateTimeCreated.ToString("f")}"
             })
-            .Take(take).Skip(skip).ToListAsync(cancellation);
+            .Skip(skip).Take(take).ToListAsync(cancellation);
+    }
+
+    public async Task<int> GetAllByAuthorCount(Guid userId, CancellationToken cancellation)
+    {
+        return await _repository.GetAll().Where(ad => ad.UserId == userId).CountAsync();
+ 
     }
 
     /// <inheritdoc />

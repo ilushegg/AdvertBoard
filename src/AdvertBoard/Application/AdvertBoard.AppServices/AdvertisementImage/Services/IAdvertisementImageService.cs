@@ -8,6 +8,6 @@ namespace AdvertBoard.AppServices.ProductImage.Services
 
         void Add(Guid productId, Guid[] files);
         Task DeleteAsync(Guid id, CancellationToken cancellationToken);
-        Task EditAsync(Guid id, IFormFile file, CancellationToken cancellationToken);
+        Task EditAsync(Guid productId, Guid[] files, CancellationToken cancellationToken);
     }
 }

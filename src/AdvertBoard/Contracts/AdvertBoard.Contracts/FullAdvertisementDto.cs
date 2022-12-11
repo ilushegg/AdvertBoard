@@ -28,7 +28,7 @@ public class FullAdvertisementDto
     /// <summary>
     /// Изображения.
     /// </summary>
-    public List<string> Images { get; set; }
+    public List<Tuple<Guid, string>> Images { get; set; }
     
     /// <summary>
     /// Категория.

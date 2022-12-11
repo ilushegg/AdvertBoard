@@ -57,8 +57,9 @@ public class AdvertisementService : IAdvertisementService
     }
 
     /// <inheritdoc />
-    public async Task<IReadOnlyCollection<AdvertisementDto>> GetAllByAuthor(int take, int skip, Guid userId, CancellationToken cancellation)
+    public async Task<GetPagedResultDto> GetAllByAuthor(int take, int skip, Guid userId, CancellationToken cancellation)
     {
+        var total = await _productRepository.GetAllByAuthorCount(userId, cancellation);
         var advertisements = await _productRepository.GetAllByAuthor(take, skip, userId, cancellation);
         foreach (var ad in advertisements)
         {
@@ -72,7 +73,13 @@ public class AdvertisementService : IAdvertisementService
             ad.Images = imageList;
         }
 
-        return advertisements;
+        return new GetPagedResultDto
+        {
+            Offset = skip,
+            Limit = take,
+            Total = total,
+            Items = advertisements
+        };
 
     }
 
@@ -106,7 +113,7 @@ public class AdvertisementService : IAdvertisementService
     }
 
     /// <inheritdoc />
-    public async Task<Guid> AddAsync(string name, string description, decimal price, Guid categoryId, Guid locationId, Domain.User user, CancellationToken cancellation = default) 
+    public async Task<Guid> AddAsync(string name, string description, decimal price, Guid categoryId, Guid locationId, Domain.User user, CancellationToken cancellation) 
     {
         var advertisement = new Domain.Advertisement
         {
@@ -128,21 +135,23 @@ public class AdvertisementService : IAdvertisementService
         return advertisement.Id;
     }
 
-    public async Task<Guid> EditAsync(Guid productId, string name, string description, decimal price, Guid categoryId, CancellationToken cancellation)
+    public async Task<(Guid adId, Guid locId)> EditAsync(Guid productId, string name, string description, decimal price, Guid categoryId, CancellationToken cancellation)
     {
         var advertisement = await _productRepository.GetById(productId, cancellation);
         if (advertisement == null)
         {
-            throw new Exception($"Товар с идентификатором '{productId}' не найден");
+            throw new Exception($"Объявление с идентификатором '{productId}' не найдено");
         }
         else
         {
             advertisement.Name = name;
             advertisement.Price = price;
             advertisement.Description = description;
+            advertisement.CategoryId = categoryId;
             advertisement.DateTimeUpdated = DateTime.UtcNow;
             await _productRepository.EditAsync(advertisement, cancellation);
-            return advertisement.Id;
+
+            return ( advertisement.Id, advertisement.LocationId);
         }
     }
 
@@ -169,12 +178,11 @@ public class AdvertisementService : IAdvertisementService
             var images = await _productImageRepository.GetAllByProduct(advertisementId, cancellation);
             var user = await _userRepository.FindById(ad.UserId, cancellation);
             var userAvatar = await _userAvatarRepository.GetByUserIdAsync(user.Id, cancellation);
-            var imageList = new List<string>();
-           
+            var imageList = new List<Tuple<Guid, string>>();
             foreach (var image in images)
             {
                 byte[] byteImage = File.ReadAllBytes(image.FilePath);
-                imageList.Add("data:image/png;base64," + Convert.ToBase64String(byteImage));
+                imageList.Add(Tuple.Create(image.ImageId, "data:image/png;base64," + Convert.ToBase64String(byteImage)));
             }
             var result = new FullAdvertisementDto
             {

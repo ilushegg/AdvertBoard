@@ -25,6 +25,7 @@ namespace AdvertBoard.DataAccess.EntityConfigurations.AdvertisementImage
             return await _repository.GetAll().Where(p => p.AdvertisementId == productId).
                 Select(p => new ProductImageDto
                 {
+                    ImageId = p.ImageId,
                     FilePath = p.Image.FilePath,
                     ProductId = p.AdvertisementId
 
@@ -63,5 +64,9 @@ namespace AdvertBoard.DataAccess.EntityConfigurations.AdvertisementImage
             return await _repository.GetByIdAsync(id);
         }
 
+        public async Task<ICollection<Domain.AdvertisementImage>> GetAllByAdvertisementEntities(Guid productId, CancellationToken cancellationToken)
+        {
+            return await _repository.GetAll().Where(p => p.AdvertisementId == productId).ToListAsync();
+        }
     }
 }

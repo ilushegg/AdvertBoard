@@ -112,14 +112,18 @@ public class AdvertisementController : ControllerBase
     /// Редактирует товар.
     /// </summary>
     /// <returns></returns>
-    [HttpPut]
+    [HttpPut("edit")]
     [Authorize]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> Edit([FromBody] EditAdvertisementModel model, CancellationToken cancellationToken)
     {
-        var result = await _advertisementService.EditAsync(model.Id, model.Name, model.Description, model.Price, model.CategoryId, cancellationToken);
-/*        await _productImageService.EditAsync(model.Images, file, cancellationToken);*/
-        return Ok(result);
+        var result =  await _advertisementService.EditAsync(model.Id, model.Name, model.Description, model.Price, model.CategoryId, cancellationToken);
+        var location = _locationService.Edit(result.locId ,model.Country, model.City, model.Street, model.House, model.Flat, model.LocationQueryString, model.Lat, model.Lon);
+        if (model.Images != null)
+        {
+            await _productImageService.EditAsync(result.adId, model.Images, cancellationToken);
+        }
+        return Ok(result.adId);
     }
 
     /// <summary>

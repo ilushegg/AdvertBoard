@@ -25,6 +25,8 @@ public interface IAdvertisementRepository
     /// <returns>Коллекция элементов <see cref="AdvertisementDto"/>.</returns>
     Task<IReadOnlyCollection<AdvertisementDto>> GetAllByAuthor(int take, int skip, Guid userId, CancellationToken cancellation);
 
+    Task<int> GetAllByAuthorCount(Guid userId, CancellationToken cancellation);
+
     /// <summary>
     /// Возвращает записи товаров по фильтру.
     /// </summary>

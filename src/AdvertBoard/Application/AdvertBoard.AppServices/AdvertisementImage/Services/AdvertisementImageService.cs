@@ -58,25 +58,15 @@ namespace AdvertBoard.AppServices.ProductImage.Services
             }
         }
 
-        public async Task EditAsync(Guid id, IFormFile file, CancellationToken cancellationToken)
+        public async Task EditAsync(Guid productId, Guid[] files, CancellationToken cancellationToken)
         {
-            var productImage = await _productImageRepository.GetById(id, cancellationToken);
-            if (productImage == null)
+            var productImageExisting = await _productImageRepository.GetAllByAdvertisementEntities(productId, cancellationToken);
+            foreach(var productImage in productImageExisting)
             {
-                throw new InvalidOperationException($"Изображение с идентификатором {id} не найдено.");
+                await DeleteAsync(productImage.Id, cancellationToken);
             }
-            if (file != null)
-            {
-                var uniqueFileName = _fileService.GetUniqueFileName(file.FileName);
-                var filePath = Path.Combine(uploads, uniqueFileName);
-
-                var fileStream = new FileStream(filePath, FileMode.Create);
-                file.CopyTo(fileStream);
-                fileStream.Dispose();
-
-/*                productImage.FilePath = filePath;*/
-            }
-            await _productImageRepository.EditAsync(productImage, cancellationToken);
+            await AddAsync(productId, files, cancellationToken);
+           
         }
 
         public async Task DeleteAsync(Guid id, CancellationToken cancellationToken)

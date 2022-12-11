@@ -75,7 +75,7 @@ public class LocationService : ILocationService
         return location.Id;
     }
 
-    public async Task<Guid> EditAsync(Guid locationId, string country, string city, string street, string number, CancellationToken cancellation)
+    public async Task<Guid> EditAsync(Guid locationId, string country, string city, string street, string house, string flat, string query, string lat, string lon, CancellationToken cancellation)
     {
         var location = await _locationRepository.GetByIdAsync(locationId, cancellation);
         if (location == null)
@@ -84,11 +84,43 @@ public class LocationService : ILocationService
         }
         else
         {
-            location.Country = country;
-            location.City = city;
-            location.Street = street;
-            location.Number = number;
+            if (location.LocationQueryString != query)
+            {
+                location.Country = country;
+                location.City = city;
+                location.Street = street;
+                location.House = house;
+                location.Number = flat;
+                location.LocationQueryString = query;
+                location.Lat = lat;
+                location.Lon = lon;
+            }
             await _locationRepository.EditAsync(location, cancellation);
+            return location.Id;
+        }
+    }
+
+    public Guid Edit(Guid locationId, string country, string city, string street, string house, string flat, string query, string lat, string lon)
+    {
+        var location = _locationRepository.GetById(locationId);
+        if (location == null)
+        {
+            throw new Exception($"Локация с идентификатором '{locationId}' не найдена");
+        }
+        else
+        {
+            if (location.LocationQueryString != query)
+            {
+                location.Country = country;
+                location.City = city;
+                location.Street = street;
+                location.House = house;
+                location.Number = flat;
+                location.LocationQueryString = query;
+                location.Lat = lat;
+                location.Lon = lon;
+            }
+            _locationRepository.Edit(location);
             return location.Id;
         }
     }

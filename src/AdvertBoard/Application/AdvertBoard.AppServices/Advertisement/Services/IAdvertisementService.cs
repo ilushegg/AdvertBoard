@@ -25,7 +25,7 @@ public interface IAdvertisementService
     Task<IReadOnlyCollection<AdvertisementDto>> GetAll(int take, int skip, CancellationToken cancellation);
 
 
-    Task<IReadOnlyCollection<AdvertisementDto>> GetAllByAuthor(int take, int skip, Guid userId, CancellationToken cancellation);
+    Task<GetPagedResultDto> GetAllByAuthor(int take, int skip, Guid userId, CancellationToken cancellation);
 
     /// <summary>
     /// 
@@ -44,7 +44,7 @@ public interface IAdvertisementService
 
 
 
-    Task<Guid> EditAsync(Guid productId, string name, string description, decimal price, Guid categoryId, CancellationToken cancellation);
+    Task<(Guid adId, Guid locId)> EditAsync(Guid productId, string name, string description, decimal price, Guid categoryId, CancellationToken cancellation);
 
 
     Task DeleteAsync(Guid productId, CancellationToken cancellation);

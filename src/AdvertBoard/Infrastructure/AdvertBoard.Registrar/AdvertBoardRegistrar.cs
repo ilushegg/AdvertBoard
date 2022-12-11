@@ -50,7 +50,7 @@ public static class AdvertBoardRegistrar
         
         services.AddDbContext<AdvertBoardContext>((Action<IServiceProvider, DbContextOptionsBuilder>)
             ((sp, dbOptions) => sp.GetRequiredService<IDbContextOptionsConfigurator<AdvertBoardContext>>()
-                .Configure((DbContextOptionsBuilder<AdvertBoardContext>)dbOptions)));
+                .Configure((DbContextOptionsBuilder<AdvertBoardContext>)dbOptions)), ServiceLifetime.Transient);
 
         services.AddTransient((Func<IServiceProvider, DbContext>) (sp => sp.GetRequiredService<AdvertBoardContext>()));
         
