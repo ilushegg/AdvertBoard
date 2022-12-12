@@ -85,7 +85,10 @@ public class FullAdvertisementDto
     /// </summary>
     public string LocationLon { get; set; }
 
-
+    /// <summary>
+    /// В избранном ли у пользователя?
+    /// </summary>
+    public bool isFavorite { get; set; }
 
 
 }

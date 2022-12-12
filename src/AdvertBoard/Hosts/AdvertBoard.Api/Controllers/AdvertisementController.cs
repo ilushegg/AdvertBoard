@@ -8,6 +8,8 @@ using AdvertBoard.AppServices.ProductImage.Services;
 using AdvertBoard.AppServices.Advertisement.Services;
 using AdvertBoard.AppServices.User.Services;
 using AdvertBoard.AppServices.Location.Services;
+using AdvertBoard.AppServices.Favorite.Services;
+using System.Threading;
 
 namespace AdvertBoard.Api.Controllers;
 
@@ -19,15 +21,15 @@ namespace AdvertBoard.Api.Controllers;
 public class AdvertisementController : ControllerBase
 {
     private readonly IAdvertisementService _advertisementService;
-    private readonly IUserService _userService;
+    private readonly IFavoriteService _favoriteService;
     private readonly ILocationService _locationService;
     private readonly IAdvertisementImageService _productImageService;
     private readonly ICategoryService _categoryService;
 
-    public AdvertisementController(IAdvertisementService advertisementService, IUserService userService, IAdvertisementImageService productImageService, ILocationService locationService)
+    public AdvertisementController(IAdvertisementService advertisementService, IFavoriteService favoriteService, IAdvertisementImageService productImageService, ILocationService locationService)
     {
         _advertisementService = advertisementService;
-        _userService = userService;
+        _favoriteService = favoriteService;
         _productImageService = productImageService;
         _locationService = locationService;
     }
@@ -39,11 +41,12 @@ public class AdvertisementController : ControllerBase
     /// <returns></returns>
     [HttpGet("get-by-id")]
     [ProducesResponseType(typeof(IReadOnlyCollection<AdvertisementDto>), StatusCodes.Status201Created)]
-    public async Task<IActionResult> GetById([FromQuery] Guid id, CancellationToken cancellation)
+    public async Task<IActionResult> GetByIdAsync([FromQuery]GetAdvertisementModel model, CancellationToken cancellationToken)
     {
         try
         {
-            var result = await _advertisementService.GetById(id, cancellation);
+            var result = await _advertisementService.GetById(model.AdvertisementId, cancellationToken);
+            result.isFavorite = await _favoriteService.IsAdvertisementFavorite(model.AdvertisementId, (Guid)model.UserId, cancellationToken);
             return Ok(result);
         }
         catch(Exception ex)
@@ -60,10 +63,18 @@ public class AdvertisementController : ControllerBase
     /// <returns></returns>
     [HttpGet]
     [ProducesResponseType(typeof(IReadOnlyCollection<AdvertisementDto>), StatusCodes.Status201Created)]
-    public async Task<IActionResult> GetAll([FromQuery]PaginationModel paginationDto, CancellationToken cancellation)
+    public async Task<IActionResult> GetAll([FromQuery]PaginationModel paginationModel, CancellationToken cancellationToken)
     {
-        var result = await _advertisementService.GetAll(paginationDto.Limit, paginationDto.Offset, cancellation);
+        var result = await _advertisementService.GetAll(paginationModel.Limit, paginationModel.Offset, cancellationToken);
+        if(paginationModel.UserId != null)
+        {
+            foreach(var res in result)
+            {
+                res.isFavorite = await _favoriteService.IsAdvertisementFavorite(res.Id, (Guid)paginationModel.UserId, cancellationToken);
+            }
 
+
+        }
         return Ok(result);
     }
 

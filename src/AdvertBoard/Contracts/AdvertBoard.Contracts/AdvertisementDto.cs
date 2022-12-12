@@ -47,4 +47,9 @@ public class AdvertisementDto
     /// </summary>
     public string LocationQuery { get; set; }
 
+    /// <summary>
+    /// В избранном ли у пользователя?
+    /// </summary>
+    public bool isFavorite { get; set; }
+
 }

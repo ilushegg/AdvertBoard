@@ -8,8 +8,7 @@ using AdvertBoard.DataAccess;
 using AdvertBoard.DataAccess.EntityConfigurations.Product;
 using AdvertBoard.DataAccess.Interfaces;
 using AdvertBoard.Infrastructure.Repository;
-using AdvertBoard.AppServices.ShoppingCart.Repositories;
-using AdvertBoard.AppServices.ShoppingCart.Services;
+
 using AdvertBoard.DataAccess.EntityConfigurations.ShoppingCart;
 using AdvertBoard.AppServices;
 using AdvertBoard.Infrastructure.Identity;
@@ -31,6 +30,8 @@ using AdvertBoard.DataAccess.EntityConfigurations.Image;
 using AdvertBoard.AppServices.Location.Services;
 using AdvertBoard.DataAccess.EntityConfigurations.Location;
 using AdvertBoard.AppServices.Location.Repositories;
+using AdvertBoard.AppServices.Favorite;
+using AdvertBoard.AppServices.Favorite.Services;
 
 namespace AdvertBoard.Registrar;
 
@@ -57,8 +58,7 @@ public static class AdvertBoardRegistrar
         services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
         
 
-        services.AddTransient<IShoppingCartRepository, ShoppingCartRepository>();
-        services.AddTransient<IShoppingCartService, ShoppingCartService>();
+
 
         services.AddTransient<IUserRepository, UserRepository>();
         services.AddTransient<IUserService, UserService>();
@@ -80,6 +80,9 @@ public static class AdvertBoardRegistrar
         
         services.AddTransient<ILocationRepository, LocationRepository>();
         services.AddTransient<ILocationService, LocationService>();
+
+        services.AddTransient<IFavoriteRepository, FavoriteRepository>();
+        services.AddTransient<IFavoriteService, FavoriteService>();
 
         services.AddTransient<IFileService, FileService>();
 

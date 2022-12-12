@@ -18,6 +18,11 @@ namespace AdvertBoard.Contracts
         /// </summary>
         public int Limit { get; set; }
 
+        /// <summary>
+        /// Идентификатор пользователя.
+        /// </summary>
+        public Guid? UserId { get; set; }
+
         
     }
 }

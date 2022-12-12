@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using AdvertBoard.AppServices.Product.Repositories;
 using AdvertBoard.Contracts;
 using AdvertBoard.Infrastructure.Repository;
+using System;
 
 namespace AdvertBoard.DataAccess.EntityConfigurations.Advertisement;
 
@@ -84,6 +85,7 @@ public class AdvertisementRepository : IAdvertisementRepository
                 CategoryId = p.CategoryId
             }).ToListAsync(cancellation);
     }
+
 
     public async Task<bool> AddAsync(Domain.Advertisement product, CancellationToken cancellation)
     {

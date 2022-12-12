@@ -1,8 +1,9 @@
 using Microsoft.EntityFrameworkCore;
-using AdvertBoard.AppServices.ShoppingCart.Repositories;
+
 using AdvertBoard.Contracts;
 using AdvertBoard.Infrastructure.Repository;
 using AdvertBoard.Domain;
+using AdvertBoard.AppServices.Favorite;
 
 namespace AdvertBoard.DataAccess.EntityConfigurations.ShoppingCart;
 
@@ -23,9 +24,14 @@ public class FavoriteRepository : IFavoriteRepository
     }
 
     /// <inheritdoc />
-    public async Task<IReadOnlyCollection<Domain.Favorite>> GetAllAsync(Guid userId, CancellationToken cancellationToken)
+    public async Task<IReadOnlyCollection<FavoriteDto>> GetAllAsync(int skip, int take, Guid userId, CancellationToken cancellationToken)
     {
-        return await _repository.GetAll().Where(s => s.UserId == userId).ToListAsync();
+        return await _repository.GetAll().Where(s => s.UserId == userId).Select(f => new FavoriteDto
+        {
+            Id = f.Id,
+            AdvertisementId = f.AdvertisementId,
+            UserId = f.UserId
+        }).Skip(skip).Take(take).ToListAsync();
     }
 
 
@@ -42,16 +48,22 @@ public class FavoriteRepository : IFavoriteRepository
         await _repository.DeleteAsync(existingFavorite);
     }
 
-    public async Task<Guid> CreateAsync(Domain.Favorite favorite, CancellationToken cancellationToken)
+    public async Task<Guid> AddAsync(Domain.Favorite favorite, CancellationToken cancellationToken)
     {
 
         await _repository.AddAsync(favorite);
         return favorite.Id;
     }
 
-    public async Task<Domain.Favorite> GetByProductId(Guid advertisementId, Guid userId, CancellationToken cancellationToken)
+    public async Task<Domain.Favorite> GetByAdvertisementId(Guid advertisementId, Guid userId, CancellationToken cancellationToken)
     {
         return await _repository.GetAll().Where(s => s.AdvertisementId == advertisementId && s.UserId == userId).FirstOrDefaultAsync();
+    }
+
+    public async Task<int> GetAllCount(Guid userId, CancellationToken cancellation)
+    {
+        return await _repository.GetAll().Where(ad => ad.UserId == userId).CountAsync();
+
     }
 
 }

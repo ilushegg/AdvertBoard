@@ -9,7 +9,7 @@
             Работа с корзиной товаров.
             </summary>
         </member>
-        <member name="M:AdvertBoard.Api.Controllers.AdvertisementController.GetById(System.Guid,System.Threading.CancellationToken)">
+        <member name="M:AdvertBoard.Api.Controllers.AdvertisementController.GetByIdAsync(AdvertBoard.Contracts.GetAdvertisementModel,System.Threading.CancellationToken)">
             <summary>
             Возвращает товар по идентификатору.
             </summary>
@@ -51,40 +51,6 @@
             <param name="cancellation"></param>
             <returns></returns>
         </member>
-        <member name="T:AdvertBoard.Api.Controllers.CartController">
-            <summary>
-            Работа с корзиной товаров.
-            </summary>
-        </member>
-        <member name="M:AdvertBoard.Api.Controllers.CartController.#ctor(AdvertBoard.AppServices.ShoppingCart.Services.IShoppingCartService,AdvertBoard.AppServices.User.Services.IUserService,AdvertBoard.AppServices.Advertisement.Services.IAdvertisementService)">
-            <summary>
-            
-            </summary>
-            <param name="shoppingCartService"></param>
-        </member>
-        <member name="M:AdvertBoard.Api.Controllers.CartController.GetAsync(System.Threading.CancellationToken)">
-            <summary>
-            Возвращает позиции товаров в корзине.
-            </summary>
-            <returns>Коллекция элементов <see cref="T:AdvertBoard.Contracts.ShoppingCartDto"/>.</returns>
-        </member>
-        <member name="M:AdvertBoard.Api.Controllers.CartController.UpdateQuantityAsync(System.Guid,System.Int32,System.Threading.CancellationToken)">
-            <summary>
-            Обновляет количество товара в корзине.
-            </summary>
-        </member>
-        <member name="M:AdvertBoard.Api.Controllers.CartController.AddAsync(System.Guid,System.Int32,System.Threading.CancellationToken)">
-            <summary>
-            Добавляет товар в корзину.
-            </summary>
-            <param name="cancellationToken"></param>
-        </member>
-        <member name="M:AdvertBoard.Api.Controllers.CartController.DeleteAsync(System.Guid,System.Threading.CancellationToken)">
-            <summary>
-            Удаляет товар из корзины.
-            </summary>
-            <param name="id">Идентификатор товара в корзине.</param>
-        </member>
         <member name="T:AdvertBoard.Api.Controllers.CategoryController">
             <summary>
             Работа с категориями.
@@ -102,6 +68,35 @@
             </summary>
             <param name="cancellation"></param>
             <returns></returns>
+        </member>
+        <member name="T:AdvertBoard.Api.Controllers.FavoriteController">
+            <summary>
+            Работа с корзиной товаров.
+            </summary>
+        </member>
+        <member name="M:AdvertBoard.Api.Controllers.FavoriteController.#ctor(AdvertBoard.AppServices.Favorite.Services.IFavoriteService,AdvertBoard.AppServices.User.Services.IUserService,AdvertBoard.AppServices.Advertisement.Services.IAdvertisementService)">
+            <summary>
+            
+            </summary>
+            <param name="shoppingCartService"></param>
+        </member>
+        <member name="M:AdvertBoard.Api.Controllers.FavoriteController.GetAllAsync(AdvertBoard.Contracts.PaginationModel,System.Threading.CancellationToken)">
+            <summary>
+            Возвращает позиции товаров в корзине.
+            </summary>
+            <returns>Коллекция элементов <see cref="T:AdvertBoard.Contracts.FavoriteDto"/>.</returns>
+        </member>
+        <member name="M:AdvertBoard.Api.Controllers.FavoriteController.AddAsync(AdvertBoard.Api.Models.FavoriteModel,System.Threading.CancellationToken)">
+            <summary>
+            Добавляет товар в корзину.
+            </summary>
+            <param name="cancellationToken"></param>
+        </member>
+        <member name="M:AdvertBoard.Api.Controllers.FavoriteController.DeleteAsync(AdvertBoard.Api.Models.FavoriteModel,System.Threading.CancellationToken)">
+            <summary>
+            Удаляет товар из корзины.
+            </summary>
+            <param name="id">Идентификатор товара в корзине.</param>
         </member>
         <member name="T:AdvertBoard.Api.Controllers.ImageController">
             <summary>
@@ -298,6 +293,21 @@
             Координаты долготы.
             </summary>
         </member>
+        <member name="T:AdvertBoard.Contracts.GetAdvertisementModel">
+            <summary>
+            Товар
+            </summary>
+        </member>
+        <member name="P:AdvertBoard.Contracts.GetAdvertisementModel.AdvertisementId">
+            <summary>
+            Идентификатор объявления.
+            </summary>
+        </member>
+        <member name="P:AdvertBoard.Contracts.GetAdvertisementModel.UserId">
+            <summary>
+            Идентификатор автора.
+            </summary>
+        </member>
         <member name="P:AdvertBoard.Contracts.PaginationModel.Offset">
             <summary>
             Смещение.
@@ -306,6 +316,11 @@
         <member name="P:AdvertBoard.Contracts.PaginationModel.Limit">
             <summary>
             Лимит.
+            </summary>
+        </member>
+        <member name="P:AdvertBoard.Contracts.PaginationModel.UserId">
+            <summary>
+            Идентификатор пользователя.
             </summary>
         </member>
     </members>
