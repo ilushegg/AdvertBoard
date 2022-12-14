@@ -137,6 +137,11 @@ public class AdvertisementController : ControllerBase
         return Ok(result.adId);
     }
 
+
+
+
+
+
     /// <summary>
     /// Удаляет товар.
     /// </summary>
@@ -159,4 +164,23 @@ public class AdvertisementController : ControllerBase
         }
     }
 
-}
+    [HttpGet("search")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> SearchAsync([FromQuery]AdvertisementSearchRequestModel model, CancellationToken cancellation)
+    {
+        try
+        {
+            var result = await _advertisementService.GetAllBySearch(model.Offset, model.Limit, model.Query, model.CategoryId, model.City, cancellation);
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+
+
+
+
+        }

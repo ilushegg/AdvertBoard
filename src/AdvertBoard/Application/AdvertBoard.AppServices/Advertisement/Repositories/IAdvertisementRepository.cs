@@ -1,4 +1,5 @@
 using AdvertBoard.Contracts;
+using System.Linq.Expressions;
 
 namespace AdvertBoard.AppServices.Product.Repositories;
 
@@ -25,7 +26,7 @@ public interface IAdvertisementRepository
     /// <returns>Коллекция элементов <see cref="AdvertisementDto"/>.</returns>
     Task<IReadOnlyCollection<AdvertisementDto>> GetAllByAuthor(int take, int skip, Guid userId, CancellationToken cancellation);
 
-    Task<int> GetAllByAuthorCount(Guid userId, CancellationToken cancellation);
+    Task<int> GetAllCount(Expression<Func<Domain.Advertisement, bool>> predicate, CancellationToken cancellation);
 
     /// <summary>
     /// Возвращает записи товаров по фильтру.
@@ -69,5 +70,14 @@ public interface IAdvertisementRepository
     /// <param name="cancellation"></param>
     /// <returns></returns>
     Task<Domain.Advertisement> GetById(Guid productId, CancellationToken cancellation);
+
+
+    /// <summary>
+    /// Поиск объявления по строке поиска.
+    /// </summary>
+    /// <param name="request"></param>
+    /// <param name="cancellation"></param>
+    /// <returns></returns>
+    Task<IReadOnlyCollection<AdvertisementDto>> GetWhere(int skip, int take, string? query, Guid? categoryId, string? city, CancellationToken cancellation);
 
 }

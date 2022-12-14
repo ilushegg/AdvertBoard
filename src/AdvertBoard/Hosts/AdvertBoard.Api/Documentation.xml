@@ -203,6 +203,36 @@
             Координаты долготы.
             </summary>
         </member>
+        <member name="T:AdvertBoard.Contracts.AdvertisementSearchRequestModel">
+            <summary>
+            Модель фильтра товаров.
+            </summary>
+        </member>
+        <member name="P:AdvertBoard.Contracts.AdvertisementSearchRequestModel.Offset">
+            <summary>
+            Смещение.
+            </summary>
+        </member>
+        <member name="P:AdvertBoard.Contracts.AdvertisementSearchRequestModel.Limit">
+            <summary>
+            Лимит.
+            </summary>
+        </member>
+        <member name="P:AdvertBoard.Contracts.AdvertisementSearchRequestModel.City">
+            <summary>
+            Город поиска.
+            </summary>
+        </member>
+        <member name="P:AdvertBoard.Contracts.AdvertisementSearchRequestModel.CategoryId">
+            <summary>
+            Категория.
+            </summary>
+        </member>
+        <member name="P:AdvertBoard.Contracts.AdvertisementSearchRequestModel.Query">
+            <summary>
+            Наименование.
+            </summary>
+        </member>
         <member name="P:AdvertBoard.Contracts.AuthorAdvertisementsModel.Offset">
             <summary>
             Смещение.

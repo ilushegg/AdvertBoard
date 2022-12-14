@@ -56,10 +56,37 @@ public class AdvertisementService : IAdvertisementService
 
     }
 
+    public async Task<GetPagedResultDto> GetAllBySearch(int skip, int take, string? query, Guid? categoryId, string? city, CancellationToken cancellationToken)
+    {
+        var total = await _productRepository.GetAllCount(ad => ad.Name.ToLower().Contains(query.ToLower()), cancellationToken);
+        var advertisements = await _productRepository.GetWhere(skip, take, query, categoryId, city, cancellationToken);
+        foreach (var ad in advertisements)
+        {
+            var images = await _productImageRepository.GetAllByProduct(ad.Id, cancellationToken);
+            var imageList = new List<string>();
+            foreach (var image in images)
+            {
+                byte[] byteImage = File.ReadAllBytes(image.FilePath);
+                imageList.Add("data:image/png;base64," + Convert.ToBase64String(byteImage));
+            }
+            ad.Images = imageList;
+
+        }
+
+        return new GetPagedResultDto
+        {
+            Offset = skip,
+            Limit = take,
+            Total = total,
+            Items = advertisements
+        };
+
+    }
+
     /// <inheritdoc />
     public async Task<GetPagedResultDto> GetAllByAuthor(int take, int skip, Guid userId, CancellationToken cancellation)
     {
-        var total = await _productRepository.GetAllByAuthorCount(userId, cancellation);
+        var total = await _productRepository.GetAllCount(ad => ad.UserId == userId, cancellation);
         var advertisements = await _productRepository.GetAllByAuthor(take, skip, userId, cancellation);
         foreach (var ad in advertisements)
         {

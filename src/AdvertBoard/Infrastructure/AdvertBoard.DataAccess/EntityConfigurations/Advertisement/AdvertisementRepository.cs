@@ -3,6 +3,7 @@ using AdvertBoard.AppServices.Product.Repositories;
 using AdvertBoard.Contracts;
 using AdvertBoard.Infrastructure.Repository;
 using System;
+using System.Linq.Expressions;
 
 namespace AdvertBoard.DataAccess.EntityConfigurations.Advertisement;
 
@@ -54,9 +55,9 @@ public class AdvertisementRepository : IAdvertisementRepository
             .Skip(skip).Take(take).ToListAsync(cancellation);
     }
 
-    public async Task<int> GetAllByAuthorCount(Guid userId, CancellationToken cancellation)
+    public async Task<int> GetAllCount(Expression<Func<Domain.Advertisement, bool>> predicate, CancellationToken cancellation)
     {
-        return await _repository.GetAll().Where(ad => ad.UserId == userId).CountAsync();
+        return await _repository.GetAll().Where(predicate).CountAsync();
  
     }
 
@@ -85,6 +86,40 @@ public class AdvertisementRepository : IAdvertisementRepository
                 CategoryId = p.CategoryId
             }).ToListAsync(cancellation);
     }
+
+
+    public async Task<IReadOnlyCollection<AdvertisementDto>> GetWhere(int skip, int take, string? query, Guid? categoryId, string? city,  CancellationToken cancellation)
+    {
+        var advertisements = _repository.GetAll();
+        
+
+        if (!string.IsNullOrWhiteSpace(query))
+        {
+            advertisements = advertisements.Where(p => p.Name.ToLower().Contains(query.ToLower()));
+        }
+
+        if (!string.IsNullOrWhiteSpace(city))
+        {
+            advertisements = advertisements.Where(p => p.Location.City.ToLower().Contains(city.ToLower()));
+        }
+
+        if (categoryId != null)
+        {
+            advertisements = advertisements.Where(p => p.CategoryId == categoryId);
+        }
+
+        return await advertisements.Select(p => new AdvertisementDto
+        {
+            Id = p.Id,
+            Name = p.Name,
+            Description = p.Description,
+            CategoryId = p.Category.Id,
+            Price = p.Price,
+            LocationQuery = p.Location.City,
+            DateTimeCreated = $"{p.DateTimeCreated.ToString("f")}"
+        }).Skip(skip).Take(take).ToListAsync(cancellation);
+    }
+
 
 
     public async Task<bool> AddAsync(Domain.Advertisement product, CancellationToken cancellation)
