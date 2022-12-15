@@ -85,6 +85,7 @@ public static class AdvertBoardRegistrar
         services.AddTransient<IFavoriteService, FavoriteService>();
 
         services.AddTransient<IFileService, FileService>();
+        services.AddTransient<IPasswordCryptography, PasswordCryptography>();
 
         services.AddScoped<IClaimsAccessor, HttpContextClaimsAccessor>();
 

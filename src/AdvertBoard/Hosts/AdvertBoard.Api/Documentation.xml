@@ -51,6 +51,14 @@
             <param name="cancellation"></param>
             <returns></returns>
         </member>
+        <member name="M:AdvertBoard.Api.Controllers.AdvertisementController.DeleteAllUsersAdsAsync(System.Guid,System.Threading.CancellationToken)">
+            <summary>
+            Администратор может удалить любое объявление пользователей.
+            </summary>
+            <param name="productId"></param>
+            <param name="cancellation"></param>
+            <returns></returns>
+        </member>
         <member name="T:AdvertBoard.Api.Controllers.CategoryController">
             <summary>
             Работа с категориями.
@@ -231,6 +239,16 @@
         <member name="P:AdvertBoard.Contracts.AdvertisementSearchRequestModel.Query">
             <summary>
             Наименование.
+            </summary>
+        </member>
+        <member name="P:AdvertBoard.Contracts.AdvertisementSearchRequestModel.FromPrice">
+            <summary>
+            Цена от.
+            </summary>
+        </member>
+        <member name="P:AdvertBoard.Contracts.AdvertisementSearchRequestModel.ToPrice">
+            <summary>
+            Цена до.
             </summary>
         </member>
         <member name="P:AdvertBoard.Contracts.AuthorAdvertisementsModel.Offset">

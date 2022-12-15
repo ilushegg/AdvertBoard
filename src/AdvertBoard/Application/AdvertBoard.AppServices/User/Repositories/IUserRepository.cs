@@ -9,7 +9,9 @@ namespace AdvertBoard.AppServices.User.Repositories;
 /// </summary>
 public interface IUserRepository
 {
-    Task<Domain.User> FindWhere(Expression<Func<Domain.User, bool>> predicate, CancellationToken cancellationToken);
+    Task<UserDto> FindWhereAsync(Expression<Func<Domain.User, bool>> predicate, CancellationToken cancellationToken);
+
+    UserDto FindWhere(Expression<Func<Domain.User, bool>> predicate);
 
     Task AddAsync(Domain.User user);
 

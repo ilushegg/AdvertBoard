@@ -29,8 +29,14 @@ public class AdvertisementSearchRequestModel
     /// </summary>
     public string? Query { get; set; }
 
-    
+    /// <summary>
+    /// Цена от.
+    /// </summary>
+    public decimal? FromPrice { get; set; }
 
-    
+    /// <summary>
+    /// Цена до.
+    /// </summary>
+    public decimal? ToPrice { get; set; }
 
 }

@@ -23,10 +23,6 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddSwaggerServices();
 
 
-/*
-builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
-    .AddEntityFrameworkStores<AdvertBoardContext>()
-    .AddDefaultTokenProviders();*/
 
 builder.Services.AddAuthenticationServices(builder.Configuration);
 builder.Services.AddCors(o => o.AddPolicy("MyPolicy", builder =>

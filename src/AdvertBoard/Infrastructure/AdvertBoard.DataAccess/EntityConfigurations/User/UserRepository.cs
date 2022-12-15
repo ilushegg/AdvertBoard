@@ -23,13 +23,38 @@ public class UserRepository : IUserRepository
     }
 
 
-    public async Task<Domain.User> FindWhere(Expression<Func<Domain.User, bool>> predicate, CancellationToken cancellationToken)
+    public async Task<UserDto> FindWhereAsync(Expression<Func<Domain.User, bool>> predicate, CancellationToken cancellationToken)
     {
-        var data = _repository.GetAll();
+        var data = await _repository.GetAll().Where(predicate).Select(u => new UserDto
+        {
+            Id = u.Id,
+            Name = u.Name,
+            Email = u.Email,
+            Password = u.Password,
+            UserRole = u.UserRole.Role,
+            CreateDate = u.CreateDate,
+            Mobile = u.Mobile
+        }).FirstOrDefaultAsync();
 
-        return await data.Where(predicate).FirstOrDefaultAsync(cancellationToken);
+        return data;
     }
-    
+
+    public UserDto FindWhere(Expression<Func<Domain.User, bool>> predicate)
+    {
+        var data = _repository.GetAll().Where(predicate).Select(u => new UserDto
+        {
+            Id = u.Id,
+            Name = u.Name,
+            Email = u.Email,
+            Password = u.Password,
+            UserRole = u.UserRole.Role,
+            CreateDate = u.CreateDate,
+            Mobile = u.Mobile
+        }).FirstOrDefault();
+
+        return data;
+    }
+
     public async Task AddAsync(Domain.User user)
     {
         await _repository.AddAsync(user);

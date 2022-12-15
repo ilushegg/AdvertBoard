@@ -88,7 +88,7 @@ public class AdvertisementRepository : IAdvertisementRepository
     }
 
 
-    public async Task<IReadOnlyCollection<AdvertisementDto>> GetWhere(int skip, int take, string? query, Guid? categoryId, string? city,  CancellationToken cancellation)
+    public async Task<IReadOnlyCollection<AdvertisementDto>> GetWhere(int skip, int take, string? query, Guid? categoryId, string? city, decimal? fromPrice, decimal? toPrice,  CancellationToken cancellation)
     {
         var advertisements = _repository.GetAll();
         
@@ -106,6 +106,16 @@ public class AdvertisementRepository : IAdvertisementRepository
         if (categoryId != null)
         {
             advertisements = advertisements.Where(p => p.CategoryId == categoryId);
+        }
+
+        if (fromPrice != null)
+        {
+            advertisements = advertisements.Where(p => p.Price >= fromPrice);
+        }
+
+        if (toPrice != null)
+        {
+            advertisements = advertisements.Where(p => p.Price <= toPrice);
         }
 
         return await advertisements.Select(p => new AdvertisementDto

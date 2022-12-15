@@ -8,13 +8,14 @@ using AdvertBoard.DataAccess.EntityConfigurations.User;
 using AdvertBoard.DataAccess.EntityConfigurations.UserAvatar;
 using AdvertBoard.DataAccess.EntityConfigurations.Image;
 using AdvertBoard.DataAccess.EntityConfigurations.AdvertisementImage;
+using AdvertBoard.DataAccess.EntityConfigurations.UserRole;
 
 namespace AdvertBoard.DataAccess;
 
 /// <summary>
 /// Контекст БД
 /// </summary>
-public class AdvertBoardContext : IdentityDbContext<ApplicationUser>
+public class AdvertBoardContext : DbContext
 {
     /// <summary>
     /// Инициализирует экземпляр <see cref="AdvertBoardContext"/>.
@@ -34,6 +35,8 @@ public class AdvertBoardContext : IdentityDbContext<ApplicationUser>
         modelBuilder.ApplyConfiguration(new AdvertisementImageConfiguration());
         modelBuilder.ApplyConfiguration(new UserAvatarConfiguration());
         modelBuilder.ApplyConfiguration(new ImageConfiguration());
+        modelBuilder.ApplyConfiguration(new UserRoleConfiguration());
+
 
 
         base.OnModelCreating(modelBuilder);

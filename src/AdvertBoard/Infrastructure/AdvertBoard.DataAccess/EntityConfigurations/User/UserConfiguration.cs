@@ -26,6 +26,7 @@ public class UserConfiguration : IEntityTypeConfiguration<Domain.User>
 
 
 
+
         /*  builder.HasMany(p => p.ShoppingCarts)
               .WithOne(s => s.Product)
               .HasForeignKey(s => s.ProductId);*/

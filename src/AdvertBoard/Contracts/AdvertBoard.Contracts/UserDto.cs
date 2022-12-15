@@ -29,6 +29,11 @@ namespace AdvertBoard.Contracts
         public string Email { get; set; }
 
         /// <summary>
+        /// Пароль.
+        /// </summary>
+        public string Password { get; set; }
+
+        /// <summary>
         /// Аватар.
         /// </summary>
         public string Avatar { get; set; }
@@ -37,5 +42,10 @@ namespace AdvertBoard.Contracts
         /// Дата регистрации.
         /// </summary>
         public DateTime CreateDate { get; set; }
+
+        /// <summary>
+        /// Роль.
+        /// </summary>
+        public string UserRole { get; set; }
     }
 }

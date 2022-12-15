@@ -170,8 +170,32 @@ public class AdvertisementController : ControllerBase
     {
         try
         {
-            var result = await _advertisementService.GetAllBySearch(model.Offset, model.Limit, model.Query, model.CategoryId, model.City, cancellation);
+            var result = await _advertisementService.GetAllBySearch(model.Offset, model.Limit, model.Query, model.CategoryId, model.City, model.FromPrice, model.ToPrice, cancellation);
             return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+
+    /// <summary>
+    /// Администратор может удалить любое объявление пользователей.
+    /// </summary>
+    /// <param name="productId"></param>
+    /// <param name="cancellation"></param>
+    /// <returns></returns>
+    [HttpDelete("delete_admin")]
+    [Authorize(Roles = "Admin")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> DeleteAllUsersAdsAsync(Guid userId, CancellationToken cancellation)
+    {
+        try
+        {
+
+            Console.WriteLine("УДАЛЕНИЕ АДМИН");
+            return Ok();
         }
         catch (Exception ex)
         {
@@ -182,5 +206,4 @@ public class AdvertisementController : ControllerBase
 
 
 
-
-        }
+}

@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Identity;
+
 namespace AdvertBoard.Domain;
 
 /// <summary>
@@ -9,7 +11,7 @@ public class User
     /// Идентификатор.
     /// </summary>
     public Guid Id { get; set; }
-    
+
     /// <summary>
     /// Имя.
     /// </summary>
@@ -24,7 +26,7 @@ public class User
     /// Эл. адрес.
     /// </summary>
     public string Email { get; set; }
-    
+
     /// <summary>
     /// Пароль.
     /// </summary>
@@ -44,7 +46,7 @@ public class User
 
     public ICollection<Favorite> Favorites { get; set; }
 
+    public UserRole UserRole { get; set; }
 
-    public ICollection<ShoppingCart> ShoppingCarts { get; set; }
     
 }

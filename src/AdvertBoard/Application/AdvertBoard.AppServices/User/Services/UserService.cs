@@ -22,17 +22,19 @@ public class UserService : IUserService
     private readonly IUserAvatarRepository _userAvatarRepository;
     private readonly IClaimsAccessor _claimsAccessor;
     private readonly IConfiguration _configuration;
+    private readonly IPasswordCryptography _passwordCryptography;
 
     /// <summary>
     /// Инициализирует экземпляр <see cref="UserService"/>.
     /// </summary>
     /// <param name="productRepository"></param>
-    public UserService(IUserRepository userRepository, IClaimsAccessor claimsAccessor, IConfiguration configuration, IUserAvatarRepository userAvatarRepository)
+    public UserService(IUserRepository userRepository, IClaimsAccessor claimsAccessor, IConfiguration configuration, IUserAvatarRepository userAvatarRepository, IPasswordCryptography passwordCryptography)
     {
         _userRepository = userRepository;
         _claimsAccessor = claimsAccessor;
         _configuration = configuration;
         _userAvatarRepository = userAvatarRepository;
+        _passwordCryptography = passwordCryptography;   
     }
 
     public async Task<UserDto> GetById(Guid id, CancellationToken cancellationToken)
@@ -86,14 +88,16 @@ public class UserService : IUserService
 
     public async Task<(string token, Guid userId)> Login(LoginUserDto userDto, CancellationToken cancellationToken)
     {
-        var user = await _userRepository.FindWhere(user => user.Email == userDto.Email, cancellationToken);
+        var user =  _userRepository.FindWhere(user => user.Email == userDto.Email);
         if (user == null)
         {
             throw new HttpRequestException("Пользователь с таким логином не найден");
                
         }
 
-        if (!user.Password.Equals(userDto.Password))
+
+
+        if (!_passwordCryptography.AreEqual(userDto.Password, user.Password, "salt"))
         {
             throw new Exception("Неверный пароль.");
         }
@@ -101,7 +105,8 @@ public class UserService : IUserService
         var claims = new List<Claim>
         {
             new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-            new Claim(ClaimTypes.Email, user.Email)
+            new Claim(ClaimTypes.Email, user.Email),
+            new Claim(ClaimTypes.Role, user.UserRole)
         };
         var secretKey = _configuration["Token:SecretKey"];
         var token = new JwtSecurityToken(
@@ -119,42 +124,53 @@ public class UserService : IUserService
 
     public async Task<Guid> Register(string name, string email, string password, CancellationToken cancellationToken)
     {
-        var user = await _userRepository.FindWhere(user => user.Email == email, cancellationToken);
-        if(user == null)
+        var exUser =  _userRepository.FindWhere(user => user.Email == email);
+        var hashPassword = _passwordCryptography.GenerateHash(password, "salt");
+        if(exUser == null)
         {
-            user = new Domain.User
+            var user = new Domain.User
             {
                 Id = new Guid(),
                 Name = name,
                 Email = email,
-                Password = password,
+                Password = hashPassword,
                 CreateDate = DateTime.UtcNow
             };
+
+            _userRepository.Add(user);
+            return user.Id;
         }
         else
         {
             throw new Exception($"Пользователь с электронным адресом '{email}' уже зарегестрирован");
         }
 
-        _userRepository.Add(user);
-        return user.Id; 
+         
     }
 
     public async Task<Guid> EditAsync(Guid id, string name, string mobile, CancellationToken cancellationToken)
     {
-        var user = await _userRepository.FindWhere(user => user.Id == id, cancellationToken);
-        if (user != null)
+        var exUser = await _userRepository.FindWhereAsync(user => user.Id == id, cancellationToken);
+        if (exUser != null)
         {
-            user.Name = name;
-            user.Mobile = mobile;
+            var user = new Domain.User
+            {
+                Id = exUser.Id,
+                Name = name,
+                Email = exUser.Email,
+                Mobile = mobile
+
+            };
+
+            await _userRepository.EditAsync(user, cancellationToken);
+            return user.Id;
         }
         else
         {
             throw new Exception($"Пользователь не найден");
         }
 
-        await _userRepository.EditAsync(user, cancellationToken);
-        return user.Id;
+        
     }
 
 }

@@ -15,7 +15,9 @@ public class UserAvatarConfiguration : IEntityTypeConfiguration<Domain.UserAvata
 
         builder.HasKey(k => k.Id);
 
-/*        builder.HasMany(p => p.Images)
-            .WithOne(s => s.UserAvatar);*/
+
+
+        /*        builder.HasMany(p => p.Images)
+                    .WithOne(s => s.UserAvatar);*/
     }
 }

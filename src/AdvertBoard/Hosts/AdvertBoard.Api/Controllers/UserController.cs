@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using AdvertBoard.AppServices.User.Services;
 using AdvertBoard.Api.Models;
 using AdvertBoard.Domain;
+using Microsoft.AspNetCore.Identity;
 
 namespace AdvertBoard.Api.Controllers;
 
@@ -20,7 +21,8 @@ public class UserController : ControllerBase
 {
     private readonly IUserService _userService;
     private readonly IUserAvatarService _userAvatarService;
-    
+
+
     /// <summary>
     /// 
     /// </summary>
@@ -29,6 +31,7 @@ public class UserController : ControllerBase
     {
         _userService = userService;
         _userAvatarService = userAvatarService;
+
     }
 
     [HttpGet("get_by_id")]

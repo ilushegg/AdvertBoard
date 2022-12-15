@@ -56,10 +56,14 @@ public class AdvertisementService : IAdvertisementService
 
     }
 
-    public async Task<GetPagedResultDto> GetAllBySearch(int skip, int take, string? query, Guid? categoryId, string? city, CancellationToken cancellationToken)
+    public async Task<GetPagedResultDto> GetAllBySearch(int skip, int take, string? query, Guid? categoryId, string? city, decimal? fromPrice, decimal? toPrice, CancellationToken cancellationToken)
     {
-        var total = await _productRepository.GetAllCount(ad => ad.Name.ToLower().Contains(query.ToLower()), cancellationToken);
-        var advertisements = await _productRepository.GetWhere(skip, take, query, categoryId, city, cancellationToken);
+        var total = await _productRepository.GetAllCount(ad => ((query == null) ? ad.Name!=null : ad.Name.ToLower().Contains(query.ToLower())) 
+                            && ((categoryId == null) ? ad.CategoryId!=null : ad.CategoryId == categoryId) 
+                            && ((city == null) ? ad.Location.City != null : ad.Location.City == city)
+                            && ((fromPrice == null) ? ad.Price != null : ad.Price >= fromPrice)
+                            && ((toPrice == null) ? ad.Price != null : ad.Price <= toPrice), cancellationToken) ;
+        var advertisements = await _productRepository.GetWhere(skip, take, query, categoryId, city, fromPrice, toPrice, cancellationToken);
         foreach (var ad in advertisements)
         {
             var images = await _productImageRepository.GetAllByProduct(ad.Id, cancellationToken);
@@ -223,7 +227,7 @@ public class AdvertisementService : IAdvertisementService
                 DateTimeUpdated = $"{ad.DateTimeUpdated.ToString("f")}",
                 AuthorId = ad.UserId,
                 AuthorName = user.Name,
-                AuthorAvatar = "data:image/png;base64," + Convert.ToBase64String(File.ReadAllBytes(userAvatar.FilePath)),
+                AuthorAvatar = userAvatar != null ? "data:image/png;base64," + Convert.ToBase64String(File.ReadAllBytes(userAvatar.FilePath)) : "",
                 AuthorNumber = user.Mobile,
                 AuthorRegisterDate = $"{user.CreateDate.ToString("D")}",
                 LocationQueryString = location.LocationQueryString,
