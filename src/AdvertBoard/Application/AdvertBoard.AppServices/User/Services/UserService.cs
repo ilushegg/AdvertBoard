@@ -41,7 +41,7 @@ public class UserService : IUserService
     {
         try
         {
-            var user = await _userRepository.FindById(id, cancellationToken);
+            var user = _userRepository.FindWhere(u => u.Id == id);
             var avatar = await _userAvatarRepository.GetByUserIdAsync(user.Id, cancellationToken);
             var avatarData = "";
             if (avatar?.FilePath != null)
@@ -49,7 +49,10 @@ public class UserService : IUserService
                 byte[] byteImage = File.ReadAllBytes(avatar.FilePath);
                 avatarData = "data:image/png;base64," + Convert.ToBase64String(byteImage);
             }
-            return new UserDto
+
+            user.Avatar = avatarData;
+            return user;
+           /* return new UserDto
             {
                 Id = user.Id,
                 Name = user.Name,
@@ -57,7 +60,8 @@ public class UserService : IUserService
                 Mobile = user.Mobile,
                 CreateDate = user.CreateDate,
                 Avatar = avatarData
-            };
+
+            };*/
         }
         catch(Exception ex)
         {

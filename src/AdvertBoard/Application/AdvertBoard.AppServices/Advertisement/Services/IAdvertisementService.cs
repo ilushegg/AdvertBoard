@@ -27,7 +27,7 @@ public interface IAdvertisementService
     Task<IReadOnlyCollection<AdvertisementDto>> GetAll(int take, int skip, CancellationToken cancellation);
 
 
-    Task<GetPagedResultDto> GetAllByAuthor(int take, int skip, Guid userId, CancellationToken cancellation);
+    Task<GetPagedResultDto> GetAllByAuthor(int skip, int take, Guid userId, CancellationToken cancellation);
 
     /// <summary>
     /// 

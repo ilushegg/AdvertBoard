@@ -87,7 +87,7 @@ public class AdvertisementController : ControllerBase
     [ProducesResponseType(typeof(IReadOnlyCollection<AdvertisementDto>), StatusCodes.Status201Created)]
     public async Task<IActionResult> GetAllByAuthor([FromQuery] AuthorAdvertisementsModel model, CancellationToken cancellation)
     {
-        var result = await _advertisementService.GetAllByAuthor(model.Limit, model.Offset, model.AuthorId, cancellation);
+        var result = await _advertisementService.GetAllByAuthor(model.Offset, model.Limit, model.AuthorId, cancellation);
 
         return Ok(result);
     }
@@ -186,15 +186,41 @@ public class AdvertisementController : ControllerBase
     /// <param name="productId"></param>
     /// <param name="cancellation"></param>
     /// <returns></returns>
-    [HttpDelete("delete_admin")]
+    [HttpDelete("admin_delete_ad")]
     [Authorize(Roles = "Admin")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<IActionResult> DeleteAllUsersAdsAsync(Guid userId, CancellationToken cancellation)
+    public async Task<IActionResult> DeleteAdAsync([FromQuery]Guid advertisementId, CancellationToken cancellation)
     {
         try
         {
 
-            Console.WriteLine("УДАЛЕНИЕ АДМИН");
+            await _advertisementService.DeleteAsync(advertisementId, cancellation);
+            return Ok();
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    /// <summary>
+    /// Администратор может удалить все объявления пользователя.
+    /// </summary>
+    /// <param name="productId"></param>
+    /// <param name="cancellation"></param>
+    /// <returns></returns>
+    [HttpDelete("admin_delete_ads")]
+    [Authorize(Roles = "Admin")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> DeleteAdsAsync([FromQuery] Guid userId, CancellationToken cancellation)
+    {
+        try
+        {
+            var result = await _advertisementService.GetAllByAuthor(0, 2147483647, userId, cancellation);
+            foreach (var ad in result.Items)
+            {
+                await _advertisementService.DeleteAsync(ad.Id, cancellation);
+            }
             return Ok();
         }
         catch (Exception ex)

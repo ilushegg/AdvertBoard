@@ -51,9 +51,17 @@
             <param name="cancellation"></param>
             <returns></returns>
         </member>
-        <member name="M:AdvertBoard.Api.Controllers.AdvertisementController.DeleteAllUsersAdsAsync(System.Guid,System.Threading.CancellationToken)">
+        <member name="M:AdvertBoard.Api.Controllers.AdvertisementController.DeleteAdAsync(System.Guid,System.Threading.CancellationToken)">
             <summary>
             Администратор может удалить любое объявление пользователей.
+            </summary>
+            <param name="productId"></param>
+            <param name="cancellation"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AdvertBoard.Api.Controllers.AdvertisementController.DeleteAdsAsync(System.Guid,System.Threading.CancellationToken)">
+            <summary>
+            Администратор может удалить все объявления пользователя.
             </summary>
             <param name="productId"></param>
             <param name="cancellation"></param>

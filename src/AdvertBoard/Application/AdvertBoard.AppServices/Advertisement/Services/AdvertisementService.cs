@@ -88,7 +88,7 @@ public class AdvertisementService : IAdvertisementService
     }
 
     /// <inheritdoc />
-    public async Task<GetPagedResultDto> GetAllByAuthor(int take, int skip, Guid userId, CancellationToken cancellation)
+    public async Task<GetPagedResultDto> GetAllByAuthor(int skip, int take, Guid userId, CancellationToken cancellation)
     {
         var total = await _productRepository.GetAllCount(ad => ad.UserId == userId, cancellation);
         var advertisements = await _productRepository.GetAllByAuthor(take, skip, userId, cancellation);
