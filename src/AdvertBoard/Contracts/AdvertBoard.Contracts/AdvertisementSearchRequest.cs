@@ -20,4 +20,6 @@ public class AdvertisementSearchRequest
     /// Лимит.
     /// </summary>
     public int Limit { get; set; }
+
+
 }

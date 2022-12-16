@@ -56,14 +56,14 @@ public class AdvertisementService : IAdvertisementService
 
     }
 
-    public async Task<GetPagedResultDto> GetAllBySearch(int skip, int take, string? query, Guid? categoryId, string? city, decimal? fromPrice, decimal? toPrice, CancellationToken cancellationToken)
+    public async Task<GetPagedResultDto<AdvertisementDto>> GetAllBySearch(int skip, int take, string? query, Guid? categoryId, string? city, decimal? fromPrice, decimal? toPrice, string? sort, CancellationToken cancellationToken)
     {
         var total = await _productRepository.GetAllCount(ad => ((query == null) ? ad.Name!=null : ad.Name.ToLower().Contains(query.ToLower())) 
-                            && ((categoryId == null) ? ad.CategoryId!=null : ad.CategoryId == categoryId) 
+                            && ((categoryId == null) ? ad.CategoryId!=null : ad.CategoryId == categoryId || ad.Category.ParentCategoryId != null) 
                             && ((city == null) ? ad.Location.City != null : ad.Location.City == city)
                             && ((fromPrice == null) ? ad.Price != null : ad.Price >= fromPrice)
                             && ((toPrice == null) ? ad.Price != null : ad.Price <= toPrice), cancellationToken) ;
-        var advertisements = await _productRepository.GetWhere(skip, take, query, categoryId, city, fromPrice, toPrice, cancellationToken);
+        var advertisements = await _productRepository.GetWhere(skip, take, query, categoryId, city, fromPrice, toPrice, sort, cancellationToken);
         foreach (var ad in advertisements)
         {
             var images = await _productImageRepository.GetAllByProduct(ad.Id, cancellationToken);
@@ -77,7 +77,7 @@ public class AdvertisementService : IAdvertisementService
 
         }
 
-        return new GetPagedResultDto
+        return new GetPagedResultDto<AdvertisementDto>
         {
             Offset = skip,
             Limit = take,
@@ -88,7 +88,7 @@ public class AdvertisementService : IAdvertisementService
     }
 
     /// <inheritdoc />
-    public async Task<GetPagedResultDto> GetAllByAuthor(int skip, int take, Guid userId, CancellationToken cancellation)
+    public async Task<GetPagedResultDto<AdvertisementDto>> GetAllByAuthor(int skip, int take, Guid userId, CancellationToken cancellation)
     {
         var total = await _productRepository.GetAllCount(ad => ad.UserId == userId, cancellation);
         var advertisements = await _productRepository.GetAllByAuthor(take, skip, userId, cancellation);
@@ -104,7 +104,7 @@ public class AdvertisementService : IAdvertisementService
             ad.Images = imageList;
         }
 
-        return new GetPagedResultDto
+        return new GetPagedResultDto<AdvertisementDto>
         {
             Offset = skip,
             Limit = take,

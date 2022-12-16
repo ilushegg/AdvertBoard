@@ -40,7 +40,11 @@ public class AdvertisementConfiguration : IEntityTypeConfiguration<Domain.Advert
 
         builder.HasOne(l => l.Location)
             .WithOne(a => a.Advertisement);
-            
+
+        builder.HasMany(c => c.Comment)
+            .WithOne(ad => ad.Advertisement)
+            .HasForeignKey(c => c.AdvertisementId);
+
         /*
         builder.HasMany(p => p.ShoppingCarts)
             .WithOne(s => s.Product)

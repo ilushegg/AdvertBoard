@@ -88,10 +88,21 @@ public class AdvertisementRepository : IAdvertisementRepository
     }
 
 
-    public async Task<IReadOnlyCollection<AdvertisementDto>> GetWhere(int skip, int take, string? query, Guid? categoryId, string? city, decimal? fromPrice, decimal? toPrice,  CancellationToken cancellation)
+    public async Task<IReadOnlyCollection<AdvertisementDto>> GetWhere(int skip, int take, string? query, Guid? categoryId, string? city, decimal? fromPrice, decimal? toPrice, string? sort,  CancellationToken cancellation)
     {
         var advertisements = _repository.GetAll();
-        
+
+        if(sort == "asc")
+        {
+            advertisements = advertisements.OrderBy(ad => ad.Price);
+
+        }
+        else if (sort == "desc")
+        {
+            advertisements = advertisements.OrderByDescending(ad => ad.Price);
+
+        }
+
 
         if (!string.IsNullOrWhiteSpace(query))
         {
@@ -105,7 +116,7 @@ public class AdvertisementRepository : IAdvertisementRepository
 
         if (categoryId != null)
         {
-            advertisements = advertisements.Where(p => p.CategoryId == categoryId);
+            advertisements = advertisements.Where(p => p.CategoryId == categoryId || p.Category.ParentCategoryId != null);
         }
 
         if (fromPrice != null)

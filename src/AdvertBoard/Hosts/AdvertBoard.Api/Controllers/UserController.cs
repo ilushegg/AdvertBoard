@@ -47,26 +47,34 @@ public class UserController : ControllerBase
     [ProducesResponseType(StatusCodes.Status201Created)]
     public async Task<IActionResult> Register(RegisterModel model, CancellationToken cancellationToken)
     {
-        var user = _userService.Register(model.Name, model.Email, model.Password, cancellationToken);
-        /*if (model.Avatar != null)
+        try
         {
-            var avatar = await _userAvatarService.AddAsync(user.Result, model.Avatar, cancellationToken);
+            var user = await _userService.Register(model.Name, model.Email, model.Password, cancellationToken);
 
-        }*/
-
-        return Created("", new { });
+            return Ok(user);
+        }
+        catch(Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 
     [HttpPost("login")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     public async Task<IActionResult> Login(LoginUserDto userDto, CancellationToken cancellationToken)
     {
-        var result = await _userService.Login(userDto, cancellationToken);
-        return Ok(new
+        try { 
+            var result = await _userService.Login(userDto, cancellationToken);
+            return Ok(new
+            {
+                accessToken = result.token,
+                id = result.userId
+            });
+            }
+        catch (Exception ex)
         {
-            accessToken = result.token,
-            id = result.userId
-        });
+            return BadRequest(ex.Message);
+        }
     }
 
     [HttpPost("edit")]

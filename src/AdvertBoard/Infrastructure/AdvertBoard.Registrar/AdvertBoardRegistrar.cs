@@ -32,6 +32,8 @@ using AdvertBoard.DataAccess.EntityConfigurations.Location;
 using AdvertBoard.AppServices.Location.Repositories;
 using AdvertBoard.AppServices.Favorite;
 using AdvertBoard.AppServices.Favorite.Services;
+using AdvertBoard.DataAccess.EntityConfigurations.Comment;
+using AdvertBoard.AppServices.Comment.Services;
 
 namespace AdvertBoard.Registrar;
 
@@ -83,6 +85,9 @@ public static class AdvertBoardRegistrar
 
         services.AddTransient<IFavoriteRepository, FavoriteRepository>();
         services.AddTransient<IFavoriteService, FavoriteService>();
+
+        services.AddTransient<ICommentRepository, CommentRepository>();
+        services.AddTransient<ICommentService, CommentService>();
 
         services.AddTransient<IFileService, FileService>();
         services.AddTransient<IPasswordCryptography, PasswordCryptography>();

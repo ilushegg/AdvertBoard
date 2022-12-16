@@ -27,7 +27,7 @@ public class FavoriteService : IFavoriteService
     }
 
     /// <inheritdoc />
-    public async Task<GetPagedResultDto> GetAllAsync(int take, int skip, Guid userId, CancellationToken cancellationToken)
+    public async Task<GetPagedResultDto<AdvertisementDto>> GetAllAsync(int take, int skip, Guid userId, CancellationToken cancellationToken)
     {
         var favorites = await _favoriteRepository.GetAllAsync(skip, take, userId, cancellationToken);
         List<AdvertisementDto> advertisementsDto = new List<AdvertisementDto>();
@@ -55,7 +55,7 @@ public class FavoriteService : IFavoriteService
                 LocationQuery = location.City
             });
         }
-        return new GetPagedResultDto
+        return new GetPagedResultDto<AdvertisementDto>
         {
             Offset = skip,
             Limit = take,

@@ -5,7 +5,7 @@ namespace AdvertBoard.Contracts;
 /// <summary>
 /// Товар
 /// </summary>
-public class GetPagedResultDto
+public class GetPagedResultDto<T>
 {
     /// <summary>
     /// Смещение.
@@ -23,7 +23,7 @@ public class GetPagedResultDto
     public int Total { get; set; }
 
     /// <summary>
-    /// Объявления
+    /// Коллекция.
     /// </summary>
-    public IReadOnlyCollection<AdvertisementDto> Items { get; set; }
+    public IReadOnlyCollection<T> Items { get; set; }
 }

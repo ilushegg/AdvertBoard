@@ -39,4 +39,14 @@ public class AdvertisementSearchRequestModel
     /// </summary>
     public decimal? ToPrice { get; set; }
 
+    /// <summary>
+    /// Идентификатор пользователя.
+    /// </summary>
+    public Guid UserId { get; set; }
+
+    /// <summary>
+    /// Сортировка.
+    /// </summary>
+    public string Sort { get; set; }
+
 }

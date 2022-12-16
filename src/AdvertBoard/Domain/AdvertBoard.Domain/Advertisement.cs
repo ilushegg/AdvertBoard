@@ -80,5 +80,10 @@ public class Advertisement
     /// </summary>
     public Location? Location { get; set; }
 
+    /// <summary>
+    /// Комментарии.
+    /// </summary>
+    public ICollection<Comment> Comment { get; set; }
+
 
 }

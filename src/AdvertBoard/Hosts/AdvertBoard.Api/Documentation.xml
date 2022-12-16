@@ -85,6 +85,58 @@
             <param name="cancellation"></param>
             <returns></returns>
         </member>
+        <member name="T:AdvertBoard.Api.Controllers.CommentController">
+            <summary>
+            Работа с корзиной товаров.
+            </summary>
+        </member>
+        <member name="M:AdvertBoard.Api.Controllers.CommentController.GetAllByAdvertisement(AdvertBoard.Contracts.CommentPaginationModel,System.Threading.CancellationToken)">
+            <summary>
+            Возвращает все комментарии к объявлению.
+            </summary>
+            <param name="cancellation"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AdvertBoard.Api.Controllers.CommentController.GetAllByUser(AdvertBoard.Contracts.CommentPaginationModel,System.Threading.CancellationToken)">
+            <summary>
+            Возвращает все комментарии пользователя.
+            </summary>
+            <param name="cancellation"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AdvertBoard.Api.Controllers.CommentController.AddAsync(AdvertBoard.Contracts.AddCommentModel,System.Threading.CancellationToken)">
+            <summary>
+            Добавляет комментарий.
+            </summary>
+            <param name="cancellation"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AdvertBoard.Api.Controllers.CommentController.EditAsync(AdvertBoard.Contracts.EditCommentModel,System.Threading.CancellationToken)">
+            <summary>
+            Редактирует комментарий.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:AdvertBoard.Api.Controllers.CommentController.DeleteAsync(System.Guid,System.Threading.CancellationToken)">
+            <summary>
+            Удаляет комментарий.
+            </summary>
+            <param name="productId"></param>
+            <param name="cancellation"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AdvertBoard.Api.Controllers.CommentController.DeleteAdAsync(System.Guid,System.Threading.CancellationToken)">
+            <summary>
+            Администратор может удалить любой комментарий пользователя.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:AdvertBoard.Api.Controllers.CommentController.DeleteAdsAsync(System.Guid,System.Threading.CancellationToken)">
+            <summary>
+            Администратор может удалить все комментарии пользователя.
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:AdvertBoard.Api.Controllers.FavoriteController">
             <summary>
             Работа с корзиной товаров.
@@ -219,6 +271,26 @@
             Координаты долготы.
             </summary>
         </member>
+        <member name="T:AdvertBoard.Contracts.AddCommentModel">
+            <summary>
+            Товар
+            </summary>
+        </member>
+        <member name="P:AdvertBoard.Contracts.AddCommentModel.Text">
+            <summary>
+            Текст комментария.
+            </summary>
+        </member>
+        <member name="P:AdvertBoard.Contracts.AddCommentModel.AdvertisementId">
+            <summary>
+            Идентификатор объявления.
+            </summary>
+        </member>
+        <member name="P:AdvertBoard.Contracts.AddCommentModel.UserId">
+            <summary>
+            Идентификатор автора.
+            </summary>
+        </member>
         <member name="T:AdvertBoard.Contracts.AdvertisementSearchRequestModel">
             <summary>
             Модель фильтра товаров.
@@ -259,6 +331,16 @@
             Цена до.
             </summary>
         </member>
+        <member name="P:AdvertBoard.Contracts.AdvertisementSearchRequestModel.UserId">
+            <summary>
+            Идентификатор пользователя.
+            </summary>
+        </member>
+        <member name="P:AdvertBoard.Contracts.AdvertisementSearchRequestModel.Sort">
+            <summary>
+            Сортировка.
+            </summary>
+        </member>
         <member name="P:AdvertBoard.Contracts.AuthorAdvertisementsModel.Offset">
             <summary>
             Смещение.
@@ -272,6 +354,21 @@
         <member name="P:AdvertBoard.Contracts.AuthorAdvertisementsModel.AuthorId">
             <summary>
             Идентификатор автора.
+            </summary>
+        </member>
+        <member name="P:AdvertBoard.Contracts.CommentPaginationModel.Offset">
+            <summary>
+            Смещение.
+            </summary>
+        </member>
+        <member name="P:AdvertBoard.Contracts.CommentPaginationModel.Limit">
+            <summary>
+            Лимит.
+            </summary>
+        </member>
+        <member name="P:AdvertBoard.Contracts.CommentPaginationModel.Id">
+            <summary>
+            Идентификатор.
             </summary>
         </member>
         <member name="T:AdvertBoard.Contracts.EditAdvertisementModel">
@@ -347,6 +444,26 @@
         <member name="P:AdvertBoard.Contracts.EditAdvertisementModel.Lon">
             <summary>
             Координаты долготы.
+            </summary>
+        </member>
+        <member name="T:AdvertBoard.Contracts.EditCommentModel">
+            <summary>
+            Товар
+            </summary>
+        </member>
+        <member name="P:AdvertBoard.Contracts.EditCommentModel.Id">
+            <summary>
+            Идентификатор комментария.
+            </summary>
+        </member>
+        <member name="P:AdvertBoard.Contracts.EditCommentModel.Text">
+            <summary>
+            Текст комментария.
+            </summary>
+        </member>
+        <member name="P:AdvertBoard.Contracts.EditCommentModel.Status">
+            <summary>
+            Статус комментария.
             </summary>
         </member>
         <member name="T:AdvertBoard.Contracts.GetAdvertisementModel">

@@ -52,16 +52,7 @@ public class UserService : IUserService
 
             user.Avatar = avatarData;
             return user;
-           /* return new UserDto
-            {
-                Id = user.Id,
-                Name = user.Name,
-                Email = user.Email,
-                Mobile = user.Mobile,
-                CreateDate = user.CreateDate,
-                Avatar = avatarData
 
-            };*/
         }
         catch(Exception ex)
         {
@@ -95,7 +86,7 @@ public class UserService : IUserService
         var user =  _userRepository.FindWhere(user => user.Email == userDto.Email);
         if (user == null)
         {
-            throw new HttpRequestException("Пользователь с таким логином не найден");
+            throw new InvalidOperationException("Пользователь с таким логином не найден");
                
         }
 
@@ -103,7 +94,7 @@ public class UserService : IUserService
 
         if (!_passwordCryptography.AreEqual(userDto.Password, user.Password, "salt"))
         {
-            throw new Exception("Неверный пароль.");
+            throw new InvalidOperationException("Неверный пароль.");
         }
 
         var claims = new List<Claim>
@@ -129,16 +120,18 @@ public class UserService : IUserService
     public async Task<Guid> Register(string name, string email, string password, CancellationToken cancellationToken)
     {
         var exUser =  _userRepository.FindWhere(user => user.Email == email);
-        var hashPassword = _passwordCryptography.GenerateHash(password, "salt");
         if(exUser == null)
         {
+        var hashPassword = _passwordCryptography.GenerateHash(password, "salt");
+            var id = new Guid();
             var user = new Domain.User
             {
-                Id = new Guid(),
+                Id = id,
                 Name = name,
                 Email = email,
                 Password = hashPassword,
-                CreateDate = DateTime.UtcNow
+                CreateDate = DateTime.UtcNow,
+                UserRole = new Domain.UserRole { Role = "User", UserId = id}
             };
 
             _userRepository.Add(user);
@@ -146,7 +139,7 @@ public class UserService : IUserService
         }
         else
         {
-            throw new Exception($"Пользователь с электронным адресом '{email}' уже зарегестрирован");
+            throw new InvalidOperationException($"Пользователь с электронным адресом '{email}' уже зарегистрирован");
         }
 
          
@@ -157,12 +150,15 @@ public class UserService : IUserService
         var exUser = await _userRepository.FindWhereAsync(user => user.Id == id, cancellationToken);
         if (exUser != null)
         {
+            
             var user = new Domain.User
             {
                 Id = exUser.Id,
                 Name = name,
                 Email = exUser.Email,
-                Mobile = mobile
+                Mobile = mobile,
+                Password = exUser.Password,
+                CreateDate = exUser.CreateDate
 
             };
 
@@ -171,7 +167,7 @@ public class UserService : IUserService
         }
         else
         {
-            throw new Exception($"Пользователь не найден");
+            throw new InvalidOperationException($"Пользователь не найден");
         }
 
         

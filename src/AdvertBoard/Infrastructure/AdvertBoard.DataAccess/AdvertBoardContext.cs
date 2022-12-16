@@ -9,6 +9,7 @@ using AdvertBoard.DataAccess.EntityConfigurations.UserAvatar;
 using AdvertBoard.DataAccess.EntityConfigurations.Image;
 using AdvertBoard.DataAccess.EntityConfigurations.AdvertisementImage;
 using AdvertBoard.DataAccess.EntityConfigurations.UserRole;
+using AdvertBoard.DataAccess.EntityConfigurations.Comment;
 
 namespace AdvertBoard.DataAccess;
 
@@ -36,7 +37,7 @@ public class AdvertBoardContext : DbContext
         modelBuilder.ApplyConfiguration(new UserAvatarConfiguration());
         modelBuilder.ApplyConfiguration(new ImageConfiguration());
         modelBuilder.ApplyConfiguration(new UserRoleConfiguration());
-
+        modelBuilder.ApplyConfiguration(new CommentConfiguration());
 
 
         base.OnModelCreating(modelBuilder);

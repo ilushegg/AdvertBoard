@@ -46,8 +46,11 @@ public class AdvertisementController : ControllerBase
         try
         {
             var result = await _advertisementService.GetById(model.AdvertisementId, cancellationToken);
-            result.isFavorite = await _favoriteService.IsAdvertisementFavorite(model.AdvertisementId, (Guid)model.UserId, cancellationToken);
-            return Ok(result);
+            if (model.UserId != null)
+            {
+                result.isFavorite = await _favoriteService.IsAdvertisementFavorite(model.AdvertisementId, (Guid)model.UserId, cancellationToken);
+            }
+                return Ok(result);
         }
         catch(Exception ex)
         {
@@ -166,11 +169,20 @@ public class AdvertisementController : ControllerBase
 
     [HttpGet("search")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<IActionResult> SearchAsync([FromQuery]AdvertisementSearchRequestModel model, CancellationToken cancellation)
+    public async Task<IActionResult> SearchAsync([FromQuery]AdvertisementSearchRequestModel model, CancellationToken cancellationToken)
     {
         try
         {
-            var result = await _advertisementService.GetAllBySearch(model.Offset, model.Limit, model.Query, model.CategoryId, model.City, model.FromPrice, model.ToPrice, cancellation);
+            var result = await _advertisementService.GetAllBySearch(model.Offset, model.Limit, model.Query, model.CategoryId, model.City, model.FromPrice, model.ToPrice, model.Sort, cancellationToken);
+            if (model.UserId != null)
+            {
+                foreach (var res in result.Items)
+                {
+                    res.isFavorite = await _favoriteService.IsAdvertisementFavorite(res.Id, (Guid)model.UserId, cancellationToken);
+                }
+
+
+            }
             return Ok(result);
         }
         catch (Exception ex)

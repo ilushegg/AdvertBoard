@@ -48,5 +48,10 @@ public class User
 
     public UserRole UserRole { get; set; }
 
+    /// <summary>
+    /// Комментарии.
+    /// </summary>
+    public ICollection<Comment> Comment { get; set; }
+
     
 }

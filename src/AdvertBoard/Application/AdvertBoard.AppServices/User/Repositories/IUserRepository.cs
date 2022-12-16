@@ -19,6 +19,8 @@ public interface IUserRepository
 
     Task<Domain.User> FindById(Guid id, CancellationToken cancellationToken);
 
+
+
     Guid Edit(Domain.User user);
 
     Task EditAsync(Domain.User user, CancellationToken cancellation);

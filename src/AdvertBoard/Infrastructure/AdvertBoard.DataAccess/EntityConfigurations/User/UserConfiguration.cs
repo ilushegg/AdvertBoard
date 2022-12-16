@@ -24,7 +24,9 @@ public class UserConfiguration : IEntityTypeConfiguration<Domain.User>
 
         builder.Property(b => b.CreateDate);
 
-
+        builder.HasMany(c => c.Comment)
+            .WithOne(u => u.User)
+            .HasForeignKey(c => c.UserId);
 
 
         /*  builder.HasMany(p => p.ShoppingCarts)
