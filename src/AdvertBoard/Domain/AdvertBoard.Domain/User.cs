@@ -53,5 +53,10 @@ public class User
     /// </summary>
     public ICollection<Comment> Comment { get; set; }
 
+    /// <summary>
+    /// Код активации.
+    /// </summary>
+    public string? ActivationCode { get; set; }
+
     
 }

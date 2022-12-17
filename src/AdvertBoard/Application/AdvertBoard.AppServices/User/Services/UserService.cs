@@ -60,30 +60,11 @@ public class UserService : IUserService
         }
     }
 
-    public async Task<Domain.User> GetCurrent(CancellationToken cancellationToken)
+    public async Task<(string token, Guid userId)> Login(LoginUserDto loginUserDto, CancellationToken cancellationToken)
     {
-        var claims = await _claimsAccessor.GetClaims(cancellationToken);
-        var claimId = claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+        var user = _userRepository.FindWhereEntity(user => user.Email == loginUserDto.Email);
+        var userDto = _userRepository.FindWhere(user => user.Email == loginUserDto.Email);
 
-        if (string.IsNullOrWhiteSpace(claimId))
-        {
-            return null;
-        }
-
-        var id = Guid.Parse(claimId);
-        var user = await _userRepository.FindById(id, cancellationToken);
-
-        if (user == null)
-        {
-            throw new Exception($"Пользователь с идентификатором '{id}' не найден.");
-        }
-
-        return user;
-    }
-
-    public async Task<(string token, Guid userId)> Login(LoginUserDto userDto, CancellationToken cancellationToken)
-    {
-        var user =  _userRepository.FindWhere(user => user.Email == userDto.Email);
         if (user == null)
         {
             throw new InvalidOperationException("Пользователь с таким логином не найден");
@@ -92,7 +73,7 @@ public class UserService : IUserService
 
 
 
-        if (!_passwordCryptography.AreEqual(userDto.Password, user.Password, "salt"))
+        if (!_passwordCryptography.AreEqual(loginUserDto.Password, user.Password, "salt"))
         {
             throw new InvalidOperationException("Неверный пароль.");
         }
@@ -101,7 +82,7 @@ public class UserService : IUserService
         {
             new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
             new Claim(ClaimTypes.Email, user.Email),
-            new Claim(ClaimTypes.Role, user.UserRole)
+            new Claim(ClaimTypes.Role, userDto.UserRole)
         };
         var secretKey = _configuration["Token:SecretKey"];
         var token = new JwtSecurityToken(
@@ -117,7 +98,7 @@ public class UserService : IUserService
         return (result, user.Id);
     }
 
-    public async Task<Guid> Register(string name, string email, string password, CancellationToken cancellationToken)
+    public async Task<Guid> Register(string name, string email, string password, string activationCode, CancellationToken cancellationToken)
     {
         var exUser =  _userRepository.FindWhere(user => user.Email == email);
         if(exUser == null)
@@ -131,6 +112,7 @@ public class UserService : IUserService
                 Email = email,
                 Password = hashPassword,
                 CreateDate = DateTime.UtcNow,
+                ActivationCode = activationCode,
                 UserRole = new Domain.UserRole { Role = "User", UserId = id}
             };
 
@@ -145,32 +127,59 @@ public class UserService : IUserService
          
     }
 
-    public async Task<Guid> EditAsync(Guid id, string name, string mobile, CancellationToken cancellationToken)
+
+    public async Task<Guid> EditAsync(Guid id, string? email, string? password, string? name, string? mobile, string? activationCode, CancellationToken cancellationToken)
     {
-        var exUser = await _userRepository.FindWhereAsync(user => user.Id == id, cancellationToken);
+        var exUser = await _userRepository.FindById(id, cancellationToken);
         if (exUser != null)
         {
-            
-            var user = new Domain.User
-            {
-                Id = exUser.Id,
-                Name = name,
-                Email = exUser.Email,
-                Mobile = mobile,
-                Password = exUser.Password,
-                CreateDate = exUser.CreateDate
 
-            };
+            exUser.Id = exUser.Id;
+            exUser.Name = name != null ? name : exUser.Name;
+            exUser.Email = email != null ? email : exUser.Email;
+            exUser.Mobile = mobile != null ? mobile : exUser.Mobile;
+            exUser.Password = password != null ? _passwordCryptography.GenerateHash(password, "salt") : exUser.Password;
+            exUser.CreateDate = exUser.CreateDate;
+            exUser.ActivationCode = activationCode != null ? activationCode : exUser.ActivationCode;
 
-            await _userRepository.EditAsync(user, cancellationToken);
-            return user.Id;
+            await _userRepository.EditAsync(exUser, cancellationToken);
+            return exUser.Id;
+        }
+        else
+        {
+            throw new InvalidOperationException($"Пользователь не найден");
+        }
+               
+    }
+
+    public async Task<string> DeleteActivationCodeAsync(Guid id, string activationCode, CancellationToken cancellationToken)
+    {
+        var exUser = await _userRepository.FindById(id, cancellationToken);
+        if (exUser != null && exUser.ActivationCode == activationCode)
+        {
+            return "Пользователь успешно активирован.";
+        }
+        else
+        {
+            return "Пользователь не найден или ссылка неверна.";
+        }
+
+
+    }
+
+    public async Task DeleteAsync(Guid id, CancellationToken cancellationToken)
+    {
+        var exUser = await _userRepository.FindById(id, cancellationToken);
+        if (exUser != null)
+        {
+            await _userRepository.DeleteAsync(exUser, cancellationToken);
         }
         else
         {
             throw new InvalidOperationException($"Пользователь не найден");
         }
 
-        
+
     }
 
 }

@@ -13,6 +13,8 @@ public interface IUserRepository
 
     UserDto FindWhere(Expression<Func<Domain.User, bool>> predicate);
 
+    Domain.User FindWhereEntity(Expression<Func<Domain.User, bool>> predicate);
+
     Task AddAsync(Domain.User user);
 
     Guid Add(Domain.User user);
@@ -24,4 +26,6 @@ public interface IUserRepository
     Guid Edit(Domain.User user);
 
     Task EditAsync(Domain.User user, CancellationToken cancellation);
+
+    Task DeleteAsync(Domain.User user, CancellationToken cancellation);
 }

@@ -190,7 +190,7 @@
             Работа с корзиной товаров.
             </summary>
         </member>
-        <member name="M:AdvertBoard.Api.Controllers.UserController.#ctor(AdvertBoard.AppServices.User.Services.IUserService,AdvertBoard.AppServices.User.Services.IUserAvatarService)">
+        <member name="M:AdvertBoard.Api.Controllers.UserController.#ctor(AdvertBoard.AppServices.User.Services.IUserService,AdvertBoard.AppServices.User.Services.IUserAvatarService,AdvertBoard.Infrastructure.Mail.IMailService,AdvertBoard.Infrastructure.RabbitMQ.IRabbitMQClient,Microsoft.Extensions.Configuration.IConfiguration)">
             <summary>
             
             </summary>

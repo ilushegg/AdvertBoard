@@ -30,7 +30,6 @@ public class UserRepository : IUserRepository
             Id = u.Id,
             Name = u.Name,
             Email = u.Email,
-            Password = u.Password,
             UserRole = u.UserRole.Role,
             CreateDate = u.CreateDate,
             Mobile = u.Mobile
@@ -46,11 +45,17 @@ public class UserRepository : IUserRepository
             Id = u.Id,
             Name = u.Name,
             Email = u.Email,
-            Password = u.Password,
             UserRole = u.UserRole.Role,
             CreateDate = u.CreateDate,
             Mobile = u.Mobile
         }).FirstOrDefault();
+
+        return data;
+    }
+
+    public Domain.User FindWhereEntity(Expression<Func<Domain.User, bool>> predicate)
+    {
+        var data = _repository.GetAll().Where(predicate).FirstOrDefault();
 
         return data;
     }
@@ -80,5 +85,10 @@ public class UserRepository : IUserRepository
     public async Task EditAsync(Domain.User user, CancellationToken cancellation)
     {
        await _repository.UpdateAsync(user);
+    }
+
+    public async Task DeleteAsync(Domain.User user, CancellationToken cancellation)
+    {
+        await _repository.DeleteAsync(user);
     }
 }

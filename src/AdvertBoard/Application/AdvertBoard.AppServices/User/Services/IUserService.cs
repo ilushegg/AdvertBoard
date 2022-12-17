@@ -22,7 +22,7 @@ public interface IUserService {
     /// <param name="Login">Логин.</param>
     /// <param name="Password">Пароль.</param>
     /// <returns>Идентификатор пользователя.</returns>
-    Task<Guid> Register(string name, string email, string password, CancellationToken cancellationToken);
+    Task<Guid> Register(string name, string email, string password, string activationCode, CancellationToken cancellationToken);
 
     /// <summary>
     /// Логин.
@@ -32,12 +32,6 @@ public interface IUserService {
     /// <returns>Токен.</returns>
     Task<(string token, Guid userId)> Login(LoginUserDto userDto, CancellationToken cancellationToken);
 
-    /// <summary>
-    /// Получить текущего пользователя.
-    /// </summary>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
-    Task<Domain.User> GetCurrent(CancellationToken cancellationToken);
 
     /// <summary>
     /// Редактирует пользователя.
@@ -47,6 +41,12 @@ public interface IUserService {
     /// <param name="mobile"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    Task<Guid> EditAsync(Guid id, string name, string mobile, CancellationToken cancellationToken);
+    Task<Guid> EditAsync(Guid id, string? email, string? password, string? name, string? mobile, string? activationCode, CancellationToken cancellationToken);
+
+
+    Task<string> DeleteActivationCodeAsync(Guid id, string activationCode, CancellationToken cancellationToken);
+
+
+    Task DeleteAsync(Guid id, CancellationToken cancellationToken);
 
 }

@@ -34,6 +34,8 @@ using AdvertBoard.AppServices.Favorite;
 using AdvertBoard.AppServices.Favorite.Services;
 using AdvertBoard.DataAccess.EntityConfigurations.Comment;
 using AdvertBoard.AppServices.Comment.Services;
+using AdvertBoard.Infrastructure.Mail;
+using AdvertBoard.Infrastructure.RabbitMQ;
 
 namespace AdvertBoard.Registrar;
 
@@ -90,6 +92,13 @@ public static class AdvertBoardRegistrar
         services.AddTransient<ICommentService, CommentService>();
 
         services.AddTransient<IFileService, FileService>();
+
+        services.AddTransient<IMailService, MailService>();
+
+        services.AddTransient<IRabbitMQClient, RabbitMQClient>();
+
+
+
         services.AddTransient<IPasswordCryptography, PasswordCryptography>();
 
         services.AddScoped<IClaimsAccessor, HttpContextClaimsAccessor>();

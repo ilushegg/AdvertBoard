@@ -8,6 +8,10 @@ using AdvertBoard.AppServices.User.Services;
 using AdvertBoard.Api.Models;
 using AdvertBoard.Domain;
 using Microsoft.AspNetCore.Identity;
+using AdvertBoard.Infrastructure;
+using RabbitMQ.Client;
+using AdvertBoard.Infrastructure.Mail;
+using AdvertBoard.Infrastructure.RabbitMQ;
 
 namespace AdvertBoard.Api.Controllers;
 
@@ -21,17 +25,21 @@ public class UserController : ControllerBase
 {
     private readonly IUserService _userService;
     private readonly IUserAvatarService _userAvatarService;
-
+    private readonly IMailService _mailService;
+    private readonly IRabbitMQClient _rabbitMQ;
+    private readonly IConfiguration _configuration;
 
     /// <summary>
     /// 
     /// </summary>
     /// <param name="shoppingCartService"></param>
-    public UserController(IUserService userService, IUserAvatarService userAvatarService)
+    public UserController(IUserService userService, IUserAvatarService userAvatarService, IMailService mailService, IRabbitMQClient rabbitMQ, IConfiguration configuration)
     {
         _userService = userService;
         _userAvatarService = userAvatarService;
-
+        _mailService = mailService;
+        _rabbitMQ = rabbitMQ;
+        _configuration = configuration;
     }
 
     [HttpGet("get_by_id")]
@@ -49,11 +57,52 @@ public class UserController : ControllerBase
     {
         try
         {
-            var user = await _userService.Register(model.Name, model.Email, model.Password, cancellationToken);
 
+            var user = await _userService.Register(model.Name, model.Email, model.Password, null, cancellationToken);
+/*            await _rabbitMQ.send(model.Email + "\t" + activationCode);*/
             return Ok(user);
         }
         catch(Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpPost("send_activation_code")]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    public async Task<IActionResult> SendActivationCode([FromQuery]Guid userId, CancellationToken cancellationToken)
+    {
+        try
+        {
+            var activationCode = await _mailService.GenerateActivationCode();
+            var user = await _userService.EditAsync(userId, null, null, null, null, activationCode, cancellationToken);
+            var userDto = await _userService.GetById(userId, cancellationToken);
+            String message = String.Format(
+                        "Добро пожаловать в MIA Board!\n" +
+                        "Пожалуйста, подтвердите свой электронный адрес перейдя по ссылке: {0}",
+            (_configuration["Host:Localhost"] + "/auth/activate/" + userId + "/" + activationCode)
+            ); 
+            await _mailService.SendEmail(userDto.Email, "Активация", message);
+            /*            await _rabbitMQ.send(model.Email + "\t" + activationCode);*/
+            return Ok(user);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpPost("activate")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> Activate([FromBody] ActivateUserModel model, CancellationToken cancellationToken)
+    {
+        try
+        {
+            var result = await _userService.DeleteActivationCodeAsync(model.UserId, model.ActivationCode, cancellationToken);
+            return Ok(new JsonResult(result));
+
+        }
+        catch (Exception ex)
         {
             return BadRequest(ex.Message);
         }
@@ -78,16 +127,20 @@ public class UserController : ControllerBase
     }
 
     [HttpPost("edit")]
+    [Authorize]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<IActionResult> Edit(EditUserModel model, CancellationToken cancellationToken)
+    public async Task<IActionResult> Edit([FromBody]EditUserModel model, CancellationToken cancellationToken)
     {
-        var user = await _userService.EditAsync(model.Id, model.Name, model.Mobile, cancellationToken);
+        var user = await _userService.EditAsync(model.Id, model.Email, model.Password, model.Name, model.Mobile, null, cancellationToken);
 
 
         return Ok(user);
     }
 
+
+
     [HttpPost("edit_avatar")]
+    [Authorize]
     [ProducesResponseType(StatusCodes.Status201Created)]
     public async Task<IActionResult> AddAvatarAsync(AddUserAvatarModel model, CancellationToken cancellationToken)
     {
@@ -113,5 +166,24 @@ public class UserController : ControllerBase
         }
         
     }
+
+    [HttpDelete("delete_by_admin")]
+    [Authorize(Roles = "Admin")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> Delete([FromQuery]Guid userId, CancellationToken cancellationToken)
+    {
+        try
+        {
+            await _userService.DeleteAsync(userId, cancellationToken);
+            return Ok();
+
+        }catch(Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+
+
+    }
+
 
 }
