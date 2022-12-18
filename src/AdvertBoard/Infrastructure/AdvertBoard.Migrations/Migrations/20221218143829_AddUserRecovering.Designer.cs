@@ -3,6 +3,7 @@ using System;
 using AdvertBoard.Migrations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AdvertBoard.Migrations.Migrations
 {
     [DbContext(typeof(MigrationsDbContext))]
-    partial class MigrationsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221218143829_AddUserRecovering")]
+    partial class AddUserRecovering
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -112,8 +114,7 @@ namespace AdvertBoard.Migrations.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ParentCategoryId")
-                        .IsUnique();
+                    b.HasIndex("ParentCategoryId");
 
                     b.ToTable("Categories", (string)null);
                 });
@@ -344,9 +345,8 @@ namespace AdvertBoard.Migrations.Migrations
             modelBuilder.Entity("AdvertBoard.Domain.Category", b =>
                 {
                     b.HasOne("AdvertBoard.Domain.Category", "ParentCategory")
-                        .WithOne()
-                        .HasForeignKey("AdvertBoard.Domain.Category", "ParentCategoryId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .WithMany("UnderCategories")
+                        .HasForeignKey("ParentCategoryId");
 
                     b.Navigation("ParentCategory");
                 });
@@ -421,6 +421,8 @@ namespace AdvertBoard.Migrations.Migrations
             modelBuilder.Entity("AdvertBoard.Domain.Category", b =>
                 {
                     b.Navigation("Advertisements");
+
+                    b.Navigation("UnderCategories");
                 });
 
             modelBuilder.Entity("AdvertBoard.Domain.Image", b =>

@@ -32,7 +32,10 @@ public class UserRepository : IUserRepository
             Email = u.Email,
             UserRole = u.UserRole.Role,
             CreateDate = u.CreateDate,
-            Mobile = u.Mobile
+            Mobile = u.Mobile,
+            ActivationCode = u.ActivationCode,
+            RecoveryCode = u.RecoveryCode
+   
         }).FirstOrDefaultAsync();
 
         return data;
@@ -47,7 +50,9 @@ public class UserRepository : IUserRepository
             Email = u.Email,
             UserRole = u.UserRole.Role,
             CreateDate = u.CreateDate,
-            Mobile = u.Mobile
+            Mobile = u.Mobile,
+            ActivationCode = u.ActivationCode,
+            RecoveryCode = u.RecoveryCode
         }).FirstOrDefault();
 
         return data;

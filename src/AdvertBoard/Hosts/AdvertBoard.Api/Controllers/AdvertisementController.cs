@@ -173,7 +173,7 @@ public class AdvertisementController : ControllerBase
     {
         try
         {
-            var result = await _advertisementService.GetAllBySearch(model.Offset, model.Limit, model.Query, model.CategoryId, model.City, model.FromPrice, model.ToPrice, model.Sort, cancellationToken);
+            var result = await _advertisementService.GetAllBySearch(model.Offset, model.Limit, model.Query, model.CategoryId, model.Location, model.FromPrice, model.ToPrice, model.Sort, cancellationToken);
             if (model.UserId != null)
             {
                 foreach (var res in result.Items)

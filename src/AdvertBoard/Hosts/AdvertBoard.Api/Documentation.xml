@@ -85,6 +85,23 @@
             <param name="cancellation"></param>
             <returns></returns>
         </member>
+        <member name="M:AdvertBoard.Api.Controllers.CategoryController.AddAsync(AdvertBoard.Contracts.AddCategoryModel,System.Threading.CancellationToken)">
+            <summary>
+            Добавляет категорию.
+            </summary>
+            <param name="parent"></param>
+            <param name="name"></param>
+            <param name="cancellation"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AdvertBoard.Api.Controllers.CategoryController.DeleteAsync(System.Guid,System.Threading.CancellationToken)">
+            <summary>
+            Удаляет категорию.
+            </summary>
+            <param name="categoryId"></param>
+            <param name="cancellation"></param>
+            <returns></returns>
+        </member>
         <member name="T:AdvertBoard.Api.Controllers.CommentController">
             <summary>
             Работа с корзиной товаров.
@@ -271,6 +288,21 @@
             Координаты долготы.
             </summary>
         </member>
+        <member name="T:AdvertBoard.Contracts.AddCategoryModel">
+            <summary>
+            Товар
+            </summary>
+        </member>
+        <member name="P:AdvertBoard.Contracts.AddCategoryModel.ParentCategory">
+            <summary>
+            Идентификатор родителя категории.
+            </summary>
+        </member>
+        <member name="P:AdvertBoard.Contracts.AddCategoryModel.ChildCategory">
+            <summary>
+            Название новой категории.
+            </summary>
+        </member>
         <member name="T:AdvertBoard.Contracts.AddCommentModel">
             <summary>
             Товар
@@ -306,7 +338,7 @@
             Лимит.
             </summary>
         </member>
-        <member name="P:AdvertBoard.Contracts.AdvertisementSearchRequestModel.City">
+        <member name="P:AdvertBoard.Contracts.AdvertisementSearchRequestModel.Location">
             <summary>
             Город поиска.
             </summary>
@@ -444,6 +476,21 @@
         <member name="P:AdvertBoard.Contracts.EditAdvertisementModel.Lon">
             <summary>
             Координаты долготы.
+            </summary>
+        </member>
+        <member name="T:AdvertBoard.Contracts.EditCategoryModel">
+            <summary>
+            Товар
+            </summary>
+        </member>
+        <member name="P:AdvertBoard.Contracts.EditCategoryModel.CategoryId">
+            <summary>
+            Идентификатор родителя категории.
+            </summary>
+        </member>
+        <member name="P:AdvertBoard.Contracts.EditCategoryModel.Name">
+            <summary>
+            Название новой категории.
             </summary>
         </member>
         <member name="T:AdvertBoard.Contracts.EditCommentModel">

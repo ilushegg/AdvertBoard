@@ -1,5 +1,6 @@
 using AdvertBoard.Contracts;
 using AdvertBoard.Domain;
+using System.Linq.Expressions;
 
 namespace AdvertBoard.AppServices.User.Services;
 
@@ -15,6 +16,8 @@ public interface IUserService {
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     Task<UserDto> GetById(Guid id, CancellationToken cancellationToken);
+
+    Task<UserDto> GetWhere(Expression<Func<Domain.User, bool>> predicate, CancellationToken cancellationToken);
 
     /// <summary>
     /// Регистрация.
@@ -41,8 +44,9 @@ public interface IUserService {
     /// <param name="mobile"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    Task<Guid> EditAsync(Guid id, string? email, string? password, string? name, string? mobile, string? activationCode, CancellationToken cancellationToken);
+    Task<Guid> EditAsync(Guid id, string? email, string? oldPassword, string? newPassword, string? name, string? mobile, string? activationCode, string? recoveryCode, CancellationToken cancellationToken);
 
+    Task<string> RecoverPassword(Guid userId, string password, CancellationToken cancellationToken);
 
     Task<string> DeleteActivationCodeAsync(Guid id, string activationCode, CancellationToken cancellationToken);
 

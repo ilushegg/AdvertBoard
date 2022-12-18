@@ -27,11 +27,6 @@ namespace AdvertBoard.Domain
         public ICollection<Advertisement> Advertisements { get; set; }
 
         /// <summary>
-        /// Подкатегории.
-        /// </summary>
-        public ICollection<Category> UnderCategories { get; set; }
-
-        /// <summary>
         /// Идентификатор родительской категории.
         /// </summary>
         public Guid? ParentCategoryId { get; set; }

@@ -17,7 +17,7 @@ public class AdvertisementSearchRequestModel
     /// <summary>
     /// Город поиска.
     /// </summary>
-    public string? City { get; set; }
+    public string? Location { get; set; }
 
     /// <summary>
     /// Категория.

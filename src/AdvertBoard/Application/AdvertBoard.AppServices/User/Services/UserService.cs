@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq.Expressions;
 using System.Net;
 using System.Security.Claims;
 using System.Text;
@@ -55,6 +56,20 @@ public class UserService : IUserService
 
         }
         catch(Exception ex)
+        {
+            throw new Exception(ex.Message);
+        }
+    }
+
+    public async Task<UserDto> GetWhere(Expression<Func<Domain.User, bool>> predicate, CancellationToken cancellationToken)
+    {
+        try
+        {
+            var user = await _userRepository.FindWhereAsync(predicate, cancellationToken);
+            return user;
+
+        }
+        catch (Exception ex)
         {
             throw new Exception(ex.Message);
         }
@@ -127,20 +142,49 @@ public class UserService : IUserService
          
     }
 
+    public async Task<string> RecoverPassword(Guid userId, string password, CancellationToken cancellationToken)
+    {
+        var exUser = _userRepository.FindWhereEntity(u => u.Id == userId);
+        if (exUser != null)
+        {
+            var hashPassword = _passwordCryptography.GenerateHash(password, "salt");
+            exUser.Password = hashPassword;
+            exUser.RecoveryCode = null;    
 
-    public async Task<Guid> EditAsync(Guid id, string? email, string? password, string? name, string? mobile, string? activationCode, CancellationToken cancellationToken)
+            await _userRepository.EditAsync(exUser, cancellationToken);
+            return "Ваш новый пароль сохранен. Теперь вы можете зайти на сайт.";
+        }
+        else
+        {
+            return "Пользователь не найден или ссылка неверна.";
+        }
+
+
+    }
+
+
+    public async Task<Guid> EditAsync(Guid id, string? email, string? oldPassword, string? newPassword, string? name, string? mobile, string? activationCode, string? recoveryCode, CancellationToken cancellationToken)
     {
         var exUser = await _userRepository.FindById(id, cancellationToken);
         if (exUser != null)
         {
 
+            if (oldPassword != null)
+            {
+                if (!_passwordCryptography.AreEqual(oldPassword, exUser.Password, "salt"))
+                {
+                    throw new InvalidOperationException("Неверный пароль.");
+                }
+                exUser.Password = _passwordCryptography.GenerateHash(newPassword, "salt");
+
+            }
             exUser.Id = exUser.Id;
             exUser.Name = name != null ? name : exUser.Name;
             exUser.Email = email != null ? email : exUser.Email;
             exUser.Mobile = mobile != null ? mobile : exUser.Mobile;
-            exUser.Password = password != null ? _passwordCryptography.GenerateHash(password, "salt") : exUser.Password;
             exUser.CreateDate = exUser.CreateDate;
             exUser.ActivationCode = activationCode != null ? activationCode : exUser.ActivationCode;
+            exUser.RecoveryCode = recoveryCode != null ? recoveryCode : exUser.RecoveryCode;
 
             await _userRepository.EditAsync(exUser, cancellationToken);
             return exUser.Id;
@@ -157,6 +201,8 @@ public class UserService : IUserService
         var exUser = await _userRepository.FindById(id, cancellationToken);
         if (exUser != null && exUser.ActivationCode == activationCode)
         {
+            exUser.ActivationCode = null;
+            await _userRepository.EditAsync(exUser, cancellationToken);
             return "Пользователь успешно активирован.";
         }
         else

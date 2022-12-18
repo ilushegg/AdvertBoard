@@ -46,13 +46,21 @@ public class CategoryController : ControllerBase
 
     }
 
-    [HttpPost]
+    /// <summary>
+    /// Добавляет категорию.
+    /// </summary>
+    /// <param name="parent"></param>
+    /// <param name="name"></param>
+    /// <param name="cancellation"></param>
+    /// <returns></returns>
+    [HttpPost("add")]
+    [Authorize(Roles = "Admin")]
     [ProducesResponseType(typeof(IReadOnlyCollection<CategoryDto>), (int)HttpStatusCode.OK)]
-    public async Task<IActionResult> AddAsync([FromQuery]Guid parent, string name, CancellationToken cancellation)
+    public async Task<IActionResult> AddAsync([FromBody]AddCategoryModel model, CancellationToken cancellation)
     {
         try
         {
-            var result = await _categoryService.AddAsync(parent, name, cancellation);
+            var result = await _categoryService.AddAsync(model.ParentCategory, model.ChildCategory, cancellation);
             return Ok(result);
         }
         catch (Exception ex)
@@ -61,5 +69,46 @@ public class CategoryController : ControllerBase
         }
 
     }
+
+    /// <summary>
+    /// Удаляет категорию.
+    /// </summary>
+    /// <param name="categoryId"></param>
+    /// <param name="cancellation"></param>
+    /// <returns></returns>
+    [HttpDelete("delete")]
+    [Authorize(Roles = "Admin")]
+    [ProducesResponseType(typeof(IReadOnlyCollection<CategoryDto>), (int)HttpStatusCode.OK)]
+    public async Task<IActionResult> DeleteAsync([FromQuery]Guid categoryId, CancellationToken cancellation)
+    {
+        try
+        {
+            var result = await _categoryService.DeleteAsync(categoryId, cancellation);
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+
+    }
+
+    [HttpPost("edit")]
+    [Authorize(Roles = "Admin")]
+    [ProducesResponseType(typeof(IReadOnlyCollection<CategoryDto>), (int)HttpStatusCode.OK)]
+    public async Task<IActionResult> EditAsync([FromBody]EditCategoryModel model, CancellationToken cancellation)
+    {
+        try
+        {
+            var result = await _categoryService.EditAsync(model.CategoryId, model.Name, cancellation);
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+
+    }
+
 
 }

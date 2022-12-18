@@ -47,11 +47,6 @@ public class CategoryService : ICategoryService
         return result;
     }
 
-    /// <inheritdoc />
-   /* public Task<IReadOnlyCollection<ProductDto>> GetAllFiltered(ProductFilterRequest request, CancellationToken cancellation)
-    {
-        return _productRepository.GetAllFiltered(request, cancellation);
-    }*/
 
     /// <inheritdoc />
     public async Task<Guid> AddAsync(Guid parentId, string categoryName, CancellationToken cancellation = default)
@@ -82,14 +77,9 @@ public class CategoryService : ICategoryService
         }
         else
         {
-            var categoryDomain = new Domain.Category
-            {
-                Id = category.Key,
-                Name = name
-            };
-            category.Title = name;
-            await _categoryRepository.EditAsync(categoryDomain, cancellation);
-            return category.Key;
+            category.Name = name;
+            await _categoryRepository.EditAsync(category, cancellation);
+            return category.Id;
         }
     }
 
@@ -102,21 +92,13 @@ public class CategoryService : ICategoryService
         }
         else
         {
-            var categoryDomain = new Domain.Category
-            {
-                Id = category.Key,
-                Name = category.Title
-            };
-            await _categoryRepository.DeleteAsync(categoryDomain, cancellation);
-            return category.Key;
+            
+            await _categoryRepository.DeleteAsync(category, cancellation);
+            return category.Id;
         }
 
     }
 
-    public CategoryDto Get(Guid categoryId, CancellationToken cancellation)
-    {
-        return _categoryRepository.FindById(categoryId);
-    }
 
     public Task<CategoryDto> GetAsync(Guid categoryId, CancellationToken cancellation)
     {

@@ -56,14 +56,14 @@ public class AdvertisementService : IAdvertisementService
 
     }
 
-    public async Task<GetPagedResultDto<AdvertisementDto>> GetAllBySearch(int skip, int take, string? query, Guid? categoryId, string? city, decimal? fromPrice, decimal? toPrice, string? sort, CancellationToken cancellationToken)
+    public async Task<GetPagedResultDto<AdvertisementDto>> GetAllBySearch(int skip, int take, string? query, Guid? categoryId, string? location, decimal? fromPrice, decimal? toPrice, string? sort, CancellationToken cancellationToken)
     {
         var total = await _productRepository.GetAllCount(ad => ((query == null) ? ad.Name!=null : ad.Name.ToLower().Contains(query.ToLower())) 
-                            && ((categoryId == null) ? ad.CategoryId!=null : ad.CategoryId == categoryId || ad.Category.ParentCategoryId != null) 
-                            && ((city == null) ? ad.Location.City != null : ad.Location.City == city)
+                            && ((categoryId == null) ? ad.CategoryId!=null : ad.CategoryId == categoryId || ad.Category.ParentCategoryId == categoryId) 
+                            && ((location == null) ? ad.Location.LocationQueryString != null : ad.Location.LocationQueryString.ToLower().Contains(location.ToLower()))
                             && ((fromPrice == null) ? ad.Price != null : ad.Price >= fromPrice)
                             && ((toPrice == null) ? ad.Price != null : ad.Price <= toPrice), cancellationToken) ;
-        var advertisements = await _productRepository.GetWhere(skip, take, query, categoryId, city, fromPrice, toPrice, sort, cancellationToken);
+        var advertisements = await _productRepository.GetWhere(skip, take, query, categoryId, location, fromPrice, toPrice, sort, cancellationToken);
         foreach (var ad in advertisements)
         {
             var images = await _productImageRepository.GetAllByProduct(ad.Id, cancellationToken);
@@ -136,7 +136,7 @@ public class AdvertisementService : IAdvertisementService
 
         var category = _categoryRepository.FindById(categoryId);
 
-        advertisement.CategoryId = category.Key;
+        advertisement.CategoryId = category.Id;
 
 
         _productRepository.Add(advertisement);

@@ -75,7 +75,7 @@ public class UserController : ControllerBase
         try
         {
             var activationCode = await _mailService.GenerateActivationCode();
-            var user = await _userService.EditAsync(userId, null, null, null, null, activationCode, cancellationToken);
+            var user = await _userService.EditAsync(userId, null, null, null, null, null, activationCode, null, cancellationToken);
             var userDto = await _userService.GetById(userId, cancellationToken);
             String message = String.Format(
                         "Добро пожаловать в MIA Board!\n" +
@@ -92,6 +92,7 @@ public class UserController : ControllerBase
         }
     }
 
+
     [HttpPost("activate")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> Activate([FromBody] ActivateUserModel model, CancellationToken cancellationToken)
@@ -107,6 +108,46 @@ public class UserController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
+
+    [HttpPost("send_recovery_code")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> SendRecoveryCode([FromQuery] string email, CancellationToken cancellationToken)
+    {
+        try
+        {
+            var recoveryCode = await _mailService.GenerateActivationCode();
+            var user = await _userService.GetWhere(u => u.Email == email, cancellationToken);
+            await _userService.EditAsync(user.Id, null, null, null, null, null, null, recoveryCode, cancellationToken);
+            String message = String.Format(
+                        "Для восстановления пароля перейдите по ссылке: {0}",
+            (_configuration["Host:Localhost"] + "/auth/recovering/" + user.Id + "/" + recoveryCode)
+            );
+            await _mailService.SendEmail(email, "Восстановление пароля", message);
+            /*            await _rabbitMQ.send(model.Email + "\t" + activationCode);*/
+            return Ok(user);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpPost("recover_password")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> RecoverPassword([FromBody]RecoverPasswordModel model, CancellationToken cancellationToken)
+    {
+        try
+        {
+            var result = await _userService.RecoverPassword(model.UserId, model.NewPassword, cancellationToken);
+            return Ok(new JsonResult(result));
+
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
 
     [HttpPost("login")]
     [ProducesResponseType(StatusCodes.Status201Created)]
@@ -131,11 +172,20 @@ public class UserController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> Edit([FromBody]EditUserModel model, CancellationToken cancellationToken)
     {
-        var user = await _userService.EditAsync(model.Id, model.Email, model.Password, model.Name, model.Mobile, null, cancellationToken);
+        try
+        {
+            var user = await _userService.EditAsync(model.Id, model.Email, model.OldPassword, model.NewPassword, model.Name, model.Mobile, null, null, cancellationToken);
+            return Ok(user);
+        }
+        catch(Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
 
 
-        return Ok(user);
     }
+
+    
 
 
 

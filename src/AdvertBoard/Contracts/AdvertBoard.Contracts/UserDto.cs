@@ -47,5 +47,10 @@ namespace AdvertBoard.Contracts
         /// Код активации.
         /// </summary>
         public string ActivationCode { get; set; }
+
+        /// <summary>
+        /// Код восстановления.
+        /// </summary>
+        public string? RecoveryCode { get; set; }
     }
 }

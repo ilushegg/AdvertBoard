@@ -58,5 +58,10 @@ public class User
     /// </summary>
     public string? ActivationCode { get; set; }
 
+    /// <summary>
+    /// Код восстановления.
+    /// </summary>
+    public string? RecoveryCode { get; set; }
+
     
 }

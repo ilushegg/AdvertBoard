@@ -13,7 +13,7 @@ namespace AdvertBoard.AppServices.Category.Repositories
 
         Task<CategoryDto> FindByIdAsync(Guid categoryId, CancellationToken cancellation);
 
-        CategoryDto FindById(Guid categoryId);
+        Domain.Category FindById(Guid categoryId);
 
         Task<CategoryDto> FindByName(string name, CancellationToken cancellation);
 

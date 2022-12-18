@@ -15,7 +15,7 @@ public interface IAdvertisementService
     /// <returns></returns>
     Task<FullAdvertisementDto> GetById(Guid productId, CancellationToken cancellation);
 
-    Task<GetPagedResultDto<AdvertisementDto>> GetAllBySearch(int skip, int take, string? query, Guid? categoryId, string? city, decimal? fromPrice, decimal? toPrice, string? sort, CancellationToken cancellationToken);
+    Task<GetPagedResultDto<AdvertisementDto>> GetAllBySearch(int skip, int take, string? query, Guid? categoryId, string? location, decimal? fromPrice, decimal? toPrice, string? sort, CancellationToken cancellationToken);
 
 
     /// <summary>
