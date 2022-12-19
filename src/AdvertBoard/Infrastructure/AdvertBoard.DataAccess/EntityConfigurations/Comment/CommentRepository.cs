@@ -56,7 +56,7 @@ namespace AdvertBoard.DataAccess.EntityConfigurations.Comment
                 AdvertisementId = c.AdvertisementId,
                 UserId = c.UserId,
                 Text = c.Text,
-                DateTimeCreated = $"{c.DateTimeCreated.ToString("f")}",
+                DateTimeCreated = $"{c.DateTimeCreated.ToString("g")}",
                 Status = c.Status,
                 UserName = c.User.Name,
                 UserAvatar = c.User.Avatar != null ? "data:image/png;base64," + Convert.ToBase64String(File.ReadAllBytes(c.User.Avatar.Image.FilePath)) : "",
