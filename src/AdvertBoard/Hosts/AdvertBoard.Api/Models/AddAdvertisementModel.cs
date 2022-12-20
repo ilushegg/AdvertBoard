@@ -1,7 +1,7 @@
 namespace AdvertBoard.Contracts;
 
 /// <summary>
-/// Товар
+/// Модель добавления объявления.
 /// </summary>
 public class AddAdvertisementModel
 {   

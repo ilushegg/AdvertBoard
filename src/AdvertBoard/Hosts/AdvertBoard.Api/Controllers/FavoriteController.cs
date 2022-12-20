@@ -14,7 +14,7 @@ using AdvertBoard.Api.Models;
 namespace AdvertBoard.Api.Controllers;
 
 /// <summary>
-/// Работа с корзиной товаров.
+/// Работа с избранными объявлениями.
 /// </summary>
 [ApiController]
 [Authorize]
@@ -25,10 +25,6 @@ public class FavoriteController : ControllerBase
     private readonly IAdvertisementService _productService;
     private readonly IUserService _userService;
     
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="shoppingCartService"></param>
     public FavoriteController(IFavoriteService favoriteService, IUserService userService, IAdvertisementService productService)
     {
         _favoriteService = favoriteService;
@@ -37,15 +33,13 @@ public class FavoriteController : ControllerBase
     }
 
     /// <summary>
-    /// Возвращает позиции товаров в корзине.
+    /// Возвращает объявления из избранного.
     /// </summary>
     /// <returns>Коллекция элементов <see cref="FavoriteDto"/>.</returns>
     [HttpGet("get_all_favorites")]
     [ProducesResponseType(typeof(IReadOnlyCollection<FavoriteDto>), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> GetAllAsync([FromQuery]PaginationModel model, CancellationToken cancellationToken)
     {
-       
-
         var result = await _favoriteService.GetAllAsync(model.Limit, model.Offset, (Guid)model.UserId, cancellationToken);
         return Ok(result);
     }
@@ -53,7 +47,7 @@ public class FavoriteController : ControllerBase
 
 
     /// <summary>
-    /// Добавляет товар в корзину.
+    /// Добавляет объявление в избранное.
     /// </summary>
     /// <param name="cancellationToken"></param>
     [HttpPost("add")]
@@ -67,15 +61,13 @@ public class FavoriteController : ControllerBase
 
 
     /// <summary>
-    /// Удаляет товар из корзины.
+    /// Удаляет объявление из избранного.
     /// </summary>
-    /// <param name="id">Идентификатор товара в корзине.</param>
     [HttpDelete("delete")]
     [ProducesResponseType((int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
-    public async Task<IActionResult> DeleteAsync([FromQuery] FavoriteModel model, CancellationToken cancellationToken)
+    public async Task<IActionResult> DeleteAsync([FromQuery]FavoriteModel model, CancellationToken cancellationToken)
     {
-
         var favorite = await _favoriteService.GetByAdvertisementId(model.AdvertisementId, model.UserId, cancellationToken);
         await _favoriteService.DeleteAsync(favorite, cancellationToken);
         return NoContent();

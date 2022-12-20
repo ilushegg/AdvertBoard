@@ -15,10 +15,6 @@ public class CategoryController : ControllerBase
 {
     private readonly ICategoryService _categoryService;
     
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="shoppingCartService"></param>
     public CategoryController(ICategoryService categoryService)
     {
         _categoryService = categoryService;
@@ -46,6 +42,7 @@ public class CategoryController : ControllerBase
 
     }
 
+
     /// <summary>
     /// Добавляет категорию.
     /// </summary>
@@ -60,7 +57,7 @@ public class CategoryController : ControllerBase
     {
         try
         {
-            var result = await _categoryService.AddAsync(model.ParentCategory, model.ChildCategory, cancellation);
+            var result = await _categoryService.AddAsync((Guid)model.ParentCategory, model.ChildCategory, cancellation);
             return Ok(result);
         }
         catch (Exception ex)
@@ -69,6 +66,7 @@ public class CategoryController : ControllerBase
         }
 
     }
+
 
     /// <summary>
     /// Удаляет категорию.
@@ -93,6 +91,12 @@ public class CategoryController : ControllerBase
 
     }
 
+    /// <summary>
+    /// Редактирует категорию.
+    /// </summary>
+    /// <param name="model"></param>
+    /// <param name="cancellation"></param>
+    /// <returns></returns>
     [HttpPost("edit")]
     [Authorize(Roles = "Admin")]
     [ProducesResponseType(typeof(IReadOnlyCollection<CategoryDto>), (int)HttpStatusCode.OK)]

@@ -1,7 +1,7 @@
 namespace AdvertBoard.Contracts;
 
 /// <summary>
-/// Модель фильтра товаров.
+/// Модель фильтра объявлений.
 /// </summary>
 public class AdvertisementSearchRequestModel
 {
@@ -14,6 +14,7 @@ public class AdvertisementSearchRequestModel
     /// Лимит.
     /// </summary>
     public int Limit { get; set; }
+
     /// <summary>
     /// Город поиска.
     /// </summary>

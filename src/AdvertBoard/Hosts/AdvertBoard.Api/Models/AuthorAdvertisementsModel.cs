@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace AdvertBoard.Contracts
+﻿namespace AdvertBoard.Contracts
 {
+    /// <summary>
+    /// Модель объявлений автора.
+    /// </summary>
     public class AuthorAdvertisementsModel
     {
         /// <summary>

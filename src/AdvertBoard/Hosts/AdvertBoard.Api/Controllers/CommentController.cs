@@ -14,7 +14,7 @@ using System.Threading;
 namespace AdvertBoard.Api.Controllers;
 
 /// <summary>
-/// Работа с корзиной товаров.
+/// Работа с комментариями к объявлению.
 /// </summary>
 [ApiController]
 [Route("v1/[controller]")]
@@ -28,27 +28,6 @@ public class CommentController : ControllerBase
         _commentService = commentService;
     }
 
-/*    /// <summary>
-    /// Возвращает товар по идентификатору.
-    /// </summary>
-    /// <param name="cancellation"></param>
-    /// <returns></returns>
-    [HttpGet("get-by-id")]
-    [ProducesResponseType(typeof(IReadOnlyCollection<CommentDto>), StatusCodes.Status201Created)]
-    public async Task<IActionResult> GetByIdAsync([FromQuery]GetCommentModel model, CancellationToken cancellationToken)
-    {
-        try
-        {
-            var result = await _commentService.GetById(model.CommentId, cancellationToken);
-            result.isFavorite = await _favoriteService.IsCommentFavorite(model.CommentId, (Guid)model.UserId, cancellationToken);
-            return Ok(result);
-        }
-        catch(Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
-
-    }*/
 
     /// <summary>
     /// Возвращает все комментарии к объявлению.
@@ -122,10 +101,6 @@ public class CommentController : ControllerBase
     }
 
 
-
-
-
-
     /// <summary>
     /// Удаляет комментарий.
     /// </summary>
@@ -169,6 +144,7 @@ public class CommentController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
+
 
     /// <summary>
     /// Администратор может удалить все комментарии пользователя.

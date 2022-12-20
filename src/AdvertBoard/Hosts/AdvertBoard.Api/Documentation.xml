@@ -6,19 +6,19 @@
     <members>
         <member name="T:AdvertBoard.Api.Controllers.AdvertisementController">
             <summary>
-            Работа с корзиной товаров.
+            Работа с объявлениями.
             </summary>
         </member>
         <member name="M:AdvertBoard.Api.Controllers.AdvertisementController.GetByIdAsync(AdvertBoard.Contracts.GetAdvertisementModel,System.Threading.CancellationToken)">
             <summary>
-            Возвращает товар по идентификатору.
+            Возвращает объявление по идентификатору.
             </summary>
             <param name="cancellation"></param>
             <returns></returns>
         </member>
         <member name="M:AdvertBoard.Api.Controllers.AdvertisementController.GetAll(AdvertBoard.Contracts.PaginationModel,System.Threading.CancellationToken)">
             <summary>
-            Возвращает все товары.
+            Возвращает все объявления.
             </summary>
             <param name="cancellation"></param>
             <returns></returns>
@@ -32,23 +32,30 @@
         </member>
         <member name="M:AdvertBoard.Api.Controllers.AdvertisementController.Add(AdvertBoard.Contracts.AddAdvertisementModel)">
             <summary>
-            Добавляет товар.
+            Добавляет объявление.
             </summary>
             <param name="cancellation"></param>
             <returns></returns>
         </member>
         <member name="M:AdvertBoard.Api.Controllers.AdvertisementController.Edit(AdvertBoard.Contracts.EditAdvertisementModel,System.Threading.CancellationToken)">
             <summary>
-            Редактирует товар.
+            Редактирует объявление.
             </summary>
             <returns></returns>
         </member>
         <member name="M:AdvertBoard.Api.Controllers.AdvertisementController.DeleteAsync(System.Guid,System.Threading.CancellationToken)">
             <summary>
-            Удаляет товар.
+            Удаляет объявление.
             </summary>
-            <param name="productId"></param>
             <param name="cancellation"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AdvertBoard.Api.Controllers.AdvertisementController.SearchAsync(AdvertBoard.Contracts.AdvertisementSearchRequestModel,System.Threading.CancellationToken)">
+            <summary>
+            Поиск объявлений.
+            </summary>
+            <param name="model"></param>
+            <param name="cancellationToken"></param>
             <returns></returns>
         </member>
         <member name="M:AdvertBoard.Api.Controllers.AdvertisementController.DeleteAdAsync(System.Guid,System.Threading.CancellationToken)">
@@ -71,12 +78,6 @@
             <summary>
             Работа с категориями.
             </summary>
-        </member>
-        <member name="M:AdvertBoard.Api.Controllers.CategoryController.#ctor(AdvertBoard.AppServices.Product.Services.ICategoryService)">
-            <summary>
-            
-            </summary>
-            <param name="shoppingCartService"></param>
         </member>
         <member name="M:AdvertBoard.Api.Controllers.CategoryController.GetAllAsync(System.Threading.CancellationToken)">
             <summary>
@@ -102,9 +103,17 @@
             <param name="cancellation"></param>
             <returns></returns>
         </member>
+        <member name="M:AdvertBoard.Api.Controllers.CategoryController.EditAsync(AdvertBoard.Contracts.EditCategoryModel,System.Threading.CancellationToken)">
+            <summary>
+            Редактирует категорию.
+            </summary>
+            <param name="model"></param>
+            <param name="cancellation"></param>
+            <returns></returns>
+        </member>
         <member name="T:AdvertBoard.Api.Controllers.CommentController">
             <summary>
-            Работа с корзиной товаров.
+            Работа с комментариями к объявлению.
             </summary>
         </member>
         <member name="M:AdvertBoard.Api.Controllers.CommentController.GetAllByAdvertisement(AdvertBoard.Contracts.CommentPaginationModel,System.Threading.CancellationToken)">
@@ -156,47 +165,48 @@
         </member>
         <member name="T:AdvertBoard.Api.Controllers.FavoriteController">
             <summary>
-            Работа с корзиной товаров.
+            Работа с избранными объявлениями.
             </summary>
-        </member>
-        <member name="M:AdvertBoard.Api.Controllers.FavoriteController.#ctor(AdvertBoard.AppServices.Favorite.Services.IFavoriteService,AdvertBoard.AppServices.User.Services.IUserService,AdvertBoard.AppServices.Advertisement.Services.IAdvertisementService)">
-            <summary>
-            
-            </summary>
-            <param name="shoppingCartService"></param>
         </member>
         <member name="M:AdvertBoard.Api.Controllers.FavoriteController.GetAllAsync(AdvertBoard.Contracts.PaginationModel,System.Threading.CancellationToken)">
             <summary>
-            Возвращает позиции товаров в корзине.
+            Возвращает объявления из избранного.
             </summary>
             <returns>Коллекция элементов <see cref="T:AdvertBoard.Contracts.FavoriteDto"/>.</returns>
         </member>
         <member name="M:AdvertBoard.Api.Controllers.FavoriteController.AddAsync(AdvertBoard.Api.Models.FavoriteModel,System.Threading.CancellationToken)">
             <summary>
-            Добавляет товар в корзину.
+            Добавляет объявление в избранное.
             </summary>
             <param name="cancellationToken"></param>
         </member>
         <member name="M:AdvertBoard.Api.Controllers.FavoriteController.DeleteAsync(AdvertBoard.Api.Models.FavoriteModel,System.Threading.CancellationToken)">
             <summary>
-            Удаляет товар из корзины.
+            Удаляет объявление из избранного.
             </summary>
-            <param name="id">Идентификатор товара в корзине.</param>
         </member>
         <member name="T:AdvertBoard.Api.Controllers.ImageController">
             <summary>
-            Работа с корзиной товаров.
+            Работа с изображениями.
             </summary>
+        </member>
+        <member name="M:AdvertBoard.Api.Controllers.ImageController.AddAsync(Microsoft.AspNetCore.Http.IFormFile,System.Threading.CancellationToken)">
+            <summary>
+            Добавляет новое изображение.
+            </summary>
+            <param name="file"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
         </member>
         <member name="M:AdvertBoard.Api.Controllers.ImageController.EditAsync(System.Guid,Microsoft.AspNetCore.Http.IFormFile,System.Threading.CancellationToken)">
             <summary>
-            Редактирует товар.
+            Редактирует изображение.
             </summary>
             <returns></returns>
         </member>
         <member name="M:AdvertBoard.Api.Controllers.ImageController.Delete(System.Guid,System.Threading.CancellationToken)">
             <summary>
-            Удаляет товар.
+            Удаляет изображение.
             </summary>
             <param name="productId"></param>
             <param name="cancellation"></param>
@@ -204,18 +214,207 @@
         </member>
         <member name="T:AdvertBoard.Api.Controllers.UserController">
             <summary>
-            Работа с корзиной товаров.
+            Работа с пользователями.
             </summary>
         </member>
-        <member name="M:AdvertBoard.Api.Controllers.UserController.#ctor(AdvertBoard.AppServices.User.Services.IUserService,AdvertBoard.AppServices.User.Services.IUserAvatarService,AdvertBoard.Infrastructure.Mail.IMailService,AdvertBoard.Infrastructure.RabbitMQ.IRabbitMQClient,Microsoft.Extensions.Configuration.IConfiguration)">
+        <member name="M:AdvertBoard.Api.Controllers.UserController.GetById(System.Guid,System.Threading.CancellationToken)">
             <summary>
-            
+            Получить пользователя по идентификатору.
             </summary>
-            <param name="shoppingCartService"></param>
+            <param name="id"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AdvertBoard.Api.Controllers.UserController.Register(AdvertBoard.Api.Models.RegisterModel,System.Threading.CancellationToken)">
+            <summary>
+            Зарегистрировать пользователя.
+            </summary>
+            <param name="model"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AdvertBoard.Api.Controllers.UserController.SendActivationCode(System.Guid,System.Threading.CancellationToken)">
+            <summary>
+            Отправить ссылку для активации.
+            </summary>
+            <param name="userId"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AdvertBoard.Api.Controllers.UserController.Activate(AdvertBoard.Api.Models.ActivateUserModel,System.Threading.CancellationToken)">
+            <summary>
+            Активировать пользователя.
+            </summary>
+            <param name="model"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AdvertBoard.Api.Controllers.UserController.SendRecoveryCode(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Отправить ссылку для восстановления пароля.
+            </summary>
+            <param name="email"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AdvertBoard.Api.Controllers.UserController.RecoverPassword(AdvertBoard.Api.Models.RecoverPasswordModel,System.Threading.CancellationToken)">
+            <summary>
+            Восстановить пароль пользователя.
+            </summary>
+            <param name="model"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AdvertBoard.Api.Controllers.UserController.Login(AdvertBoard.Contracts.LoginUserDto,System.Threading.CancellationToken)">
+            <summary>
+            Войти.
+            </summary>
+            <param name="userDto"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AdvertBoard.Api.Controllers.UserController.Edit(AdvertBoard.Api.Models.EditUserModel,System.Threading.CancellationToken)">
+            <summary>
+            Редактировать пользователя.
+            </summary>
+            <param name="model"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AdvertBoard.Api.Controllers.UserController.AddAvatarAsync(AdvertBoard.Api.Models.AddUserAvatarModel,System.Threading.CancellationToken)">
+            <summary>
+            Редактировать аватар пользователя.
+            </summary>
+            <param name="model"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AdvertBoard.Api.Controllers.UserController.Delete(System.Guid,System.Threading.CancellationToken)">
+            <summary>
+            Удалить пользователя (для АДМИНА).
+            </summary>
+            <param name="userId"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="T:AdvertBoard.Api.Models.ActivateUserModel">
+            <summary>
+            Модель активации пользователя.
+            </summary>
+        </member>
+        <member name="P:AdvertBoard.Api.Models.ActivateUserModel.UserId">
+            <summary>
+            Идентификатор пользователя.
+            </summary>
+        </member>
+        <member name="P:AdvertBoard.Api.Models.ActivateUserModel.ActivationCode">
+            <summary>
+            Код активации.
+            </summary>
+        </member>
+        <member name="T:AdvertBoard.Api.Models.AddUserAvatarModel">
+            <summary>
+            Модель добавления аватара пользователя.
+            </summary>
+        </member>
+        <member name="P:AdvertBoard.Api.Models.AddUserAvatarModel.UserId">
+            <summary>
+            Идентификатор пользователя.
+            </summary>
+        </member>
+        <member name="P:AdvertBoard.Api.Models.AddUserAvatarModel.ImageId">
+            <summary>
+            Идентификатор изображения.
+            </summary>
+        </member>
+        <member name="T:AdvertBoard.Api.Models.EditUserModel">
+            <summary>
+            Модель редактирования пользователя.
+            </summary>
+        </member>
+        <member name="P:AdvertBoard.Api.Models.EditUserModel.Id">
+            <summary>
+            Идентификатор пользователя.
+            </summary>
+        </member>
+        <member name="P:AdvertBoard.Api.Models.EditUserModel.Email">
+            <summary>
+            Эл. адрес.
+            </summary>
+        </member>
+        <member name="P:AdvertBoard.Api.Models.EditUserModel.OldPassword">
+            <summary>
+            Старый пароль.
+            </summary>
+        </member>
+        <member name="P:AdvertBoard.Api.Models.EditUserModel.NewPassword">
+            <summary>
+            Новый пароль.
+            </summary>
+        </member>
+        <member name="P:AdvertBoard.Api.Models.EditUserModel.Name">
+            <summary>
+            Имя пользователя.
+            </summary>
+        </member>
+        <member name="P:AdvertBoard.Api.Models.EditUserModel.Mobile">
+            <summary>
+            Номер моб. телефона.
+            </summary>
+        </member>
+        <member name="T:AdvertBoard.Api.Models.FavoriteModel">
+            <summary>
+            Модель избранного объявления.
+            </summary>
+        </member>
+        <member name="P:AdvertBoard.Api.Models.FavoriteModel.AdvertisementId">
+            <summary>
+            Идентификатор объявления.
+            </summary>
+        </member>
+        <member name="P:AdvertBoard.Api.Models.FavoriteModel.UserId">
+            <summary>
+            Идентификатор пользователя.
+            </summary>
+        </member>
+        <member name="T:AdvertBoard.Api.Models.RecoverPasswordModel">
+            <summary>
+            Модель восстановление пароля.
+            </summary>
+        </member>
+        <member name="P:AdvertBoard.Api.Models.RecoverPasswordModel.UserId">
+            <summary>
+            Идентификатор пользователя.
+            </summary>
+        </member>
+        <member name="P:AdvertBoard.Api.Models.RecoverPasswordModel.NewPassword">
+            <summary>
+            Новый пароль.
+            </summary>
+        </member>
+        <member name="T:AdvertBoard.Api.Models.RegisterModel">
+            <summary>
+            Модель регистрации пользователя.
+            </summary>
+        </member>
+        <member name="P:AdvertBoard.Api.Models.RegisterModel.Name">
+            <summary>
+            Имя пользователя.
+            </summary>
+        </member>
+        <member name="P:AdvertBoard.Api.Models.RegisterModel.Password">
+            <summary>
+            Пароль.
+            </summary>
+        </member>
+        <member name="P:AdvertBoard.Api.Models.RegisterModel.Email">
+            <summary>
+            Эл. адрес.
+            </summary>
         </member>
         <member name="T:AdvertBoard.Contracts.AddAdvertisementModel">
             <summary>
-            Товар
+            Модель добавления объявления.
             </summary>
         </member>
         <member name="P:AdvertBoard.Contracts.AddAdvertisementModel.UserId">
@@ -290,7 +489,7 @@
         </member>
         <member name="T:AdvertBoard.Contracts.AddCategoryModel">
             <summary>
-            Товар
+            Модель добавления категории.
             </summary>
         </member>
         <member name="P:AdvertBoard.Contracts.AddCategoryModel.ParentCategory">
@@ -305,7 +504,7 @@
         </member>
         <member name="T:AdvertBoard.Contracts.AddCommentModel">
             <summary>
-            Товар
+            Модель добавления комментария.
             </summary>
         </member>
         <member name="P:AdvertBoard.Contracts.AddCommentModel.Text">
@@ -325,7 +524,7 @@
         </member>
         <member name="T:AdvertBoard.Contracts.AdvertisementSearchRequestModel">
             <summary>
-            Модель фильтра товаров.
+            Модель фильтра объявлений.
             </summary>
         </member>
         <member name="P:AdvertBoard.Contracts.AdvertisementSearchRequestModel.Offset">
@@ -373,6 +572,11 @@
             Сортировка.
             </summary>
         </member>
+        <member name="T:AdvertBoard.Contracts.AuthorAdvertisementsModel">
+            <summary>
+            Модель объявлений автора.
+            </summary>
+        </member>
         <member name="P:AdvertBoard.Contracts.AuthorAdvertisementsModel.Offset">
             <summary>
             Смещение.
@@ -386,6 +590,11 @@
         <member name="P:AdvertBoard.Contracts.AuthorAdvertisementsModel.AuthorId">
             <summary>
             Идентификатор автора.
+            </summary>
+        </member>
+        <member name="T:AdvertBoard.Contracts.CommentPaginationModel">
+            <summary>
+            Модель пагинации комментариев.
             </summary>
         </member>
         <member name="P:AdvertBoard.Contracts.CommentPaginationModel.Offset">
@@ -405,7 +614,7 @@
         </member>
         <member name="T:AdvertBoard.Contracts.EditAdvertisementModel">
             <summary>
-            Товар
+            Модель редактирования объявления.
             </summary>
         </member>
         <member name="P:AdvertBoard.Contracts.EditAdvertisementModel.Id">
@@ -480,7 +689,7 @@
         </member>
         <member name="T:AdvertBoard.Contracts.EditCategoryModel">
             <summary>
-            Товар
+            Модель редактирования категории.
             </summary>
         </member>
         <member name="P:AdvertBoard.Contracts.EditCategoryModel.CategoryId">
@@ -495,7 +704,7 @@
         </member>
         <member name="T:AdvertBoard.Contracts.EditCommentModel">
             <summary>
-            Товар
+            Модель редактирования комментария.
             </summary>
         </member>
         <member name="P:AdvertBoard.Contracts.EditCommentModel.Id">
@@ -515,7 +724,7 @@
         </member>
         <member name="T:AdvertBoard.Contracts.GetAdvertisementModel">
             <summary>
-            Товар
+            Модель получения объявления.
             </summary>
         </member>
         <member name="P:AdvertBoard.Contracts.GetAdvertisementModel.AdvertisementId">
@@ -526,6 +735,11 @@
         <member name="P:AdvertBoard.Contracts.GetAdvertisementModel.UserId">
             <summary>
             Идентификатор автора.
+            </summary>
+        </member>
+        <member name="T:AdvertBoard.Contracts.PaginationModel">
+            <summary>
+            Модель объявлений с пагинацией.
             </summary>
         </member>
         <member name="P:AdvertBoard.Contracts.PaginationModel.Offset">

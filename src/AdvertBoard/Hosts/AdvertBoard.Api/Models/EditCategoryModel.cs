@@ -1,7 +1,7 @@
 namespace AdvertBoard.Contracts;
 
 /// <summary>
-/// Товар
+/// Модель редактирования категории.
 /// </summary>
 public class EditCategoryModel
 {   

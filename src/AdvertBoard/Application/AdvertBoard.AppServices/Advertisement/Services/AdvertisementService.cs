@@ -8,6 +8,7 @@ using AdvertBoard.AppServices.User.Repositories;
 using static System.Net.Mime.MediaTypeNames;
 using AdvertBoard.DataAccess.EntityConfigurations.UserAvatar;
 using AdvertBoard.AppServices.Location.Repositories;
+using System.Globalization;
 
 namespace AdvertBoard.AppServices.Advertisement.Services;
 
@@ -21,10 +22,6 @@ public class AdvertisementService : IAdvertisementService
     private readonly IUserAvatarRepository _userAvatarRepository;
     private readonly ILocationRepository _locationRepository;
 
-    /// <summary>
-    /// Инициализирует экземпляр <see cref="AdvertisementService"/>.
-    /// </summary>
-    /// <param name="productRepository"></param>
     public AdvertisementService(IAdvertisementRepository productRepository, ICategoryRepository categoryRepository, IAdvertisementImageRepository productImageRepository, IUserRepository userRepository, IUserAvatarRepository userAvatarRepository, ILocationRepository locationRepository)
     {
         _productRepository = productRepository;
@@ -56,6 +53,7 @@ public class AdvertisementService : IAdvertisementService
 
     }
 
+    /// <inheritdoc />
     public async Task<GetPagedResultDto<AdvertisementDto>> GetAllBySearch(int skip, int take, string? query, Guid? categoryId, string? location, decimal? fromPrice, decimal? toPrice, string? sort, CancellationToken cancellationToken)
     {
         var total = await _productRepository.GetAllCount(ad => ((query == null) ? ad.Name!=null : ad.Name.ToLower().Contains(query.ToLower())) 
@@ -114,12 +112,8 @@ public class AdvertisementService : IAdvertisementService
 
     }
 
-    /// <inheritdoc />
-    public Task<IReadOnlyCollection<AdvertisementDto>> GetAllFiltered(ProductFilterRequest request, CancellationToken cancellation)
-    {
-        return _productRepository.GetAllFiltered(request, cancellation);
-    }
 
+    /// <inheritdoc />
     public Guid Add(string name, string description, decimal price, Guid categoryId, Guid locationId, Guid userId)
     {
         var advertisement = new Domain.Advertisement
@@ -166,6 +160,8 @@ public class AdvertisementService : IAdvertisementService
         return advertisement.Id;
     }
 
+
+    /// <inheritdoc />
     public async Task<(Guid adId, Guid locId)> EditAsync(Guid productId, string name, string description, decimal price, Guid categoryId, CancellationToken cancellation)
     {
         var advertisement = await _productRepository.GetById(productId, cancellation);
@@ -186,6 +182,7 @@ public class AdvertisementService : IAdvertisementService
         }
     }
 
+    /// <inheritdoc />
     public async Task DeleteAsync(Guid productId, CancellationToken cancellation)
     {
         var advertisement = await _productRepository.GetById(productId, cancellation);
@@ -200,6 +197,7 @@ public class AdvertisementService : IAdvertisementService
          
     }
 
+    /// <inheritdoc />
     public async Task<FullAdvertisementDto> GetById(Guid advertisementId, CancellationToken cancellation)
     {
         try
@@ -229,7 +227,7 @@ public class AdvertisementService : IAdvertisementService
                 AuthorName = user.Name,
                 AuthorAvatar = userAvatar != null ? "data:image/png;base64," + Convert.ToBase64String(File.ReadAllBytes(userAvatar.FilePath)) : "",
                 AuthorNumber = user.Mobile,
-                AuthorRegisterDate = $"{user.CreateDate.ToString("D")}",
+                AuthorRegisterDate = $"{user.CreateDate.ToString("U")}",
                 LocationQueryString = location.LocationQueryString,
                 LocationLat = location.Lat,
                 LocationLon = location.Lon

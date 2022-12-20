@@ -1,14 +1,14 @@
 namespace AdvertBoard.Contracts;
 
 /// <summary>
-/// Товар
+/// Модель добавления категории.
 /// </summary>
 public class AddCategoryModel
 {   
     /// <summary>
     /// Идентификатор родителя категории.
     /// </summary>
-    public Guid ParentCategory { get; set; }
+    public Guid? ParentCategory { get; set; }
 
     /// <summary>
     /// Название новой категории.

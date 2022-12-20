@@ -1,22 +1,15 @@
-
 using Microsoft.AspNetCore.Mvc;
-
 using AdvertBoard.Contracts;
-
 using Microsoft.AspNetCore.Authorization;
 using AdvertBoard.AppServices.User.Services;
 using AdvertBoard.Api.Models;
-using AdvertBoard.Domain;
-using Microsoft.AspNetCore.Identity;
-using AdvertBoard.Infrastructure;
-using RabbitMQ.Client;
 using AdvertBoard.Infrastructure.Mail;
 using AdvertBoard.Infrastructure.RabbitMQ;
 
 namespace AdvertBoard.Api.Controllers;
 
 /// <summary>
-/// Работа с корзиной товаров.
+/// Работа с пользователями.
 /// </summary>
 [ApiController]
 [AllowAnonymous]
@@ -29,10 +22,6 @@ public class UserController : ControllerBase
     private readonly IRabbitMQClient _rabbitMQ;
     private readonly IConfiguration _configuration;
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="shoppingCartService"></param>
     public UserController(IUserService userService, IUserAvatarService userAvatarService, IMailService mailService, IRabbitMQClient rabbitMQ, IConfiguration configuration)
     {
         _userService = userService;
@@ -42,6 +31,12 @@ public class UserController : ControllerBase
         _configuration = configuration;
     }
 
+    /// <summary>
+    /// Получить пользователя по идентификатору.
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
     [HttpGet("get_by_id")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> GetById(Guid id, CancellationToken cancellationToken)
@@ -51,6 +46,13 @@ public class UserController : ControllerBase
         return Ok(user);
     }
 
+
+    /// <summary>
+    /// Зарегистрировать пользователя.
+    /// </summary>
+    /// <param name="model"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
     [HttpPost("register")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     public async Task<IActionResult> Register(RegisterModel model, CancellationToken cancellationToken)
@@ -68,6 +70,13 @@ public class UserController : ControllerBase
         }
     }
 
+
+    /// <summary>
+    /// Отправить ссылку для активации.
+    /// </summary>
+    /// <param name="userId"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
     [HttpPost("send_activation_code")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     public async Task<IActionResult> SendActivationCode([FromQuery]Guid userId, CancellationToken cancellationToken)
@@ -92,7 +101,12 @@ public class UserController : ControllerBase
         }
     }
 
-
+    /// <summary>
+    /// Активировать пользователя.
+    /// </summary>
+    /// <param name="model"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
     [HttpPost("activate")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> Activate([FromBody] ActivateUserModel model, CancellationToken cancellationToken)
@@ -109,6 +123,12 @@ public class UserController : ControllerBase
         }
     }
 
+    /// <summary>
+    /// Отправить ссылку для восстановления пароля.
+    /// </summary>
+    /// <param name="email"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
     [HttpPost("send_recovery_code")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> SendRecoveryCode([FromQuery] string email, CancellationToken cancellationToken)
@@ -132,6 +152,12 @@ public class UserController : ControllerBase
         }
     }
 
+    /// <summary>
+    /// Восстановить пароль пользователя.
+    /// </summary>
+    /// <param name="model"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
     [HttpPost("recover_password")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> RecoverPassword([FromBody]RecoverPasswordModel model, CancellationToken cancellationToken)
@@ -148,7 +174,12 @@ public class UserController : ControllerBase
         }
     }
 
-
+    /// <summary>
+    /// Войти.
+    /// </summary>
+    /// <param name="userDto"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
     [HttpPost("login")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     public async Task<IActionResult> Login(LoginUserDto userDto, CancellationToken cancellationToken)
@@ -167,6 +198,12 @@ public class UserController : ControllerBase
         }
     }
 
+    /// <summary>
+    /// Редактировать пользователя.
+    /// </summary>
+    /// <param name="model"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
     [HttpPost("edit")]
     [Authorize]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -181,14 +218,15 @@ public class UserController : ControllerBase
         {
             return BadRequest(ex.Message);
         }
-
-
     }
 
     
-
-
-
+    /// <summary>
+    /// Редактировать аватар пользователя.
+    /// </summary>
+    /// <param name="model"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
     [HttpPost("edit_avatar")]
     [Authorize]
     [ProducesResponseType(StatusCodes.Status201Created)]
@@ -200,14 +238,11 @@ public class UserController : ControllerBase
             if (avatar == Guid.Empty)
             {
                 avatar = await _userAvatarService.AddAsync(model.UserId, model.ImageId, cancellationToken);
-
             }
             else
             {
                 avatar = await _userAvatarService.EditAsync(model.UserId, model.ImageId, cancellationToken);
             }
-
-
             return Ok(avatar);
         }
         catch(Exception ex)
@@ -217,6 +252,12 @@ public class UserController : ControllerBase
         
     }
 
+    /// <summary>
+    /// Удалить пользователя (для АДМИНА).
+    /// </summary>
+    /// <param name="userId"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
     [HttpDelete("delete_by_admin")]
     [Authorize(Roles = "Admin")]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -226,14 +267,11 @@ public class UserController : ControllerBase
         {
             await _userService.DeleteAsync(userId, cancellationToken);
             return Ok();
-
-        }catch(Exception ex)
+        }
+        catch(Exception ex)
         {
             return BadRequest(ex.Message);
         }
-
-
     }
-
 
 }

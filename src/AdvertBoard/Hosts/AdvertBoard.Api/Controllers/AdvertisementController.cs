@@ -14,7 +14,7 @@ using System.Threading;
 namespace AdvertBoard.Api.Controllers;
 
 /// <summary>
-/// Работа с корзиной товаров.
+/// Работа с объявлениями.
 /// </summary>
 [ApiController]
 [Route("v1/[controller]")]
@@ -24,7 +24,6 @@ public class AdvertisementController : ControllerBase
     private readonly IFavoriteService _favoriteService;
     private readonly ILocationService _locationService;
     private readonly IAdvertisementImageService _productImageService;
-    private readonly ICategoryService _categoryService;
 
     public AdvertisementController(IAdvertisementService advertisementService, IFavoriteService favoriteService, IAdvertisementImageService productImageService, ILocationService locationService)
     {
@@ -35,7 +34,7 @@ public class AdvertisementController : ControllerBase
     }
 
     /// <summary>
-    /// Возвращает товар по идентификатору.
+    /// Возвращает объявление по идентификатору.
     /// </summary>
     /// <param name="cancellation"></param>
     /// <returns></returns>
@@ -60,7 +59,7 @@ public class AdvertisementController : ControllerBase
     }
 
     /// <summary>
-    /// Возвращает все товары.
+    /// Возвращает все объявления.
     /// </summary>
     /// <param name="cancellation"></param>
     /// <returns></returns>
@@ -96,7 +95,7 @@ public class AdvertisementController : ControllerBase
     }
 
     /// <summary>
-    /// Добавляет товар.
+    /// Добавляет объявление.
     /// </summary>
     /// <param name="cancellation"></param>
     /// <returns></returns>
@@ -123,7 +122,7 @@ public class AdvertisementController : ControllerBase
     }
 
     /// <summary>
-    /// Редактирует товар.
+    /// Редактирует объявление.
     /// </summary>
     /// <returns></returns>
     [HttpPut("edit")]
@@ -146,9 +145,8 @@ public class AdvertisementController : ControllerBase
 
 
     /// <summary>
-    /// Удаляет товар.
+    /// Удаляет объявление.
     /// </summary>
-    /// <param name="productId"></param>
     /// <param name="cancellation"></param>
     /// <returns></returns>
     [HttpDelete("delete")]
@@ -167,6 +165,12 @@ public class AdvertisementController : ControllerBase
         }
     }
 
+    /// <summary>
+    /// Поиск объявлений.
+    /// </summary>
+    /// <param name="model"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
     [HttpGet("search")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> SearchAsync([FromQuery]AdvertisementSearchRequestModel model, CancellationToken cancellationToken)

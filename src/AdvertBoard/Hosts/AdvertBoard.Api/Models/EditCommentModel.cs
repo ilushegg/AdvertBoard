@@ -3,7 +3,7 @@ using AdvertBoard.Infrastructure.Enum;
 namespace AdvertBoard.Contracts;
 
 /// <summary>
-/// Товар
+/// Модель редактирования комментария.
 /// </summary>
 public class EditCommentModel
 {

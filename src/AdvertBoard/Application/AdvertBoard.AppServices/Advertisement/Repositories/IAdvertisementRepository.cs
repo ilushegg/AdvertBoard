@@ -4,12 +4,12 @@ using System.Linq.Expressions;
 namespace AdvertBoard.AppServices.Product.Repositories;
 
 /// <summary>
-/// Репозиторий чтения/записи для работы с товарами.
+/// Репозиторий чтения/записи для работы с объявлениями.
 /// </summary>
 public interface IAdvertisementRepository
 {
     /// <summary>
-    /// Возвращает записи товаров используя постраничную загрузку.
+    /// Возвращает записи объявлений используя постраничную загрузку.
     /// </summary>
     /// <param name="take">Количество записей в ответе.</param>
     /// <param name="skip">Количество пропущеных записей.</param>
@@ -26,10 +26,16 @@ public interface IAdvertisementRepository
     /// <returns>Коллекция элементов <see cref="AdvertisementDto"/>.</returns>
     Task<IReadOnlyCollection<AdvertisementDto>> GetAllByAuthor(int take, int skip, Guid userId, CancellationToken cancellation);
 
+    /// <summary>
+    /// Возвращает кол-во объявлений.
+    /// </summary>
+    /// <param name="predicate"></param>
+    /// <param name="cancellation"></param>
+    /// <returns></returns>
     Task<int> GetAllCount(Expression<Func<Domain.Advertisement, bool>> predicate, CancellationToken cancellation);
 
     /// <summary>
-    /// Возвращает записи товаров по фильтру.
+    /// Возвращает записи объявлений по фильтру.
     /// </summary>
     /// <param name="request">Модель фильтра товаров.</param>
     /// <param name="cancellation">Отмена операции.</param>
@@ -37,18 +43,22 @@ public interface IAdvertisementRepository
     Task<IReadOnlyCollection<AdvertisementDto>> GetAllFiltered(ProductFilterRequest request, CancellationToken cancellation);
 
     /// <summary>
-    /// Добавляет товар.
+    /// Добавляет объявление.
     /// </summary>
     /// <param name="product"></param>
     /// <param name="cancellation"></param>
     /// <returns></returns>
     Task<bool> AddAsync(Domain.Advertisement product, CancellationToken cancellation);
 
-
+    /// <summary>
+    /// Добавляет объявление.
+    /// </summary>
+    /// <param name="product"></param>
+    /// <returns></returns>
     Guid Add(Domain.Advertisement product);
 
     /// <summary>
-    /// Удаляет товар.
+    /// Удаляет объявление.
     /// </summary>
     /// <param name="id"></param>
     /// <param name="cancellation"></param>
@@ -56,7 +66,7 @@ public interface IAdvertisementRepository
     Task DeleteAsync(Domain.Advertisement product, CancellationToken cancellation);
 
     /// <summary>
-    /// Редактирует товар.
+    /// Редактирует объявление.
     /// </summary>
     /// <param name="product"></param>
     /// <param name="cancellation"></param>
@@ -64,7 +74,7 @@ public interface IAdvertisementRepository
     Task<bool> EditAsync(Domain.Advertisement product, CancellationToken cancellation);
 
     /// <summary>
-    /// Ищет товар по идентификатору.
+    /// Ищет объявление по идентификатору.
     /// </summary>
     /// <param name="productId"></param>
     /// <param name="cancellation"></param>

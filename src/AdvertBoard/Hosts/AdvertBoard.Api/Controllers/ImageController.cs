@@ -10,7 +10,7 @@ using AdvertBoard.AppServices.Image.Services;
 namespace AdvertBoard.Api.Controllers;
 
 /// <summary>
-/// Работа с корзиной товаров.
+/// Работа с изображениями.
 /// </summary>
 [ApiController]
 [Route("v1/[controller]")]
@@ -23,6 +23,12 @@ public class ImageController : ControllerBase
         _imageService = imageService;
     }
 
+    /// <summary>
+    /// Добавляет новое изображение.
+    /// </summary>
+    /// <param name="file"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
     [HttpPost("create")]
     [Authorize]
     [ProducesResponseType(StatusCodes.Status201Created)]
@@ -48,7 +54,7 @@ public class ImageController : ControllerBase
     }
 
     /// <summary>
-    /// Редактирует товар.
+    /// Редактирует изображение.
     /// </summary>
     /// <returns></returns>
     [HttpPut]
@@ -60,8 +66,9 @@ public class ImageController : ControllerBase
         return Ok(result);
     }
 
+
     /// <summary>
-    /// Удаляет товар.
+    /// Удаляет изображение.
     /// </summary>
     /// <param name="productId"></param>
     /// <param name="cancellation"></param>
