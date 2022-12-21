@@ -34,13 +34,7 @@ public interface IAdvertisementRepository
     /// <returns></returns>
     Task<int> GetAllCount(Expression<Func<Domain.Advertisement, bool>> predicate, CancellationToken cancellation);
 
-    /// <summary>
-    /// Возвращает записи объявлений по фильтру.
-    /// </summary>
-    /// <param name="request">Модель фильтра товаров.</param>
-    /// <param name="cancellation">Отмена операции.</param>
-    /// <returns>Коллекция элементов <see cref="AdvertisementDto"/>.</returns>
-    Task<IReadOnlyCollection<AdvertisementDto>> GetAllFiltered(ProductFilterRequest request, CancellationToken cancellation);
+  
 
     /// <summary>
     /// Добавляет объявление.

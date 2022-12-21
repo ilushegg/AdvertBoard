@@ -27,8 +27,8 @@ namespace AdvertBoard.Tests.Advertisement
             // arrange
             var entities = new List<Domain.Advertisement>(new[]
             {
-                    new Domain.Advertisement { Id = Guid.NewGuid(), Name = "Квартира", Description = "Квартира", Price = 19500, CategoryId = Guid.Parse("f95a34e1-ed2e-4092-a322-66bb313f0ed3"), UserId = Guid.Parse("f45fc11c-e4eb-42c4-9dbc-81d42bf0c1ab"), LocationId = Guid.Parse("f20901a1-495b-4225-af0c-6de001ba9cca"), DateTimeCreated = DateTime.Now, DateTimePublish = DateTime.Now, DateTimeUpdated = DateTime.Now, isActived = true },
-                    new Domain.Advertisement { Id = Guid.NewGuid(), Name = "Квартира2", Description = "Квартира2", Price = 18500, CategoryId = Guid.Parse("f95a34e1-ed2e-4092-a322-66bb313f0ed3"), UserId = Guid.Parse("f45fc11c-e4eb-42c4-9dbc-81d42bf0c1ab"), LocationId = Guid.Parse("f20901a1-495b-4225-af0c-6de001ba9cca"), DateTimeCreated = DateTime.Now, DateTimePublish = DateTime.Now, DateTimeUpdated = DateTime.Now, isActived = true },
+                    new Domain.Advertisement { Id = Guid.NewGuid(), Name = "Квартира", Description = "Квартира", Price = 19500, CategoryId = Guid.Parse("f95a34e1-ed2e-4092-a322-66bb313f0ed3"), UserId = Guid.Parse("f45fc11c-e4eb-42c4-9dbc-81d42bf0c1ab"), LocationId = Guid.Parse("f20901a1-495b-4225-af0c-6de001ba9cca"), DateTimeCreated = DateTime.Now, DateTimePublish = DateTime.Now, DateTimeUpdated = DateTime.Now, Status = "public" },
+                    new Domain.Advertisement { Id = Guid.NewGuid(), Name = "Квартира2", Description = "Квартира2", Price = 18500, CategoryId = Guid.Parse("f95a34e1-ed2e-4092-a322-66bb313f0ed3"), UserId = Guid.Parse("f45fc11c-e4eb-42c4-9dbc-81d42bf0c1ab"), LocationId = Guid.Parse("f20901a1-495b-4225-af0c-6de001ba9cca"), DateTimeCreated = DateTime.Now, DateTimePublish = DateTime.Now, DateTimeUpdated = DateTime.Now, Status = "public" },
 
             });
 

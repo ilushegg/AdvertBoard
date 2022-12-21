@@ -21,7 +21,6 @@ public class UserService : IUserService
 {
     private readonly IUserRepository _userRepository;
     private readonly IUserAvatarRepository _userAvatarRepository;
-    private readonly IClaimsAccessor _claimsAccessor;
     private readonly IConfiguration _configuration;
     private readonly IPasswordCryptography _passwordCryptography;
 
@@ -29,10 +28,9 @@ public class UserService : IUserService
     /// Инициализирует экземпляр <see cref="UserService"/>.
     /// </summary>
     /// <param name="productRepository"></param>
-    public UserService(IUserRepository userRepository, IClaimsAccessor claimsAccessor, IConfiguration configuration, IUserAvatarRepository userAvatarRepository, IPasswordCryptography passwordCryptography)
+    public UserService(IUserRepository userRepository, IConfiguration configuration, IUserAvatarRepository userAvatarRepository, IPasswordCryptography passwordCryptography)
     {
         _userRepository = userRepository;
-        _claimsAccessor = claimsAccessor;
         _configuration = configuration;
         _userAvatarRepository = userAvatarRepository;
         _passwordCryptography = passwordCryptography;   

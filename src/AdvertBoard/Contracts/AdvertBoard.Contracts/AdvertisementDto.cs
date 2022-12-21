@@ -52,4 +52,9 @@ public class AdvertisementDto
     /// </summary>
     public bool isFavorite { get; set; }
 
+    /// <summary>
+    /// Статус объявления.
+    /// </summary>
+    public string Status { get; set; }
+
 }

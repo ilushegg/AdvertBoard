@@ -31,7 +31,7 @@ namespace AdvertBoard.Domain
         /// </summary>
         public Guid? ParentCategoryId { get; set; }
 
-        public Category? ParentCategory { get; set; }
+        public ICollection<Category>? ParentCategory { get; set; }
 
     }
 }

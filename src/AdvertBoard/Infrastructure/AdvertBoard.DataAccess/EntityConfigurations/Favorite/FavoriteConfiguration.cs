@@ -17,7 +17,12 @@ public class FavoriteConfiguration : IEntityTypeConfiguration<Domain.Favorite>
         builder.Property(b => b.Id).ValueGeneratedOnAdd();
 
         builder.HasOne(s => s.User)
-            .WithMany(p => p.Favorites);
+            .WithMany(p => p.Favorites)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        builder.HasOne(f => f.Advertisement)
+            .WithMany(ad => ad.Favorites)
+            .OnDelete(DeleteBehavior.Cascade);
         
     }
 }

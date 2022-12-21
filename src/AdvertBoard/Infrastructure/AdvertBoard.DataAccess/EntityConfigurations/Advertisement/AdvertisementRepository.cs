@@ -25,7 +25,7 @@ public class AdvertisementRepository : IAdvertisementRepository
     /// <inheritdoc />
     public async Task<IReadOnlyCollection<AdvertisementDto>> GetAll(int take, int skip, CancellationToken cancellation)
     {
-        return await _repository.GetAll()
+        return await _repository.GetAll().OrderByDescending(ad => ad.DateTimeCreated)
             .Select(p => new AdvertisementDto
             {
                 Id = p.Id,
@@ -34,7 +34,8 @@ public class AdvertisementRepository : IAdvertisementRepository
                 CategoryId = p.Category.Id,
                 Price = p.Price,
                 LocationQuery = p.Location.City,
-                DateTimeCreated = $"{p.DateTimeCreated.ToString("f")}"
+                DateTimeCreated = $"{p.DateTimeCreated.ToString("f")}",
+                Status = p.Status
             })
             .Take(take).Skip(skip).ToListAsync(cancellation);
     }
@@ -51,7 +52,8 @@ public class AdvertisementRepository : IAdvertisementRepository
                 CategoryId = p.Category.Id,
                 Price = p.Price,
                 LocationQuery = p.Location.City,
-                DateTimeCreated = $"{p.DateTimeCreated.ToString("f")}"
+                DateTimeCreated = $"{p.DateTimeCreated.ToString("f")}",
+                Status = p.Status
             })
             .Skip(skip).Take(take).ToListAsync(cancellation);
     }
@@ -61,32 +63,7 @@ public class AdvertisementRepository : IAdvertisementRepository
         return await _repository.GetAll().Where(predicate).CountAsync();
  
     }
-
-    /// <inheritdoc />
-    public async Task<IReadOnlyCollection<AdvertisementDto>> GetAllFiltered(ProductFilterRequest request,
-        CancellationToken cancellation)
-    {
-        var query = _repository.GetAll();
-
-        if (request.Id.HasValue)
-        {
-            query = query.Where(p => p.Id == request.Id);
-        }
-
-        if (!string.IsNullOrWhiteSpace(request.Name))
-        {
-            query = query.Where(p => p.Name.ToLower().Contains(request.Name.ToLower()));
-        }
-            
-        return await query.Select(p => new AdvertisementDto
-            {
-                Id = p.Id,
-                Name = p.Name,
-                Description = p.Description,
-                Price = p.Price,
-                CategoryId = p.CategoryId
-            }).ToListAsync(cancellation);
-    }
+  
 
 
     public async Task<IReadOnlyCollection<AdvertisementDto>> GetWhere(int skip, int take, string? query, Guid? categoryId, string? location, decimal? fromPrice, decimal? toPrice, string? sort,  CancellationToken cancellation)
@@ -130,6 +107,8 @@ public class AdvertisementRepository : IAdvertisementRepository
             advertisements = advertisements.Where(p => p.Price <= toPrice);
         }
 
+        advertisements = advertisements.Where(p => p.Status == "public");
+
         return await advertisements.Select(p => new AdvertisementDto
         {
             Id = p.Id,
@@ -138,7 +117,8 @@ public class AdvertisementRepository : IAdvertisementRepository
             CategoryId = p.Category.Id,
             Price = p.Price,
             LocationQuery = p.Location.City,
-            DateTimeCreated = $"{p.DateTimeCreated.ToString("f")}"
+            DateTimeCreated = $"{p.DateTimeCreated.ToString("f")}",
+            Status = p.Status
         }).Skip(skip).Take(take).ToListAsync(cancellation);
     }
 

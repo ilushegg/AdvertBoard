@@ -43,6 +43,12 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:AdvertBoard.Api.Controllers.AdvertisementController.EditPublic(AdvertBoard.Contracts.EditAdvertisementPublicModel,System.Threading.CancellationToken)">
+            <summary>
+            Снять объявление с публикации.
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:AdvertBoard.Api.Controllers.AdvertisementController.DeleteAsync(System.Guid,System.Threading.CancellationToken)">
             <summary>
             Удаляет объявление.
@@ -685,6 +691,21 @@
         <member name="P:AdvertBoard.Contracts.EditAdvertisementModel.Lon">
             <summary>
             Координаты долготы.
+            </summary>
+        </member>
+        <member name="T:AdvertBoard.Contracts.EditAdvertisementPublicModel">
+            <summary>
+            Модель добавления категории.
+            </summary>
+        </member>
+        <member name="P:AdvertBoard.Contracts.EditAdvertisementPublicModel.AdvertisementId">
+            <summary>
+            Идентификатор объявления.
+            </summary>
+        </member>
+        <member name="P:AdvertBoard.Contracts.EditAdvertisementPublicModel.Status">
+            <summary>
+            Статус объявления (Public/hidden).
             </summary>
         </member>
         <member name="T:AdvertBoard.Contracts.EditCategoryModel">

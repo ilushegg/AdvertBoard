@@ -19,7 +19,7 @@ namespace AdvertBoard.DataAccess.EntityConfigurations.Category
 
             builder.Property(b => b.Name).HasMaxLength(100).IsRequired();
 
-            builder.HasOne(c => c.ParentCategory)
+            builder.HasMany(c => c.ParentCategory)
                 .WithOne()
                 .OnDelete(DeleteBehavior.Cascade);
 

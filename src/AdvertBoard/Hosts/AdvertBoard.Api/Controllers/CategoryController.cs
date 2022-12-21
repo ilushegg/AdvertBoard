@@ -57,7 +57,7 @@ public class CategoryController : ControllerBase
     {
         try
         {
-            var result = await _categoryService.AddAsync((Guid)model.ParentCategory, model.ChildCategory, cancellation);
+            var result = await _categoryService.AddAsync(model.ParentCategory, model.ChildCategory, cancellation);
             return Ok(result);
         }
         catch (Exception ex)

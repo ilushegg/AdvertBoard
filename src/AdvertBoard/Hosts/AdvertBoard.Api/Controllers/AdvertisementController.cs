@@ -70,7 +70,7 @@ public class AdvertisementController : ControllerBase
         var result = await _advertisementService.GetAll(paginationModel.Limit, paginationModel.Offset, cancellationToken);
         if(paginationModel.UserId != null)
         {
-            foreach(var res in result)
+            foreach(var res in result.Items)
             {
                 res.isFavorite = await _favoriteService.IsAdvertisementFavorite(res.Id, (Guid)paginationModel.UserId, cancellationToken);
             }
@@ -89,9 +89,17 @@ public class AdvertisementController : ControllerBase
     [ProducesResponseType(typeof(IReadOnlyCollection<AdvertisementDto>), StatusCodes.Status201Created)]
     public async Task<IActionResult> GetAllByAuthor([FromQuery] AuthorAdvertisementsModel model, CancellationToken cancellation)
     {
-        var result = await _advertisementService.GetAllByAuthor(model.Offset, model.Limit, model.AuthorId, cancellation);
+        try
+        {
+            var result = await _advertisementService.GetAllByAuthor(model.Offset, model.Limit, model.AuthorId, cancellation);
 
-        return Ok(result);
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+        
     }
 
     /// <summary>
@@ -130,13 +138,43 @@ public class AdvertisementController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> Edit([FromBody] EditAdvertisementModel model, CancellationToken cancellationToken)
     {
-        var result =  await _advertisementService.EditAsync(model.Id, model.Name, model.Description, model.Price, model.CategoryId, cancellationToken);
-        var location = _locationService.Edit(result.locId ,model.Country, model.City, model.Street, model.House, model.Flat, model.LocationQueryString, model.Lat, model.Lon);
-        if (model.Images != null)
+        try
         {
-            await _productImageService.EditAsync(result.adId, model.Images, cancellationToken);
+            var result =  await _advertisementService.EditAsync(model.Id, model.Name, model.Description, model.Price, model.CategoryId, cancellationToken);
+            var location = _locationService.Edit(result.locId ,model.Country, model.City, model.Street, model.House, model.Flat, model.LocationQueryString, model.Lat, model.Lon);
+            if (model.Images != null)
+            {
+                await _productImageService.EditAsync(result.adId, model.Images, cancellationToken);
+            }
+            return Ok(result.adId);
+
         }
-        return Ok(result.adId);
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+
+    /// <summary>
+    /// Снять объявление с публикации.
+    /// </summary>
+    /// <returns></returns>
+    [HttpPut("edit_public")]
+    [Authorize]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> EditPublic([FromBody]EditAdvertisementPublicModel model, CancellationToken cancellationToken)
+    {
+        try
+        {
+            var result = await _advertisementService.EditPublicAsync(model.AdvertisementId, model.Status, cancellationToken);
+            return Ok(result);
+
+        }
+        catch(Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 
 
@@ -164,6 +202,8 @@ public class AdvertisementController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
+
+
 
     /// <summary>
     /// Поиск объявлений.

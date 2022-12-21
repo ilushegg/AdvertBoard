@@ -37,7 +37,7 @@ public interface IAdvertisementService
     /// <param name="take"></param>
     /// <param name="skip"></param>
     /// <returns></returns>
-    Task<IReadOnlyCollection<AdvertisementDto>> GetAll(int take, int skip, CancellationToken cancellation);
+    Task<GetPagedResultDto<AdvertisementDto>> GetAll(int take, int skip, CancellationToken cancellation);
 
     /// <summary>
     /// Возвращает все объявления автора используя пагинацию
@@ -56,6 +56,16 @@ public interface IAdvertisementService
     /// <param name="cancellation"></param>
     /// <returns></returns>
     Task<(Guid adId, Guid locId)> EditAsync(Guid advertisementId, string name, string description, decimal price, Guid categoryId, CancellationToken cancellation);
+
+    /// <summary>
+    /// Снять/ выставить на публикацию.
+    /// </summary>
+    /// <param name="adId"></param>
+    /// <param name="publ"></param>
+    /// <param name="cancellation"></param>
+    /// <returns></returns>
+    Task<Guid> EditPublicAsync(Guid adId, string status, CancellationToken cancellation);
+
 
     /// <summary>
     /// Удаляет объявление.

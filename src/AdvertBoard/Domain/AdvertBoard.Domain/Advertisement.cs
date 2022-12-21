@@ -68,7 +68,7 @@ public class Advertisement
     /// <summary>
     /// Активность объявления.
     /// </summary>
-    public bool isActived { get; set; }
+    public string Status { get; set; }
     
     /// <summary>
     /// Идентификатор локации.
@@ -84,6 +84,9 @@ public class Advertisement
     /// Комментарии.
     /// </summary>
     public ICollection<Comment> Comment { get; set; }
+
+    public ICollection<Favorite> Favorites { get; set; }
+
 
 
 }

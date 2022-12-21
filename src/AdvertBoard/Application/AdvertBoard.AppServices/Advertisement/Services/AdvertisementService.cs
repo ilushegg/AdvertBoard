@@ -33,10 +33,12 @@ public class AdvertisementService : IAdvertisementService
     }
 
     /// <inheritdoc />
-    public async Task<IReadOnlyCollection<AdvertisementDto>> GetAll(int take, int skip, CancellationToken cancellation)
+    public async Task<GetPagedResultDto<AdvertisementDto>> GetAll(int take, int skip, CancellationToken cancellation)
     {
         var advertisements = await _productRepository.GetAll(take, skip, cancellation);
-        foreach(var ad in advertisements)
+        var total = await _productRepository.GetAllCount(ad => ad != null, cancellation);
+
+        foreach (var ad in advertisements)
         {
             var images = await _productImageRepository.GetAllByProduct(ad.Id, cancellation);
             var imageList = new List<string>();
@@ -49,7 +51,13 @@ public class AdvertisementService : IAdvertisementService
 
         }
 
-        return advertisements;
+        return new GetPagedResultDto<AdvertisementDto>
+        {
+            Offset = skip,
+            Limit = take,
+            Total = total,
+            Items = advertisements
+        };
 
     }
 
@@ -60,7 +68,8 @@ public class AdvertisementService : IAdvertisementService
                             && ((categoryId == null) ? ad.CategoryId!=null : ad.CategoryId == categoryId || ad.Category.ParentCategoryId == categoryId) 
                             && ((location == null) ? ad.Location.LocationQueryString != null : ad.Location.LocationQueryString.ToLower().Contains(location.ToLower()))
                             && ((fromPrice == null) ? ad.Price != null : ad.Price >= fromPrice)
-                            && ((toPrice == null) ? ad.Price != null : ad.Price <= toPrice), cancellationToken) ;
+                            && ((toPrice == null) ? ad.Price != null : ad.Price <= toPrice)
+                            && (ad.Status == "public"), cancellationToken) ;
         var advertisements = await _productRepository.GetWhere(skip, take, query, categoryId, location, fromPrice, toPrice, sort, cancellationToken);
         foreach (var ad in advertisements)
         {
@@ -182,6 +191,22 @@ public class AdvertisementService : IAdvertisementService
         }
     }
 
+    public async Task<Guid> EditPublicAsync(Guid adId, string status, CancellationToken cancellation)
+    {
+        var advertisement = await _productRepository.GetById(adId, cancellation);
+        if (advertisement == null)
+        {
+            throw new Exception($"Объявление с идентификатором '{adId}' не найдено");
+        }
+        else
+        {
+            advertisement.Status = status;
+            await _productRepository.EditAsync(advertisement, cancellation);
+
+            return advertisement.Id;
+        }
+    }
+
     /// <inheritdoc />
     public async Task DeleteAsync(Guid productId, CancellationToken cancellation)
     {
@@ -230,7 +255,8 @@ public class AdvertisementService : IAdvertisementService
                 AuthorRegisterDate = $"{user.CreateDate.ToString("U")}",
                 LocationQueryString = location.LocationQueryString,
                 LocationLat = location.Lat,
-                LocationLon = location.Lon
+                LocationLon = location.Lon,
+                Status = ad.Status
             };
             return result;
 

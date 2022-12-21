@@ -3,6 +3,7 @@ using System;
 using AdvertBoard.Migrations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AdvertBoard.Migrations.Migrations
 {
     [DbContext(typeof(MigrationsDbContext))]
-    partial class MigrationsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221221094319_FixFavoriteTable")]
+    partial class FixFavoriteTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -56,12 +58,11 @@ namespace AdvertBoard.Migrations.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("numeric");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
+
+                    b.Property<bool>("isActived")
+                        .HasColumnType("boolean");
 
                     b.HasKey("Id");
 
@@ -103,9 +104,6 @@ namespace AdvertBoard.Migrations.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("CategoryId")
-                        .HasColumnType("uuid");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -116,7 +114,8 @@ namespace AdvertBoard.Migrations.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CategoryId");
+                    b.HasIndex("ParentCategoryId")
+                        .IsUnique();
 
                     b.ToTable("Categories", (string)null);
                 });
@@ -348,10 +347,12 @@ namespace AdvertBoard.Migrations.Migrations
 
             modelBuilder.Entity("AdvertBoard.Domain.Category", b =>
                 {
-                    b.HasOne("AdvertBoard.Domain.Category", null)
-                        .WithMany("ParentCategory")
-                        .HasForeignKey("CategoryId")
+                    b.HasOne("AdvertBoard.Domain.Category", "ParentCategory")
+                        .WithOne()
+                        .HasForeignKey("AdvertBoard.Domain.Category", "ParentCategoryId")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.Navigation("ParentCategory");
                 });
 
             modelBuilder.Entity("AdvertBoard.Domain.Comment", b =>
@@ -434,8 +435,6 @@ namespace AdvertBoard.Migrations.Migrations
             modelBuilder.Entity("AdvertBoard.Domain.Category", b =>
                 {
                     b.Navigation("Advertisements");
-
-                    b.Navigation("ParentCategory");
                 });
 
             modelBuilder.Entity("AdvertBoard.Domain.Image", b =>

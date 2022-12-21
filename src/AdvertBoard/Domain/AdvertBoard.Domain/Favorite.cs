@@ -14,6 +14,11 @@ public class Favorite
     /// Идентификатор объявления.
     /// </summary>
     public Guid AdvertisementId { get; set; }
+
+    /// <summary>
+    /// Объявление.
+    /// </summary>
+    public Advertisement Advertisement { get; set; }
    
     /// <summary>
     /// Идентификатор пользователя.

@@ -45,6 +45,10 @@ public class AdvertisementConfiguration : IEntityTypeConfiguration<Domain.Advert
             .WithOne(ad => ad.Advertisement)
             .HasForeignKey(c => c.AdvertisementId);
 
+       /* builder.HasMany(ad => ad.Favorites)
+            .WithMany(f => f.Advertisement)
+            .HasForeignKey(f => f.AdvertisementId);*/
+
         /*
         builder.HasMany(p => p.ShoppingCarts)
             .WithOne(s => s.Product)

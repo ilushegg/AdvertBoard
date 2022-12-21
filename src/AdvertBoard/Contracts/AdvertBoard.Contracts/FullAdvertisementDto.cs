@@ -91,4 +91,10 @@ public class FullAdvertisementDto
     public bool isFavorite { get; set; }
 
 
+    /// <summary>
+    /// Статус объявления.
+    /// </summary>
+    public string Status { get; set; }
+
+
 }
