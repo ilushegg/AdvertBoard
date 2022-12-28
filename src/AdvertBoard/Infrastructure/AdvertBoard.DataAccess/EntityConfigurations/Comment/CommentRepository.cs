@@ -50,7 +50,7 @@ namespace AdvertBoard.DataAccess.EntityConfigurations.Comment
 
         public async Task<IReadOnlyCollection<CommentDto>> GetAllPaged(int skip, int take, Expression<Func<Domain.Comment, bool>> predicate, CancellationToken cancellationToken)
         {
-            return await _repository.GetAll().Where(predicate).Skip(skip).Take(take).Select(c => new CommentDto
+            return await _repository.GetAll().OrderBy(c => c.DateTimeCreated).Where(predicate).Skip(skip).Take(take).Select(c => new CommentDto
             {
                 Id = c.Id,
                 AdvertisementId = c.AdvertisementId,

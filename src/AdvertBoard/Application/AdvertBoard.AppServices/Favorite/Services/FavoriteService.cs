@@ -60,7 +60,7 @@ public class FavoriteService : IFavoriteService
             Offset = skip,
             Limit = take,
             Total = await _favoriteRepository.GetAllCount(userId, cancellationToken),
-            Items = advertisementsDto
+            Items = advertisementsDto.OrderBy(f => f.DateTimeCreated).ToList()
         };
 
 

@@ -25,25 +25,31 @@ public class AdvertisementRepository : IAdvertisementRepository
     /// <inheritdoc />
     public async Task<IReadOnlyCollection<AdvertisementDto>> GetAll(int take, int skip, CancellationToken cancellation)
     {
-        return await _repository.GetAll().OrderByDescending(ad => ad.DateTimeCreated)
+        var advertisements = _repository.GetAll();
+        return await advertisements.OrderByDescending(ad => ad.DateTimeCreated)
             .Select(p => new AdvertisementDto
             {
                 Id = p.Id,
                 Name = p.Name,
                 Description = p.Description,
-                CategoryId = p.Category.Id,
+                CategoryId = p.Category.Id != null ? p.Category.Id : p.CategoryId,
                 Price = p.Price,
-                LocationQuery = p.Location.City,
+                LocationQuery = p.Location.City != null ? p.Location.City : "" ,
                 DateTimeCreated = $"{p.DateTimeCreated.ToString("f")}",
                 Status = p.Status
             })
             .Take(take).Skip(skip).ToListAsync(cancellation);
     }
 
+    public async Task<IReadOnlyCollection<Domain.Advertisement>> GetAllAsync(int take, int skip, CancellationToken cancellation)
+    {
+        var advertisements = _repository.GetAll();
+       return await advertisements.ToListAsync(cancellation);
+    }
     /// <inheritdoc />
     public async Task<IReadOnlyCollection<AdvertisementDto>> GetAllByAuthor(int take, int skip, Guid userId, CancellationToken cancellation)
     {
-        return await _repository.GetAll().Where(ad => ad.UserId == userId)
+        return await _repository.GetAll().OrderByDescending(ad => ad.DateTimeCreated).Where(ad => ad.UserId == userId)
             .Select(p => new AdvertisementDto
             {
                 Id = p.Id,
@@ -142,10 +148,10 @@ public class AdvertisementRepository : IAdvertisementRepository
 
     }
 
-    public async Task<bool> EditAsync(Domain.Advertisement product, CancellationToken cancellation)
+    public async Task<Guid> EditAsync(Domain.Advertisement product, CancellationToken cancellation)
     {
         var result = _repository.UpdateAsync(product);
-        return true;
+        return product.Id;
     }
 
     public async Task<Domain.Advertisement> GetById(Guid productId, CancellationToken cancellation)

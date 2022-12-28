@@ -31,7 +31,7 @@ public class UserRepository : IUserRepository
             Name = u.Name,
             Email = u.Email,
             UserRole = u.UserRole.Role,
-            CreateDate = u.CreateDate,
+            CreateDate = $"{u.CreateDate.ToString("d")}",
             Mobile = u.Mobile,
             ActivationCode = u.ActivationCode,
             RecoveryCode = u.RecoveryCode
@@ -49,7 +49,7 @@ public class UserRepository : IUserRepository
             Name = u.Name,
             Email = u.Email,
             UserRole = u.UserRole.Role,
-            CreateDate = u.CreateDate,
+            CreateDate = $"{u.CreateDate.ToString("d")}",
             Mobile = u.Mobile,
             ActivationCode = u.ActivationCode,
             RecoveryCode = u.RecoveryCode

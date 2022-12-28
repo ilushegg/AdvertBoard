@@ -65,7 +65,7 @@ public interface IAdvertisementRepository
     /// <param name="product"></param>
     /// <param name="cancellation"></param>
     /// <returns></returns>
-    Task<bool> EditAsync(Domain.Advertisement product, CancellationToken cancellation);
+    Task<Guid> EditAsync(Domain.Advertisement product, CancellationToken cancellation);
 
     /// <summary>
     /// Ищет объявление по идентификатору.

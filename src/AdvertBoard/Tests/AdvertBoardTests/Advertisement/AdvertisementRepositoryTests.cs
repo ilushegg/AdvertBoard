@@ -1,4 +1,5 @@
 ﻿using AdvertBoard.AppServices.Advertisement.Services;
+using AdvertBoard.AppServices.Product.Repositories;
 using AdvertBoard.DataAccess.EntityConfigurations.Advertisement;
 using AdvertBoard.Infrastructure.Repository;
 using AutoFixture.Xunit2;
@@ -13,13 +14,13 @@ using System.Threading.Tasks;
 
 namespace AdvertBoard.Tests.Advertisement
 {
-    public class AdvertisementServiceTests
+    public class AdvertisementRepositoryTests
     {
         /// <summary>
         /// Проверка получения всех объявлений.
         /// </summary>
         /// <param name="request">Запрос</param>
-        /// <param name="cancellationToken">Маркёр отмены</param>
+        /// <param name="cancellationToken">Маркер отмены</param>
         /// <returns></returns>
         [Fact]
         public async Task GetAll_Success()
@@ -45,7 +46,7 @@ namespace AdvertBoard.Tests.Advertisement
             // act
 
             AdvertisementRepository repository = new AdvertisementRepository(repositoryMock.Object);
-            var result = await repository.GetAll(10, 0, token);
+            var result = await repository.GetAllAsync(10, 0, token);
 
             // assert
 
@@ -72,19 +73,20 @@ namespace AdvertBoard.Tests.Advertisement
 
 
 
-      /*  [Fact]
+        [Fact]
         public async Task Create_Advertisement_Success()
         {
             var newId = Guid.NewGuid();
 
             Domain.Advertisement createdDomain = null!;
 
-            var serviceMock = new Mock<IAdvertisementService>();
+            var repositoryMock = new Mock<IRepository<Domain.Advertisement>>();
 
             CancellationToken token = new CancellationToken(false);
+            var entity = new Domain.Advertisement
+            { Id = newId, Name = "Квартира", Description = "Квартира", Price = 19500, CategoryId = Guid.Parse("f95a34e1-ed2e-4092-a322-66bb313f0ed3"), UserId = Guid.Parse("f45fc11c-e4eb-42c4-9dbc-81d42bf0c1ab"), LocationId = Guid.Parse("f20901a1-495b-4225-af0c-6de001ba9cca"), DateTimeCreated = DateTime.Now, DateTimePublish = DateTime.Now, DateTimeUpdated = DateTime.Now, Status = "public" };
 
-
-            serviceMock.Setup(x => x.AddAsync("Квартира", "Квартира", 19500, Guid.Parse("f95a34e1-ed2e-4092-a322-66bb313f0ed3"), Guid.Parse("f20901a1-495b-4225-af0c-6de001ba9cca"), new Domain.User(), token))
+            repositoryMock.Setup(x => x.Add(It.IsAny<Domain.Advertisement>()))
                 .Callback((Domain.Advertisement x) =>
                 {
                     x.Id = newId;
@@ -93,16 +95,54 @@ namespace AdvertBoard.Tests.Advertisement
 
 
             // act
-            AdvertisementService service = new AdvertisementService(repositoryMock.Object);
-            var result = await service.AddAsync("Квартира", "Квартира", 19500, Guid.Parse("f95a34e1-ed2e-4092-a322-66bb313f0ed3"), Guid.Parse("f20901a1-495b-4225-af0c-6de001ba9cca"), new Domain.User(), token);
+            AdvertisementRepository repository = new AdvertisementRepository(repositoryMock.Object);
+            var result = repository.Add(entity);
 
             // assert
             createdDomain.ShouldNotBeNull();
-            serviceMock.Verify(x => x.AddAsync(createdDomain), Times.Once);
+            repositoryMock.Verify(x => x.Add(createdDomain), Times.Once);
 
             result.ShouldNotBe(Guid.Empty);
             result.ShouldBe(newId);
-        }*/
+        }
+
+        [Fact]
+        public async Task Edit_Advertisement_Success()
+        {
+            var newId = Guid.NewGuid();
+
+            Domain.Advertisement createdDomain = null!;
+
+            var repositoryMock = new Mock<IRepository<Domain.Advertisement>>();
+
+            CancellationToken token = new CancellationToken(false);
+            var entity = new Domain.Advertisement
+            { Id = newId, Name = "Квартира", Description = "Квартира", Price = 19500, CategoryId = Guid.Parse("f95a34e1-ed2e-4092-a322-66bb313f0ed3"), UserId = Guid.Parse("f45fc11c-e4eb-42c4-9dbc-81d42bf0c1ab"), LocationId = Guid.Parse("f20901a1-495b-4225-af0c-6de001ba9cca"), DateTimeCreated = DateTime.Now, DateTimePublish = DateTime.Now, DateTimeUpdated = DateTime.Now, Status = "public" };
+
+            repositoryMock.Setup(x => x.Add(It.IsAny<Domain.Advertisement>()))
+                .Callback((Domain.Advertisement x) =>
+                {
+                    x.Id = newId;
+                    createdDomain = x;
+                });
+
+
+            // act
+            var editEntity = new Domain.Advertisement
+            { Id = newId, Name = "Квартира", Description = "КвартираEDIT", Price = 19500, CategoryId = Guid.Parse("f95a34e1-ed2e-4092-a322-66bb313f0ed3"), UserId = Guid.Parse("f45fc11c-e4eb-42c4-9dbc-81d42bf0c1ab"), LocationId = Guid.Parse("f20901a1-495b-4225-af0c-6de001ba9cca"), DateTimeCreated = DateTime.Now, DateTimePublish = DateTime.Now, DateTimeUpdated = DateTime.Now, Status = "public" };
+
+            AdvertisementRepository repository = new AdvertisementRepository(repositoryMock.Object);
+            var resultEntity = repository.Add(entity);
+
+            var result = await repository.EditAsync(editEntity ,token);
+
+            // assert
+            createdDomain.ShouldNotBeNull();
+            repositoryMock.Verify(x => x.Add(createdDomain), Times.Once);
+
+            result.ShouldNotBe(Guid.Empty);
+            result.ShouldBe(newId);
+        }
 
     }
 }

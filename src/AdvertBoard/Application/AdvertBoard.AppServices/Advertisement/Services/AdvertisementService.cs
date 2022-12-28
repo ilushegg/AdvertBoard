@@ -134,7 +134,8 @@ public class AdvertisementService : IAdvertisementService
             LocationId = locationId,
             DateTimeCreated = DateTime.UtcNow,
             DateTimeUpdated = DateTime.UtcNow,
-            DateTimePublish = DateTime.UtcNow
+            DateTimePublish = DateTime.UtcNow,
+            Status = "public"
         };
 
         var category = _categoryRepository.FindById(categoryId);
@@ -158,7 +159,8 @@ public class AdvertisementService : IAdvertisementService
             LocationId = locationId,
             DateTimeCreated = DateTime.UtcNow,
             DateTimeUpdated = DateTime.UtcNow,
-            DateTimePublish = DateTime.UtcNow
+            DateTimePublish = DateTime.UtcNow,
+            Status = "public"
         };
             
         var category = await _categoryRepository.FindByIdAsync(categoryId, cancellation);
@@ -252,7 +254,7 @@ public class AdvertisementService : IAdvertisementService
                 AuthorName = user.Name,
                 AuthorAvatar = userAvatar != null ? "data:image/png;base64," + Convert.ToBase64String(File.ReadAllBytes(userAvatar.FilePath)) : "",
                 AuthorNumber = user.Mobile,
-                AuthorRegisterDate = $"{user.CreateDate.ToString("U")}",
+                AuthorRegisterDate = $"{user.CreateDate.ToString("d")}",
                 LocationQueryString = location.LocationQueryString,
                 LocationLat = location.Lat,
                 LocationLon = location.Lon,
