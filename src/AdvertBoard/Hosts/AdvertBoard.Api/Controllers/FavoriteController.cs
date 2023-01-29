@@ -17,7 +17,7 @@ namespace AdvertBoard.Api.Controllers;
 /// Работа с избранными объявлениями.
 /// </summary>
 [ApiController]
-[Authorize]
+
 [Route("v1/[controller]")]
 public class FavoriteController : ControllerBase
 {
@@ -37,6 +37,7 @@ public class FavoriteController : ControllerBase
     /// </summary>
     /// <returns>Коллекция элементов <see cref="FavoriteDto"/>.</returns>
     [HttpGet("get_all_favorites")]
+    [Authorize]
     [ProducesResponseType(typeof(IReadOnlyCollection<FavoriteDto>), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> GetAllAsync([FromQuery]PaginationModel model, CancellationToken cancellationToken)
     {
@@ -64,6 +65,7 @@ public class FavoriteController : ControllerBase
     /// Удаляет объявление из избранного.
     /// </summary>
     [HttpDelete("delete")]
+    [Authorize]
     [ProducesResponseType((int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     public async Task<IActionResult> DeleteAsync([FromQuery]FavoriteModel model, CancellationToken cancellationToken)
