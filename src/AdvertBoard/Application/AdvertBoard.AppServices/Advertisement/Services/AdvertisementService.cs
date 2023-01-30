@@ -9,6 +9,7 @@ using static System.Net.Mime.MediaTypeNames;
 using AdvertBoard.DataAccess.EntityConfigurations.UserAvatar;
 using AdvertBoard.AppServices.Location.Repositories;
 using System.Globalization;
+using System.Linq;
 
 namespace AdvertBoard.AppServices.Advertisement.Services;
 
@@ -64,13 +65,15 @@ public class AdvertisementService : IAdvertisementService
     /// <inheritdoc />
     public async Task<GetPagedResultDto<AdvertisementDto>> GetAllBySearch(int skip, int take, string? query, Guid? categoryId, string? location, decimal? fromPrice, decimal? toPrice, string? sort, CancellationToken cancellationToken)
     {
-        var total = await _productRepository.GetAllCount(ad => ((query == null) ? ad.Name!=null : ad.Name.ToLower().Contains(query.ToLower())) 
-                            && ((categoryId == null) ? ad.CategoryId!=null : ad.CategoryId == categoryId || ad.Category.ParentCategoryId == categoryId) 
-                            && ((location == null) ? ad.Location.LocationQueryString != null : ad.Location.LocationQueryString.ToLower().Contains(location.ToLower()))
-                            && ((fromPrice == null) ? ad.Price != null : ad.Price >= fromPrice)
-                            && ((toPrice == null) ? ad.Price != null : ad.Price <= toPrice)
-                            && (ad.Status == "public"), cancellationToken) ;
-        var advertisements = await _productRepository.GetWhere(skip, take, query, categoryId, location, fromPrice, toPrice, sort, cancellationToken);
+        //var total = await _productRepository.GetAllCount(ad => ((query == null) ? ad.Name!=null : ad.Name.ToLower().Contains(query.ToLower())) 
+        //                    && ((categoryId == null) ? ad.CategoryId!=null : ad.CategoryId == categoryId || ad.Category.ParentCategoryId == categoryId) 
+        //                    && ((location == null) ? ad.Location.LocationQueryString != null : ad.Location.LocationQueryString.ToLower().Contains(location.ToLower()))
+        //                    && ((fromPrice == null) ? ad.Price != null : ad.Price >= fromPrice)
+        //                    && ((toPrice == null) ? ad.Price != null : ad.Price <= toPrice)
+        //                    && (ad.Status == "public"), cancellationToken) ;
+        var advertisements = await _productRepository.GetWhere(skip, take, query == null ? null : query.Split(" "), categoryId, location, fromPrice, toPrice, sort, cancellationToken);
+        var total = advertisements.Count();
+        advertisements = advertisements.Skip(skip).Take(take).ToList();
         foreach (var ad in advertisements)
         {
             var images = await _productImageRepository.GetAllByProduct(ad.Id, cancellationToken);

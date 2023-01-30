@@ -5,6 +5,7 @@ using AdvertBoard.Infrastructure.Repository;
 using System;
 using System.Linq.Expressions;
 using System.Globalization;
+using Microsoft.IdentityModel.Tokens;
 
 namespace AdvertBoard.DataAccess.EntityConfigurations.Advertisement;
 
@@ -72,7 +73,7 @@ public class AdvertisementRepository : IAdvertisementRepository
   
 
 
-    public async Task<IReadOnlyCollection<AdvertisementDto>> GetWhere(int skip, int take, string? query, Guid? categoryId, string? location, decimal? fromPrice, decimal? toPrice, string? sort,  CancellationToken cancellation)
+    public async Task<IReadOnlyCollection<AdvertisementDto>> GetWhere(int skip, int take, string[]? query, Guid? categoryId, string? location, decimal? fromPrice, decimal? toPrice, string? sort,  CancellationToken cancellation)
     {
         var advertisements = _repository.GetAll();
 
@@ -87,11 +88,13 @@ public class AdvertisementRepository : IAdvertisementRepository
 
         }
 
-
-        if (!string.IsNullOrWhiteSpace(query))
+            if (!query.IsNullOrEmpty())
+            {
+        foreach (var q in query)
         {
-            advertisements = advertisements.Where(p => p.Name.ToLower().Contains(query.ToLower()));
+                advertisements = advertisements.Where(p => p.Name.ToLower().Contains(q.ToLower()));
         }
+            }
 
         if (!string.IsNullOrWhiteSpace(location))
         {
@@ -125,7 +128,7 @@ public class AdvertisementRepository : IAdvertisementRepository
             LocationQuery = p.Location.City,
             DateTimeCreated = $"{p.DateTimeCreated.ToString("f")}",
             Status = p.Status
-        }).Skip(skip).Take(take).ToListAsync(cancellation);
+        })/*.Skip(skip).Take(take)*/.ToListAsync(cancellation);
     }
 
 

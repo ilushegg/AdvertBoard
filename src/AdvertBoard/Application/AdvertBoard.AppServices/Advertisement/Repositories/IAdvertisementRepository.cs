@@ -82,6 +82,6 @@ public interface IAdvertisementRepository
     /// <param name="request"></param>
     /// <param name="cancellation"></param>
     /// <returns></returns>
-    Task<IReadOnlyCollection<AdvertisementDto>> GetWhere(int skip, int take, string? query, Guid? categoryId, string? location, decimal? fromPrice, decimal? toPrice, string? sort, CancellationToken cancellation);
+    Task<IReadOnlyCollection<AdvertisementDto>> GetWhere(int skip, int take, string[]? query, Guid? categoryId, string? location, decimal? fromPrice, decimal? toPrice, string? sort, CancellationToken cancellation);
 
 }
